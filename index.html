@@ -3,393 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Школьный Банк</title>
+    <title>Linuxi Bank</title>
     <style>
-        :root {
-            --bg-color: #0b0f19;
-            --card-bg: linear-gradient(135deg, #161e31 0%, #111827 100%);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --text-primary: #f3f4f6;
-            --text-secondary: #9ca3af;
-            --accent-color: #38bdf8;
-            --accent-gradient: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --radius: 16px;
-        }
-
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            margin: 0;
-            padding: 24px;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 0;
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .admin-btn-toggle {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 8px 14px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-        }
-
-        .admin-btn-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-        }
-
-        .card-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .bank-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        .bank-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.4);
-            border-color: rgba(56, 189, 248, 0.3);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .card-icon {
-            width: 44px;
-            height: 44px;
-            background: rgba(56, 189, 248, 0.1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-color);
-        }
-
-        .card-info h3 {
-            margin: 0 0 4px 0;
-            font-size: 1.05rem;
-            font-weight: 600;
-        }
-
-        .card-number {
             font-family: monospace;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
+            background-color: #121212;
+            color: #00ff66;
+            margin: 0;
+            padding: 20px;
         }
-
-        .card-right {
-            text-align: right;
-        }
-
-        .balance {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--success-color);
-            margin-bottom: 6px;
-        }
-
-        .admin-controls {
-            display: flex;
-            gap: 6px;
-            justify-content: flex-end;
-        }
-
-        .action-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 4px 10px;
+        h1, h2 { text-align: center; }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #1e1e1e;
+            padding: 20px;
             border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,255,102,0.2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+        }
+        th { background-color: #252525; }
+        button, input {
+            background: #2b2b2b;
+            color: #00ff66;
+            border: 1px solid #00ff66;
+            padding: 8px 12px;
             cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: all 0.15s ease;
+            font-family: monospace;
+            margin: 5px 0;
         }
-
-        .action-btn.plus:hover { background: rgba(16, 185, 129, 0.2); border-color: var(--success-color); color: var(--success-color); }
-        .action-btn.minus:hover { background: rgba(239, 68, 68, 0.2); border-color: var(--danger-color); color: var(--danger-color); }
-
-        /* Модальное окно админки */
-        .modal {
+        button:hover { background: #00ff66; color: #121212; }
+        input { width: calc(100% - 20px); }
+        .admin-panel {
+            margin-top: 30px;
+            border-top: 1px dashed #00ff66;
+            padding-top: 20px;
             display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
         }
-
-        .modal-content {
-            background: #111827;
-            border: 1px solid var(--border-color);
-            padding: 24px;
-            border-radius: var(--radius);
+        /* Терминал */
+        #terminal {
+            background: #000;
+            border: 1px solid #00ff66;
+            padding: 10px;
+            height: 150px;
+            overflow-y: auto;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        #term-input {
             width: 100%;
-            max-width: 380px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            animation: scaleIn 0.2s ease;
-        }
-
-        @keyframes scaleIn {
-            from { transform: scale(0.95); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .modal-content h3 { margin-top: 0; margin-bottom: 16px; font-size: 1.2rem; }
-        
-        .modal input {
-            width: 100%;
-            padding: 12px;
-            box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            color: white;
-            font-size: 0.95rem;
-            margin-bottom: 14px;
+            background: transparent;
+            border: none;
+            color: #00ff66;
             outline: none;
-            transition: border-color 0.2s;
+            font-family: monospace;
         }
-
-        .modal input:focus { border-color: var(--accent-color); }
-
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background: var(--accent-gradient);
-            border: none;
-            color: white;
-            padding: 10px 16px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: opacity 0.2s;
-        }
-
-        .btn-primary:hover { opacity: 0.9; }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 10px 16px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .admin-panel-active {
-            margin-top: 24px;
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            padding: 16px;
-            border-radius: var(--radius);
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .download-btn {
-            background: var(--success-color);
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: opacity 0.2s;
-        }
-        .download-btn:hover { opacity: 0.9; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>🏛️ Школьный Банк</h1>
-            <button class="admin-btn-toggle" id="adminToggleBtn" onclick="openModal()">🔑 Админ</button>
-        </header>
-
-        <div id="cards-container" class="card-list">
-            <!-- Карточки подгружаются динамически -->
-        </div>
-
-        <div id="adminPanelActive" class="admin-panel-active">
-            <div>
-                <strong style="color: var(--success-color);">Режим админа активен</strong>
-                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">Измени балансы и скачай новый файл</div>
-            </div>
-            <button class="download-btn" onclick="exportData()">
-                💾 Скачать data.json
-            </button>
-        </div>
+<div class="container">
+    <h1>🐧 Linuxi Bank</h1>
+    <div id="auth-section">
+        <button onclick="loginAdmin()">Войти в админку</button>
     </div>
 
-    <!-- Модальное окно пароля -->
-    <div id="authModal" class="modal">
-        <div class="modal-content">
-            <h3>Вход для администратора</h3>
-            <input type="password" id="adminPassInput" placeholder="Введите пароль..." onkeydown="if(event.key === 'Enter') login()">
-            <p id="passError" style="color: var(--danger-color); font-size: 0.85rem; margin: 0 0 12px 0; display: none;">Неверный пароль!</p>
-            <div class="modal-buttons">
-                <button class="btn-secondary" onclick="closeModal()">Отмена</button>
-                <button class="btn-primary" onclick="login()">Войти</button>
-            </div>
+    <h2>Счета участников</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Баланс</th>
+            </tr>
+        <tbody id="accounts-table">
+            <!-- Данные подгружаются из data.json -->
+        </tbody>
+    </table>
+
+    <!-- Админ панель -->
+    <div id="admin-panel" class="admin-panel">
+        <h2>⚙️ Панель Администратора</h2>
+        <button onclick="saveToGitHub()">💾 Сохранить изменения на GitHub</button>
+        
+        <h3>Добавить/Изменить баланс</h3>
+        <input type="text" id="target-user" placeholder="Имя участника">
+        <input type="number" id="target-amount" placeholder="Сумма (например: 100 или -50)">
+        <button onclick="updateBalance()">Применить</button>
+
+        <h3>💻 Терминал Linuxi</h3>
+        <div id="terminal">
+            <div>Добро пожаловать в терминал Linuxi Bank. Введи `help` для списка команд.</div>
         </div>
+        <input type="text" id="term-input" placeholder="введите команду..." onkeydown="handleTerminal(event)">
     </div>
+</div>
 
-    <script>
-        let cardsData = [];
-        let isAdmin = false;
-        const ADMIN_PASS = "admin123"; // Можешь поменять на свой пароль
+<script>
+    const GITHUB_USERNAME = "Platonchu";
+    const REPO_NAME = "linuxi.github.io"; 
+    const FILE_PATH = "data.json";
+    const ADMIN_PASS = "1593"; // Твой новый пароль
 
-        async function loadCards() {
-            try {
-                const res = await fetch('data.json');
-                cardsData = await res.json();
-                renderCards();
-            } catch (err) {
-                console.error("Ошибка загрузки данных:", err);
-            }
+    let cardsData = [];
+    let isAdmin = false;
+
+    // Загрузка данных при старте
+    async function loadData() {
+        try {
+            const res = await fetch('data.json?' + new Date().getTime());
+            cardsData = await res.json();
+            renderTable();
+        } catch (err) {
+            console.error("Ошибка загрузки data.json", err);
+            // Дефолтные данные на случай отсутствия файла
+            cardsData = [
+                { name: "Platonchu", balance: 500 },
+                { name: "User2", balance: 100 }
+            ];
+            renderTable();
+        }
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById("accounts-table");
+        tbody.innerHTML = "";
+        cardsData.forEach(item => {
+            tbody.innerHTML += `<tr><td>${item.name}</td><td>${item.balance}</td></tr>`;
+        });
+    }
+
+    function loginAdmin() {
+        const pass = prompt("Введите пароль администратора:");
+        if (pass === ADMIN_PASS) {
+            isAdmin = true;
+            document.getElementById("admin-panel").style.display = "block";
+            alert("Доступ разрешен!");
+            logToTerminal("Успешный вход в систему под правами root.");
+        } else {
+            alert("Неверный пароль!");
+        }
+    }
+
+    // Сохранение напрямую на GitHub через токен
+    async function saveToGitHub() {
+        let token = localStorage.getItem("linuxi_github_token");
+        
+        if (!token) {
+            token = prompt("Введи твой GitHub Personal Access Token (сохранится в браузере):");
+            if (!token) return;
+            localStorage.setItem("linuxi_github_token", token);
         }
 
-        function renderCards() {
-            const container = document.getElementById('cards-container');
-            container.innerHTML = '';
-
-            cardsData.forEach((card, index) => {
-                const cardEl = document.createElement('div');
-                cardEl.className = 'bank-card';
-                
-                let adminControlsHtml = '';
-                if (isAdmin) {
-                    adminControlsHtml = `
-                        <div class="admin-controls">
-                            <button class="action-btn plus" onclick="changeBalance(${index}, 50)">+50</button>
-                            <button class="action-btn minus" onclick="changeBalance(${index}, -50)">-50</button>
-                        </div>
-                    `;
-                }
-
-                cardEl.innerHTML = `
-                    <div class="card-left">
-                        <div class="card-icon">
-                            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg>
-                        </div>
-                        <div class="card-info">
-                            <h3>${card.owner}</h3>
-                            <div class="card-number">${card.card_number}</div>
-                        </div>
-                    </div>
-                    <div class="card-right">
-                        <div class="balance">${card.balance} BYN</div>
-                        ${adminControlsHtml}
-                    </div>
-                `;
-                container.appendChild(cardEl);
+        try {
+            logToTerminal("Получение SHA файла с GitHub...");
+            const getFileRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
+                headers: { "Authorization": `token ${token}` }
             });
-        }
 
-        function openModal() {
-            if (isAdmin) return;
-            document.getElementById('authModal').style.display = 'flex';
-            document.getElementById('adminPassInput').focus();
-        }
+            if (!getFileRes.ok) {
+                localStorage.removeItem("linuxi_github_token");
+                alert("Ошибка доступа! Токен недействителен.");
+                logToTerminal("Ошибка: неверный токен доступа.");
+                return;
+            }
 
-        function closeModal() {
-            document.getElementById('authModal').style.display = 'none';
-            document.getElementById('adminPassInput').value = '';
-            document.getElementById('passError').style.display = 'none';
-        }
+            const fileData = await getFileRes.json();
+            const sha = fileData.sha;
 
-        function login() {
-            const pass = document.getElementById('adminPassInput').value;
-            if (pass === ADMIN_PASS) {
-                isAdmin = true;
-                closeModal();
-                document.getElementById('adminToggleBtn').style.display = 'none';
-                document.getElementById('adminPanelActive').style.display = 'flex';
-                renderCards();
+            const jsonString = JSON.stringify(cardsData, null, 2);
+            const updatedContent = btoa(unescape(encodeURIComponent(jsonString)));
+
+            logToTerminal("Отправка коммита...");
+            const putRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `token ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: "Обновление балансов через админку Linuxi Bank",
+                    content: updatedContent,
+                    sha: sha
+                })
+            });
+
+            if (putRes.ok) {
+                alert("Успешно! Изменения улетели на GitHub!");
+                logToTerminal("Успех: data.json обновлен на GitHub.");
             } else {
-                document.getElementById('passError').style.display = 'block';
+                alert("Ошибка записи.");
+                logToTerminal("Ошибка записи в репозиторий.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Произошла ошибка сети.");
+            logToTerminal("Критическая ошибка сети при отправке.");
+        }
+    }
+
+    function updateBalance() {
+        const nameInput = document.getElementById("target-user").value.trim();
+        const amount = parseInt(document.getElementById("target-amount").value);
+
+        if (!nameInput || isNaN(amount)) {
+            alert("Заполни имя и сумму корректно!");
+            return;
+        }
+
+        let user = cardsData.find(u => u.name.toLowerCase() === nameInput.toLowerCase());
+        if (user) {
+            user.balance += amount;
+            logToTerminal(`Баланс пользователя ${user.name} изменен на ${amount}. Новый баланс: ${user.balance}`);
+        } else {
+            cardsData.push({ name: nameInput, balance: amount });
+            logToTerminal(`Создан новый пользователь ${nameInput} с балансом ${amount}`);
+        }
+
+        renderTable();
+        document.getElementById("target-user").value = "";
+        document.getElementById("target-amount").value = "";
+    }
+
+    // Логика терминала
+    function logToTerminal(text) {
+        const term = document.getElementById("terminal");
+        term.innerHTML += `<div>> ${text}</div>`;
+        term.scrollTop = term.scrollHeight;
+    }
+
+    function handleTerminal(event) {
+        if (event.key === "Enter") {
+            const input = document.getElementById("term-input");
+            const cmd = input.value.trim();
+            logToTerminal(cmd);
+            input.value = "";
+
+            const args = cmd.split(" ");
+            switch(args[0]) {
+                case "help":
+                    logToTerminal("Доступные команды:");
+                    logToTerminal("  list - показать всех участников");
+                    logToTerminal("  save - сохранить изменения на GitHub");
+                    logToTerminal("  clear - очистить экран терминала");
+                    break;
+                case "list":
+                    cardsData.forEach(u => logToTerminal(` - ${u.name}: ${u.balance}`));
+                    break;
+                case "save":
+                    saveToGitHub();
+                    break;
+                case "clear":
+                    document.getElementById("terminal").innerHTML = "";
+                    break;
+                default:
+                    logToTerminal(`Команда не найдена: ${args[0]}. Введите 'help'.`);
             }
         }
+    }
 
-        function changeBalance(index, amount) {
-            cardsData[index].balance += amount;
-            renderCards();
-        }
+    loadData();
+</script>
 
-        function exportData() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cardsData, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "data.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-        }
-
-        loadCards();
-    </script>
 </body>
 </html>
