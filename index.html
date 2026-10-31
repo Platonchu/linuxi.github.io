@@ -133,13 +133,18 @@
         }
     }
 
-    function renderTable() {
-        const tbody = document.getElementById("accounts-table");
-        tbody.innerHTML = "";
-        cardsData.forEach(item => {
-            tbody.innerHTML += `<tr><td>${item.name}</td><td>${item.balance}</td></tr>`;
-        });
-    }
+function renderTable() {
+    const tbody = document.getElementById("accounts-table");
+    tbody.innerHTML = "";
+    cardsData.forEach(item => {
+        // Берем поле owner для имени, а баланс из balance
+        const userName = item.owner || item.name || "Участник";
+        const userBalance = item.balance !== undefined ? item.balance : 0;
+
+        tbody.innerHTML += `<tr><td>${userName}</td><td>${userBalance}</td></tr>`;
+    });
+}
+
 
     function loginAdmin() {
         const pass = prompt("Введите пароль администратора:");
