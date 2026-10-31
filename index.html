@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linuxi Bank</title>
     <style>
+        * { box-sizing: border-box; }
         body {
             font-family: monospace;
             background-color: #121212;
@@ -12,9 +13,27 @@
             margin: 0;
             padding: 20px;
         }
-        h1, h2 { text-align: center; }
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 700px;
+            margin: 0 auto 20px auto;
+        }
+        h1 { margin: 0; font-size: 24px; }
+        .term-btn {
+            background: #2b2b2b;
+            color: #00ff66;
+            border: 1px solid #00ff66;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-family: monospace;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        .term-btn:hover { background: #00ff66; color: #121212; }
         .container {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
             background: #1e1e1e;
             padding: 20px;
@@ -24,7 +43,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         th, td {
             border: 1px solid #333;
@@ -32,78 +51,110 @@
             text-align: left;
         }
         th { background-color: #252525; }
-        button, input {
+        input, button {
             background: #2b2b2b;
             color: #00ff66;
             border: 1px solid #00ff66;
-            padding: 8px 12px;
-            cursor: pointer;
+            padding: 10px;
             font-family: monospace;
             margin: 5px 0;
-        }
-        button:hover { background: #00ff66; color: #121212; }
-        input { width: calc(100% - 20px); }
-        .admin-panel {
-            margin-top: 30px;
-            border-top: 1px dashed #00ff66;
-            padding-top: 20px;
-            display: none;
-        }
-        /* Терминал */
-        #terminal {
-            background: #000;
-            border: 1px solid #00ff66;
-            padding: 10px;
-            height: 150px;
-            overflow-y: auto;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-        #term-input {
             width: 100%;
-            background: transparent;
-            border: none;
-            color: #00ff66;
-            outline: none;
-            font-family: monospace;
         }
+        button { cursor: pointer; }
+        button:hover { background: #00ff66; color: #121212; }
+        input { background: #121212; }
+        
+        /* Модальное окно терминала */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .terminal-box {
+            background: #181818;
+            border: 2px solid #00ff66;
+            width: 90%;
+            max-width: 420px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,255,102,0.4);
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px; right: 10px;
+            width: auto;
+            padding: 2px 8px;
+            background: #333;
+            color: #ff5555;
+            border: 1px solid #ff5555;
+        }
+        .card-info {
+            background: #0d0d0d;
+            border: 1px dashed #00ff66;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-sub { border-color: #ff5555; color: #ff5555; }
+        .btn-sub:hover { background: #ff5555; color: #121212; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="header-bar">
     <h1>🐧 Linuxi Bank</h1>
-    <div id="auth-section">
-        <button onclick="loginAdmin()">Войти в админку</button>
-    </div>
+    <button class="term-btn" onclick="openTerminal()">💳 Терминал</button>
+</div>
 
+<div class="container">
     <h2>Счета участников</h2>
     <table>
         <thead>
             <tr>
-                <th>Имя</th>
+                <th>ID</th>
+                <th>Владелец</th>
                 <th>Баланс</th>
             </tr>
+        </thead>
         <tbody id="accounts-table">
-            <!-- Данные подгружаются из data.json -->
+            <!-- Подгрузка данных -->
         </tbody>
     </table>
+</div>
 
-    <!-- Админ панель -->
-    <div id="admin-panel" class="admin-panel">
-        <h2>⚙️ Панель Администратора</h2>
-        <button onclick="saveToGitHub()">💾 Сохранить изменения на GitHub</button>
+<!-- Окно банковского POS-терминала -->
+<div id="terminal-modal" class="modal-overlay">
+    <div class="terminal-box">
+        <button class="close-btn" onclick="closeTerminal()">✕</button>
+        <h2 style="text-align: center; margin-top: 0;">💳 POS-Терминал</h2>
         
-        <h3>Добавить/Изменить баланс</h3>
-        <input type="text" id="target-user" placeholder="Имя участника">
-        <input type="number" id="target-amount" placeholder="Сумма (например: 100 или -50)">
-        <button onclick="updateBalance()">Применить</button>
-
-        <h3>💻 Терминал Linuxi</h3>
-        <div id="terminal">
-            <div>Добро пожаловать в терминал Linuxi Bank. Введи `help` для списка команд.</div>
+        <label>Введите ID карты:</label>
+        <input type="text" id="term-card-id" placeholder="Например: 1 или 2" oninput="searchCard()">
+        
+        <div id="card-display" class="card-info" style="display:none;">
+            <div><b>Владелец:</b> <span id="disp-owner">---</span></div>
+            <div><b>Номер:</b> <span id="disp-num">---</span></div>
+            <div><b>Баланс:</b> <span id="disp-balance" style="color: #ffff00;">0</span> Линкоинов</div>
         </div>
-        <input type="text" id="term-input" placeholder="введите команду..." onkeydown="handleTerminal(event)">
+
+        <div id="transaction-box" style="display:none;">
+            <label>Сумма операции:</label>
+            <input type="number" id="term-sum" placeholder="Введите сумму">
+            <div class="btn-group">
+                <button class="btn-sub" onclick="makeTransaction(-)">Списать (-)</button>
+                <button onclick="makeTransaction(+)">Зачислить (+)</button>
+            </div>
+            <button onclick="saveToGitHub()" style="margin-top: 15px; background: #004411;">💾 Сохранить на GitHub</button>
+        </div>
     </div>
 </div>
 
@@ -111,12 +162,11 @@
     const GITHUB_USERNAME = "Platonchu";
     const REPO_NAME = "linuxi.github.io"; 
     const FILE_PATH = "data.json";
-    const ADMIN_PASS = "1593"; // Твой новый пароль
+    const ADMIN_PASS = "1593";
 
     let cardsData = [];
-    let isAdmin = false;
+    let activeCardIndex = null;
 
-    // Загрузка данных при старте
     async function loadData() {
         try {
             const res = await fetch('data.json?' + new Date().getTime());
@@ -124,60 +174,110 @@
             renderTable();
         } catch (err) {
             console.error("Ошибка загрузки data.json", err);
-            // Дефолтные данные на случай отсутствия файла
-            cardsData = [
-                { name: "Platonchu", balance: 500 },
-                { name: "User2", balance: 100 }
-            ];
-            renderTable();
         }
     }
 
-function renderTable() {
-    const tbody = document.getElementById("accounts-table");
-    tbody.innerHTML = "";
-    cardsData.forEach(item => {
-        // Берем поле owner для имени, а баланс из balance
-        const userName = item.owner || item.name || "Участник";
-        const userBalance = item.balance !== undefined ? item.balance : 0;
+    function renderTable() {
+        const tbody = document.getElementById("accounts-table");
+        tbody.innerHTML = "";
+        cardsData.forEach((item, index) => {
+            const cardId = item.id !== undefined ? item.id : (index + 1);
+            const owner = item.owner || item.name || "Неизвестно";
+            const balance = item.balance !== undefined ? item.balance : 0;
 
-        tbody.innerHTML += `<tr><td>${userName}</td><td>${userBalance}</td></tr>`;
-    });
-}
+            tbody.innerHTML += `<tr><td>${cardId}</td><td>${owner}</td><td>${balance}</td></tr>`;
+        });
+    }
 
-
-    function loginAdmin() {
+    function openTerminal() {
         const pass = prompt("Введите пароль администратора:");
         if (pass === ADMIN_PASS) {
-            isAdmin = true;
-            document.getElementById("admin-panel").style.display = "block";
-            alert("Доступ разрешен!");
-            logToTerminal("Успешный вход в систему под правами root.");
+            document.getElementById("terminal-modal").style.display = "flex";
+            document.getElementById("term-card-id").focus();
         } else {
             alert("Неверный пароль!");
         }
     }
 
-    // Сохранение напрямую на GitHub через токен
+    function closeTerminal() {
+        document.getElementById("terminal-modal").style.display = "none";
+        document.getElementById("term-card-id").value = "";
+        searchCard();
+    }
+
+    function searchCard() {
+        const queryId = document.getElementById("term-card-id").value.trim();
+        const displayBox = document.getElementById("card-display");
+        const transBox = document.getElementById("transaction-box");
+
+        if (!queryId) {
+            displayBox.style.display = "none";
+            transBox.style.display = "none";
+            activeCardIndex = null;
+            return;
+        }
+
+        const index = cardsData.findIndex((item, idx) => {
+            const currentId = item.id !== undefined ? String(item.id) : String(idx + 1);
+            return currentId === queryId;
+        });
+
+        if (index !== -1) {
+            activeCardIndex = index;
+            const card = cardsData[index];
+            
+            document.getElementById("disp-owner").innerText = card.owner || card.name || "---";
+            document.getElementById("disp-num").innerText = card.card_number || "Счет #" + queryId;
+            document.getElementById("disp-balance").innerText = card.balance;
+
+            displayBox.style.display = "block";
+            transBox.style.display = "block";
+        } else {
+            displayBox.style.display = "none";
+            transBox.style.display = "none";
+            activeCardIndex = null;
+        }
+    }
+
+    function makeTransaction(type) {
+        if (activeCardIndex === null) return;
+        const sumInput = document.getElementById("term-sum");
+        const amount = parseInt(sumInput.value);
+
+        if (isNaN(amount) || amount <= 0) {
+            alert("Введите корректную сумму!");
+            return;
+        }
+
+        if (type === -) {
+            cardsData[activeCardIndex].balance -= amount;
+        } else {
+            cardsData[activeCardIndex].balance += amount;
+        }
+
+        sumInput.value = "";
+        searchCard();
+        renderTable();
+        alert("Операция проведена! Нажми 'Сохранить на GitHub'.");
+    }
+
     async function saveToGitHub() {
         let token = localStorage.getItem("linuxi_github_token");
         
         if (!token) {
-            token = prompt("Введи твой GitHub Personal Access Token (сохранится в браузере):");
+            token = prompt("Введи твой GitHub Personal Access Token:");
             if (!token) return;
             localStorage.setItem("linuxi_github_token", token);
         }
 
         try {
-            logToTerminal("Получение SHA файла с GitHub...");
             const getFileRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
                 headers: { "Authorization": `token ${token}` }
             });
 
             if (!getFileRes.ok) {
                 localStorage.removeItem("linuxi_github_token");
-                alert("Ошибка доступа! Токен недействителен.");
-                logToTerminal("Ошибка: неверный токен доступа.");
+                alert("Ошибка доступа! Проверь токен.");
                 return;
             }
 
@@ -187,7 +287,6 @@ function renderTable() {
             const jsonString = JSON.stringify(cardsData, null, 2);
             const updatedContent = btoa(unescape(encodeURIComponent(jsonString)));
 
-            logToTerminal("Отправка коммита...");
             const putRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
                 method: "PUT",
                 headers: {
@@ -195,83 +294,20 @@ function renderTable() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    message: "Обновление балансов через админку Linuxi Bank",
+                    message: "POS Terminal Transaction Update",
                     content: updatedContent,
                     sha: sha
                 })
             });
 
             if (putRes.ok) {
-                alert("Успешно! Изменения улетели на GitHub!");
-                logToTerminal("Успех: data.json обновлен на GitHub.");
+                alert("Успешно зачислено в data.json на GitHub!");
             } else {
-                alert("Ошибка записи.");
-                logToTerminal("Ошибка записи в репозиторий.");
+                alert("Ошибка записи на GitHub.");
             }
         } catch (err) {
             console.error(err);
-            alert("Произошла ошибка сети.");
-            logToTerminal("Критическая ошибка сети при отправке.");
-        }
-    }
-
-    function updateBalance() {
-        const nameInput = document.getElementById("target-user").value.trim();
-        const amount = parseInt(document.getElementById("target-amount").value);
-
-        if (!nameInput || isNaN(amount)) {
-            alert("Заполни имя и сумму корректно!");
-            return;
-        }
-
-        let user = cardsData.find(u => u.name.toLowerCase() === nameInput.toLowerCase());
-        if (user) {
-            user.balance += amount;
-            logToTerminal(`Баланс пользователя ${user.name} изменен на ${amount}. Новый баланс: ${user.balance}`);
-        } else {
-            cardsData.push({ name: nameInput, balance: amount });
-            logToTerminal(`Создан новый пользователь ${nameInput} с балансом ${amount}`);
-        }
-
-        renderTable();
-        document.getElementById("target-user").value = "";
-        document.getElementById("target-amount").value = "";
-    }
-
-    // Логика терминала
-    function logToTerminal(text) {
-        const term = document.getElementById("terminal");
-        term.innerHTML += `<div>> ${text}</div>`;
-        term.scrollTop = term.scrollHeight;
-    }
-
-    function handleTerminal(event) {
-        if (event.key === "Enter") {
-            const input = document.getElementById("term-input");
-            const cmd = input.value.trim();
-            logToTerminal(cmd);
-            input.value = "";
-
-            const args = cmd.split(" ");
-            switch(args[0]) {
-                case "help":
-                    logToTerminal("Доступные команды:");
-                    logToTerminal("  list - показать всех участников");
-                    logToTerminal("  save - сохранить изменения на GitHub");
-                    logToTerminal("  clear - очистить экран терминала");
-                    break;
-                case "list":
-                    cardsData.forEach(u => logToTerminal(` - ${u.name}: ${u.balance}`));
-                    break;
-                case "save":
-                    saveToGitHub();
-                    break;
-                case "clear":
-                    document.getElementById("terminal").innerHTML = "";
-                    break;
-                default:
-                    logToTerminal(`Команда не найдена: ${args[0]}. Введите 'help'.`);
-            }
+            alert("Ошибка соединения.");
         }
     }
 
