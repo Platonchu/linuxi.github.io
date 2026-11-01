@@ -10,5 +10,11 @@
     "owner": "Рома Сухоносов",
     "type": "VIP",
     "balance": 1000
+  },
+  {
+    "id": "3",
+    "owner": "linus torvalds",
+    "type": "Linux",
+    "balance": 100
   }
 ]
