@@ -100,26 +100,27 @@
         .badge-linux { color: #00ff66; font-weight: bold; }
         .badge-nextendo { color: #ff3366; font-weight: bold; }
 
-        /* Полноэкранный терминал */
+        /* Компактный банковский терминал */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(5, 10, 5, 0.95);
+            background: rgba(5, 10, 5, 0.9);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 999;
         }
-        .terminal-fullscreen {
-            background: #0d0d0d;
+        .terminal-box {
+            background: #121212;
             border: 2px solid #00ff66;
-            width: 95vw;
-            height: 92vh;
+            width: 100%;
+            max-width: 450px;
             border-radius: 8px;
             box-shadow: 0 0 25px rgba(0,255,102,0.3);
             display: flex;
             flex-direction: column;
             padding: 20px;
+            position: relative;
         }
         .term-header {
             display: flex;
@@ -127,34 +128,22 @@
             align-items: center;
             border-bottom: 1px dashed #00ff66;
             padding-bottom: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .close-btn {
             background: #2a1111;
             color: #ff5555;
             border: 1px solid #ff5555;
-            padding: 6px 14px;
+            padding: 4px 10px;
+            width: auto;
         }
         .close-btn:hover { background: #ff5555; color: #fff; }
 
-        .term-body {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            flex-grow: 1;
-            overflow-y: auto;
-        }
-        .term-panel {
-            background: #141414;
-            border: 1px solid #222;
-            padding: 15px;
-            border-radius: 6px;
-        }
         .card-info {
             background: #080808;
             border: 1px dashed #00ff66;
-            padding: 15px;
-            margin: 15px 0;
+            padding: 12px;
+            margin: 12px 0;
             border-radius: 4px;
         }
         .btn-group {
@@ -177,19 +166,6 @@
             color: #aaa;
         }
         .preset-btns button:hover { border-color: #00ff66; color: #00ff66; background: transparent; }
-
-        .logs-box {
-            font-size: 12px;
-            color: #888;
-            height: 180px;
-            overflow-y: auto;
-            background: #080808;
-            padding: 10px;
-            border: 1px solid #222;
-        }
-        .log-entry { margin-bottom: 4px; }
-        .log-entry.sub { color: #ff6666; }
-        .log-entry.add { color: #66ff66; }
     </style>
 </head>
 <body>
@@ -236,70 +212,46 @@
     </table>
 </div>
 
-<!-- Полноэкранный POS-Терминал -->
+<!-- Банковский POS-Терминал -->
 <div id="terminal-modal" class="modal-overlay">
-    <div class="terminal-fullscreen">
+    <div class="terminal-box">
         <div class="term-header">
-            <h2>💳 POS-Терминал Кассира</h2>
-            <button class="close-btn" onclick="closeTerminal()">Закрыть [ESC]</button>
+            <h2 style="margin:0; font-size: 20px;">💳 POS-Терминал</h2>
+            <button class="close-btn" onclick="closeTerminal()">✕</button>
         </div>
 
-        <div class="term-body">
-            <!-- Левая колонка: Управление счетом -->
-            <div class="term-panel">
-                <h3>1. Управление счетом</h3>
-                <label>ID или номер карты:</label>
-                <input type="text" id="term-card-id" placeholder="Например: 1 или 2" oninput="searchCard()">
+        <label>ID или номер карты:</label>
+        <input type="text" id="term-card-id" placeholder="Например: 1 или 2" oninput="searchCard()">
 
-                <div id="card-display" class="card-info" style="display:none;">
-                    <div><b>Владелец:</b> <span id="disp-owner">---</span></div>
-                    <div style="margin: 8px 0;">
-                        <b>Тип карты:</b> 
-                        <select id="disp-type-select" onchange="changeCardType()" style="margin-top: 5px;">
-                            <option value="Standard">Standard</option>
-                            <option value="VIP">VIP 🌟</option>
-                            <option value="Linux">Linux 🐧</option>
-                            <option value="Nextendo">Nextendo 🌐</option>
-                        </select>
-                    </div>
-                    <div><b>Текущий Баланс:</b> <span id="disp-balance" style="color: #ffff00; font-size: 20px;">0</span> ЛК</div>
-                </div>
+        <div id="card-display" class="card-info" style="display:none;">
+            <div><b>Владелец:</b> <span id="disp-owner">---</span></div>
+            <div style="margin: 8px 0;">
+                <b>Тип карты:</b> 
+                <select id="disp-type-select" onchange="changeCardType()" style="margin-top: 5px;">
+                    <option value="Standard">Standard</option>
+                    <option value="VIP">VIP 🌟</option>
+                    <option value="Linux">Linux 🐧</option>
+                    <option value="Nextendo">Nextendo 🌐</option>
+                </select>
+            </div>
+            <div><b>Баланс:</b> <span id="disp-balance" style="color: #ffff00; font-size: 18px;">0</span> ЛК</div>
+        </div>
 
-                <div id="transaction-box" style="display:none;">
-                    <h4>Операция с балансом</h4>
-                    <label>Сумма:</label>
-                    <input type="number" id="term-sum" placeholder="Введите сумму">
-                    
-                    <div class="preset-btns">
-                        <button onclick="setAmount(10)">+10</button>
-                        <button onclick="setAmount(50)">+50</button>
-                        <button onclick="setAmount(100)">+100</button>
-                        <button onclick="setAmount(500)">+500</button>
-                        <button onclick="setAmount(1000)">+1000</button>
-                    </div>
-
-                    <div class="btn-group">
-                        <button class="btn-sub" onclick="makeTransaction('sub')">Списать (-)</button>
-                        <button onclick="makeTransaction('add')">Зачислить (+)</button>
-                    </div>
-                </div>
+        <div id="transaction-box" style="display:none;">
+            <label>Сумма операции:</label>
+            <input type="number" id="term-sum" placeholder="Введите сумму">
+            
+            <div class="preset-btns">
+                <button onclick="setAmount(10)">+10</button>
+                <button onclick="setAmount(50)">+50</button>
+                <button onclick="setAmount(100)">+100</button>
+                <button onclick="setAmount(500)">+500</button>
+                <button onclick="setAmount(1000)">+1000</button>
             </div>
 
-            <!-- Правая колонка: Переводы и Логи -->
-            <div class="term-panel" style="display: flex; flex-direction: column;">
-                <h3>2. Перевод между счетами</h3>
-                <div style="margin-bottom: 15px;">
-                    <label>ID получателя:</label>
-                    <input type="text" id="transfer-target-id" placeholder="ID получателя">
-                    <label style="margin-top: 5px; display: block;">Сумма перевода:</label>
-                    <input type="number" id="transfer-sum" placeholder="Сумма">
-                    <button onclick="makeTransfer()" style="margin-top: 8px; width: 100%;">Выполнить перевод</button>
-                </div>
-
-                <h3>3. История сеанса</h3>
-                <div id="session-logs" class="logs-box">
-                    <div class="log-entry">Терминал активирован. Готов к работе.</div>
-                </div>
+            <div class="btn-group">
+                <button class="btn-sub" onclick="makeTransaction('sub')">Списать (-)</button>
+                <button onclick="makeTransaction('add')">Зачислить (+)</button>
             </div>
         </div>
     </div>
@@ -417,18 +369,11 @@
         if (activeCardIndex === null) return;
         const newType = document.getElementById("disp-type-select").value;
         cardsData[activeCardIndex].type = newType;
-        logSession(`Тип карты #${cardsData[activeCardIndex].id} изменен на ${newType}`, 'add');
         renderTable();
     }
 
     function setAmount(val) {
         document.getElementById("term-sum").value = val;
-    }
-
-    function logSession(text, type = '') {
-        const container = document.getElementById("session-logs");
-        const time = new Date().toLocaleTimeString();
-        container.innerHTML = `<div class="log-entry ${type}">[${time}] ${text}</div>` + container.innerHTML;
     }
 
     function makeTransaction(type) {
@@ -446,61 +391,16 @@
         if (type === 'sub') {
             if (card.balance < amount) {
                 alert(`Не хватает денег! Баланс счета: ${card.balance} ЛК.`);
-                logSession(`ОТКЛОНЕНО: Недостаточно средств у ${card.owner} (Запрос: -${amount}, Баланс: ${card.balance})`, 'sub');
                 return;
             }
             card.balance -= amount;
-            logSession(`Списано ${amount} ЛК со счета ${card.owner}`, 'sub');
         } else {
             card.balance += amount;
-            logSession(`Зачислено ${amount} ЛК на счет ${card.owner}`, 'add');
         }
 
         sumInput.value = "";
         searchCard();
         renderTable();
-    }
-
-    function makeTransfer() {
-        if (activeCardIndex === null) {
-            alert("Сначала выберите карту-источник!");
-            return;
-        }
-        const targetId = document.getElementById("transfer-target-id").value.trim();
-        const amount = parseInt(document.getElementById("transfer-sum").value);
-
-        if (!targetId || isNaN(amount) || amount <= 0) {
-            alert("Заполните ID получателя и сумму!");
-            return;
-        }
-
-        const targetIndex = cardsData.findIndex((item, idx) => {
-            const currentId = item.id !== undefined ? String(item.id) : String(idx + 1);
-            return currentId === targetId;
-        });
-
-        if (targetIndex === -1) {
-            alert("Получатель не найден!");
-            return;
-        }
-
-        const sender = cardsData[activeCardIndex];
-        const receiver = cardsData[targetIndex];
-
-        if (sender.balance < amount) {
-            alert(`Не хватает денег для перевода! Доступно: ${sender.balance} ЛК.`);
-            return;
-        }
-
-        sender.balance -= amount;
-        receiver.balance += amount;
-
-        document.getElementById("transfer-sum").value = "";
-        logSession(`Перевод: ${amount} ЛК от ${sender.owner} к ${receiver.owner}`, 'add');
-
-        searchCard();
-        renderTable();
-        alert("Перевод выполнен!");
     }
 
     function openNewAccountModal() {
