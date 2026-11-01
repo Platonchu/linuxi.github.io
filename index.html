@@ -167,7 +167,7 @@
         }
         .preset-btns button:hover { border-color: #00ff66; color: #00ff66; background: transparent; }
 
-        /* Новые стили для информационного блока внизу */
+        /* Инофрмационный блок */
         .info-footer {
             margin-top: 25px;
             padding-top: 15px;
@@ -240,7 +240,6 @@
         <tbody id="accounts-table"></tbody>
     </table>
 
-    <!-- Добавленный информационный блок вниз -->
     <div class="info-footer">
         <h3 style="margin-bottom: 8px;">Информация о картах Linux Bank</h3>
         <div class="cards-preview">
@@ -269,6 +268,13 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- Настройка токена внизу страницы -->
+<div id="settings-panel" style="max-width: 900px; margin: 15px auto 0 auto; padding: 10px; background: #121212; border: 1px solid #1a3a2a; border-radius: 6px;">
+    <span style="color: #00ff66; font-size: 12px;">GitHub Token для отправки изменений:</span><br>
+    <input type="password" id="gh-token-input" placeholder="Вставь свой токен ghp_..." style="width: 70%; margin-right: 10px;" />
+    <button onclick="saveTokenManually()">Сохранить токен</button>
 </div>
 
 <!-- Банковский POS-Терминал -->
@@ -317,6 +323,11 @@
 </div>
 
 <script>
+    // Укажи здесь данные своего репозитория!
+    const GITHUB_USERNAME = "platonchu"; 
+    const REPO_NAME    = "linuxi.github.io"; // Укажи точное имя репозитория
+    const FILE_PATH    = "data.json";
+
     let cardsData = [];
     let activeCardIndex = null;
 
@@ -332,6 +343,17 @@
                 { id: "2", owner: "Рома Сухоносов", type: "Standard", balance: 1000 }
             ];
             renderTable();
+        }
+    }
+
+    function saveTokenManually() {
+        const tokenVal = document.getElementById("gh-token-input").value.trim();
+        if (tokenVal) {
+            localStorage.setItem("linuxi_github_token", tokenVal);
+            alert("Токен сохранят в памяти!");
+            document.getElementById("gh-token-input").value = "";
+        } else {
+            alert("Поле пустое!");
         }
     }
 
@@ -424,18 +446,19 @@
         }
     }
 
-    function changeCardType() {
+    async function changeCardType() {
         if (activeCardIndex === null) return;
         const newType = document.getElementById("disp-type-select").value;
         cardsData[activeCardIndex].type = newType;
         renderTable();
+        await saveChangesToGitHub();
     }
 
     function setAmount(val) {
         document.getElementById("term-sum").value = val;
     }
 
-    function makeTransaction(type) {
+    async function makeTransaction(type) {
         if (activeCardIndex === null) return;
         const sumInput = document.getElementById("term-sum");
         const amount = parseInt(sumInput.value);
@@ -460,9 +483,12 @@
         sumInput.value = "";
         searchCard();
         renderTable();
+
+        // Автоматическое сохранение на GitHub
+        await saveChangesToGitHub();
     }
 
-    function openNewAccountModal() {
+    async function openNewAccountModal() {
         const pass = prompt("Введите пароль администратора:");
         if (pass !== "1593") {
             if (pass !== null) alert("Неверный пароль!");
@@ -487,7 +513,74 @@
         });
 
         renderTable();
+        await saveChangesToGitHub();
         alert(`Счет успешно создан!\nID: ${newId}\nВладелец: ${name}\nТип: ${cardType}`);
+    }
+
+    // Главная функция отправки данных на GitHub API
+    async function saveChangesToGitHub() {
+        let token = localStorage.getItem("linuxi_github_token");
+        
+        if (!token) {
+            alert("Данные изменены локально, но GitHub токен не найден! Сохрани токен внизу страницы.");
+            return;
+        }
+
+        const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}?t=${new Date().getTime()}`;
+
+        try {
+            // 1. Получаем свежий SHA
+            const getRes = await fetch(apiUrl, {
+                headers: { 
+                    "Authorization": `token ${token.trim()}`,
+                    "Accept": "application/vnd.github.v3+json",
+                    "Cache-Control": "no-cache"
+                }
+            });
+
+            if (!getRes.ok) {
+                alert(`Ошибка получения SHA с GitHub: ${getRes.status}`);
+                return;
+            }
+
+            const fileData = await getRes.json();
+            const currentSha = fileData.sha;
+
+            // 2. Кодируем массив в UTF-8 / Base64
+            const jsonString = JSON.stringify(cardsData, null, 2);
+            const utf8Bytes = new TextEncoder().encode(jsonString);
+            let binaryString = "";
+            for (let i = 0; i < utf8Bytes.length; i++) {
+                binaryString += String.fromCharCode(utf8Bytes[i]);
+            }
+            const encodedContent = btoa(binaryString);
+
+            // 3. Отправляем PUT запрос
+            const putRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `token ${token.trim()}`,
+                    "Content-Type": "application/json",
+                    "Accept": "application/vnd.github.v3+json"
+                },
+                body: JSON.stringify({
+                    message: "Transaction update via terminal",
+                    content: encodedContent,
+                    sha: currentSha
+                })
+            });
+
+            if (!putRes.ok) {
+                const errJson = await putRes.json();
+                alert("Ошибка сохранения на GitHub: " + (errJson.message || "Неизвестная ошибка"));
+            } else {
+                console.log("Данные успешно улетели на GitHub!");
+            }
+
+        } catch (err) {
+            console.error("Сетевая ошибка:", err);
+            alert("Не удалось отправить данные на GitHub: " + err.message);
+        }
     }
 
     loadData();
