@@ -3,281 +3,495 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Банк Линуксов - POS Terminal</title>
+    <title>Linuxi Bank — Terminal</title>
     <style>
+        * { box-sizing: border-box; }
         body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: monospace;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #0a0a0a;
+            color: #00ff66;
+            margin: 0;
             padding: 20px;
-            max-width: 600px;
-            margin: auto;
         }
-        .terminal {
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 20px;
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+            border-bottom: 2px solid #00ff66;
+            padding-bottom: 15px;
         }
-        input, button {
-            background: #21262d;
-            color: #c9d1d9;
-            border: 1px solid #30363d;
-            padding: 8px 12px;
-            margin: 5px 0;
-            font-family: monospace;
-            border-radius: 4px;
-        }
-        button {
+        h1 { margin: 0; font-size: 26px; text-transform: uppercase; text-shadow: 0 0 8px #00ff66; }
+        
+        .top-btns { display: flex; gap: 10px; }
+
+        .term-btn {
+            background: #151515;
+            color: #00ff66;
+            border: 1px solid #00ff66;
+            padding: 10px 18px;
             cursor: pointer;
-            background: #238636;
-            color: white;
-            border: none;
-        }
-        button:hover {
-            background: #2ea043;
-        }
-        #log {
-            white-space: pre-wrap;
-            background: #010409;
-            padding: 10px;
+            font-family: monospace;
+            font-weight: bold;
             border-radius: 4px;
-            border: 1px solid #30363d;
-            height: 150px;
-            overflow-y: auto;
+            box-shadow: 0 0 5px rgba(0,255,102,0.3);
+        }
+        .term-btn:hover { background: #00ff66; color: #0a0a0a; }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #121212;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #1a3a2a;
+            box-shadow: 0 0 15px rgba(0,255,102,0.1);
         }
 
-        /* Новые стили для карточек и блока безопасности */
-        .cards-grid {
+        .stats-panel {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: #181818;
+            border: 1px solid #224433;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .stat-value { font-size: 22px; font-weight: bold; color: #ffff00; margin-top: 5px; }
+
+        .search-box {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        input, button, select {
+            background: #181818;
+            color: #00ff66;
+            border: 1px solid #00ff66;
+            padding: 10px;
+            font-family: monospace;
+            border-radius: 4px;
+        }
+        input, select { background: #0d0d0d; width: 100%; }
+        button { cursor: pointer; }
+        button:hover { background: #00ff66; color: #0a0a0a; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #222;
+            padding: 12px;
+            text-align: left;
+        }
+        th { background-color: #1a1a1a; color: #00ff66; }
+        tr:nth-child(even) { background-color: #141414; }
+
+        /* Значки типов карт */
+        .badge-standard { color: #aaa; }
+        .badge-vip { color: #ffcc00; font-weight: bold; }
+        .badge-linux { color: #00ff66; font-weight: bold; }
+        .badge-nextendo { color: #ff3366; font-weight: bold; }
+
+        /* Компактный банковский терминал */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(5, 10, 5, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        .terminal-box {
+            background: #121212;
+            border: 2px solid #00ff66;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(0,255,102,0.3);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: relative;
+        }
+        .term-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #00ff66;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .close-btn {
+            background: #2a1111;
+            color: #ff5555;
+            border: 1px solid #ff5555;
+            padding: 4px 10px;
+            width: auto;
+        }
+        .close-btn:hover { background: #ff5555; color: #fff; }
+
+        .card-info {
+            background: #080808;
+            border: 1px dashed #00ff66;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 4px;
+        }
+        .btn-group {
+            display: flex;
             gap: 10px;
             margin-top: 10px;
         }
-        .bank-card {
-            background: linear-gradient(135deg, #1f242d 0%, #0d1117 100%);
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 12px;
-            position: relative;
+        .btn-sub { border-color: #ff5555; color: #ff5555; }
+        .btn-sub:hover { background: #ff5555; color: #121212; }
+
+        .preset-btns {
+            display: flex;
+            gap: 5px;
+            margin: 8px 0;
         }
-        .card-chip {
-            width: 24px;
-            height: 18px;
-            background: #d4af37;
-            border-radius: 3px;
-            margin-bottom: 10px;
-        }
-        .card-number {
-            font-size: 11px;
-            letter-spacing: 1px;
-            color: #8b949e;
-        }
-        .card-holder {
+        .preset-btns button {
+            padding: 5px 8px;
             font-size: 12px;
-            font-weight: bold;
-            color: #58a6ff;
-            margin-top: 4px;
+            border-color: #444;
+            color: #aaa;
         }
+        .preset-btns button:hover { border-color: #00ff66; color: #00ff66; background: transparent; }
+
+        /* Новые стили для информационного блока внизу */
+        .info-footer {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px dashed #224433;
+        }
+        .cards-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .preview-card {
+            background: #080808;
+            border: 1px solid #224433;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 12px;
+        }
+        .preview-card b { display: block; margin-bottom: 4px; }
         .security-banner {
-            background: rgba(35, 134, 54, 0.1);
-            border: 1px solid #238636;
+            background: rgba(0, 255, 102, 0.05);
+            border: 1px solid #00ff66;
             border-radius: 6px;
             padding: 12px;
             margin-top: 15px;
             text-align: center;
         }
-        .security-title {
-            color: #3fb950;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        .security-desc {
-            font-size: 11px;
-            color: #8b949e;
-            line-height: 1.4;
-        }
     </style>
 </head>
 <body>
 
-    <h1>Банк Линуксов 🐧💳</h1>
+<div class="header-bar">
+    <h1>Банк линуксов 🐧</h1>
+    <div class="top-btns">
+        <button onclick="openNewAccountModal()">➕ Открыть счет</button>
+        <button class="term-btn" onclick="openTerminal()">💳 POS-Терминал</button>
+    </div>
+</div>
 
-    <div class="terminal">
-        <h3>POS Терминал списания</h3>
-        <label>Сумма списания:</label><br>
-        <input type="number" id="amount-input" placeholder="Например: 500" value="500"><br>
-        <button onclick="processWithdrawal()">Списать средства</button>
+<div class="container">
+    <div class="stats-panel">
+        <div class="stat-card">
+            <div>Всего счетов</div>
+            <div id="stat-count" class="stat-value">0</div>
+        </div>
+        <div class="stat-card">
+            <div>Общий баланс</div>
+            <div id="stat-total" class="stat-value">0 ЛК</div>
+        </div>
+        <div class="stat-card">
+            <div>Средний баланс</div>
+            <div id="stat-avg" class="stat-value">0 ЛК</div>
+        </div>
     </div>
 
-    <div class="terminal">
-        <h3>Лог операций</h3>
-        <div id="log">Инициализация терминала...\n</div>
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="Поиск по имени или ID..." oninput="renderTable()">
     </div>
 
-    <!-- Новая секция: Карточки команды и информация -->
-    <div class="terminal">
-        <h3>Дизайны карт Банка Линуксов</h3>
-        <div class="cards-grid">
-            <div class="bank-card">
-                <div class="card-chip"></div>
-                <div class="card-number">•••• •••• •••• 4242</div>
-                <div class="card-holder">LINUX BLACK</div>
+    <h2>Счета участников</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Владелец</th>
+                <th>Тип карты</th>
+                <th>Баланс</th>
+            </tr>
+        </thead>
+        <tbody id="accounts-table"></tbody>
+    </table>
+
+    <!-- Добавленный информационный блок вниз -->
+    <div class="info-footer">
+        <h3 style="margin-bottom: 8px;">Информация о картах Linux Bank</h3>
+        <div class="cards-preview">
+            <div class="preview-card">
+                <b class="badge-standard">Standard 💳</b>
+                Базовая карта участника банка для стандартных операций.
             </div>
-            <div class="bank-card" style="border-color: #38bdf8;">
-                <div class="card-chip" style="background: #e2e8f0;"></div>
-                <div class="card-number">•••• •••• •••• 7777</div>
-                <div class="card-holder" style="color: #38bdf8;">TEAM PASS</div>
+            <div class="preview-card">
+                <b class="badge-vip">VIP 🌟</b>
+                Премиальный статус и приоритетные транзакции.
+            </div>
+            <div class="preview-card">
+                <b class="badge-linux">Linux 🐧</b>
+                Карта гика с прямой интеграцией в терминал.
+            </div>
+            <div class="preview-card">
+                <b class="badge-nextendo">Nextendo 🌐</b>
+                Специальный тариф для сетевых операций.
             </div>
         </div>
 
         <div class="security-banner">
-            <div class="security-title">🛡️ Мы заботимся о вашей безопасности</div>
-            <div class="security-desc">
-                Все транзакции защищены сквозным шифрованием. Ваши деньги и средства команды находятся под надежной защитой ядра системы и никуда не утекут.
+            <div style="font-weight: bold; margin-bottom: 4px;">🛡️ МЫ ЗАБОТИМСЯ О ВАШЕЙ БЕЗОПАСНОСТИ</div>
+            <div style="font-size: 13px; color: #888;">
+                Ваши деньги никуда не утекут. Все транзакции фиксируются в защищенной системе, а доступ к операциям строго ограничен терминальным паролем.
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Панель для ввода токена с мобильного устройства (сохраняется в память WebView) -->
-    <div id="settings-panel" style="margin-top: 15px; padding: 10px; background: #161b22; border: 1px solid #30363d; border-radius: 6px;">
-        <span style="color: #8b949e; font-size: 12px;">GitHub Token для мобильного терминала:</span><br>
-        <input type="password" id="gh-token-input" placeholder="Вставь токен сюда" style="width: 70%;" />
-        <button onclick="saveTokenManually()">Сохранить</button>
-    </div>
+<!-- Банковский POS-Терминал -->
+<div id="terminal-modal" class="modal-overlay">
+    <div class="terminal-box">
+        <div class="term-header">
+            <h2 style="margin:0; font-size: 20px;">💳 POS-Терминал</h2>
+            <button class="close-btn" onclick="closeTerminal()">✕</button>
+        </div>
 
-    <script>
-        // Твои настройки репозитория (укажи свои данные, если они отличаются)
-        const GITHUB_USERNAME = "ТвойЛогинGitHub"; 
-        const REPO_NAME    = "ТвоеИмяРепозитория"; 
-        const FILE_PATH    = "data.json";
+        <label>ID или номер карты:</label>
+        <input type="text" id="term-card-id" placeholder="Например: 1 или 2" oninput="searchCard()">
 
-        // Демо-данные счетов (структура под твой бэкенд)
-        let cardsData = {
-            "balance": 30000,
-            "accounts": [
-                { "name": "Основной счёт", "amount": 29500 }
-            ]
-        };
+        <div id="card-display" class="card-info" style="display:none;">
+            <div><b>Владелец:</b> <span id="disp-owner">---</span></div>
+            <div style="margin: 8px 0;">
+                <b>Тип карты:</b> 
+                <select id="disp-type-select" onchange="changeCardType()" style="margin-top: 5px;">
+                    <option value="Standard">Standard</option>
+                    <option value="VIP">VIP 🌟</option>
+                    <option value="Linux">Linux 🐧</option>
+                    <option value="Nextendo">Nextendo 🌐</option>
+                </select>
+            </div>
+            <div><b>Баланс:</b> <span id="disp-balance" style="color: #ffff00; font-size: 18px;">0</span> ЛК</div>
+        </div>
 
-        function logMessage(msg) {
-            const logDiv = document.getElementById("log");
-            logDiv.innerText += msg + "\n";
-            logDiv.scrollTop = logDiv.scrollHeight;
-        }
-
-        // Сохранение токена в память телефона (WebView)
-        function saveTokenManually() {
-            const tokenVal = document.getElementById("gh-token-input").value.trim();
-            if (tokenVal) {
-                localStorage.setItem("linuxi_github_token", tokenVal);
-                alert("Токен успешно сохранен в памяти телефона!");
-                document.getElementById("gh-token-input").value = "";
-            } else {
-                alert("Поле пустое!");
-            }
-        }
-
-        // Логика списания суммы
-        async function processWithdrawal() {
-            const amount = parseFloat(document.getElementById("amount-input").value);
-            if (isNaN(amount) || amount <= 0) {
-                alert("Введи корректную сумму!");
-                return;
-            }
-
-            logMessage(`Попытка списания: ${amount}...`);
-
-            // Пример изменения данных в объекте (уменьшаем баланс)
-            if (cardsData.balance >= amount) {
-                cardsData.balance -= amount;
-                logMessage(`Баланс обновлен локально. Остаток: ${cardsData.balance}`);
-                
-                // Отправляем изменения на GitHub
-                await saveChangesToGitHub();
-            } else {
-                logMessage("Ошибка: недостаточно средств!");
-                alert("Недостаточно средств!");
-            }
-        }
-
-        // Функция отправки изменений на GitHub (с защитой от кэша и поддержкой кириллицы)
-        async function saveChangesToGitHub() {
-            let token = localStorage.getItem("linuxi_github_token");
+        <div id="transaction-box" style="display:none;">
+            <label>Сумма операции:</label>
+            <input type="number" id="term-sum" placeholder="Введите сумму">
             
-            if (!token) {
-                alert("Токен не найден! Введи его в поле настроек внизу страницы.");
-                logMessage("Ошибка: токен отсутствует в localStorage.");
+            <div class="preset-btns">
+                <button onclick="setAmount(10)">+10</button>
+                <button onclick="setAmount(50)">+50</button>
+                <button onclick="setAmount(100)">+100</button>
+                <button onclick="setAmount(500)">+500</button>
+                <button onclick="setAmount(1000)">+1000</button>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn-sub" onclick="makeTransaction('sub')">Списать (-)</button>
+                <button onclick="makeTransaction('add')">Зачислить (+)</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let cardsData = [];
+    let activeCardIndex = null;
+
+    async function loadData() {
+        try {
+            const res = await fetch('data.json?' + new Date().getTime());
+            cardsData = await res.json();
+            renderTable();
+        } catch (err) {
+            console.error("Ошибка загрузки data.json", err);
+            cardsData = [
+                { id: "1", owner: "Платон Чукович", type: "Linux", balance: 1000 },
+                { id: "2", owner: "Рома Сухоносов", type: "Standard", balance: 1000 }
+            ];
+            renderTable();
+        }
+    }
+
+    function getBadgeClass(type) {
+        switch(type) {
+            case 'VIP': return 'badge-vip';
+            case 'Linux': return 'badge-linux';
+            case 'Nextendo': return 'badge-nextendo';
+            default: return 'badge-standard';
+        }
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById("accounts-table");
+        const filter = document.getElementById("search-input").value.toLowerCase();
+        tbody.innerHTML = "";
+
+        let total = 0;
+
+        cardsData.forEach((item, index) => {
+            const cardId = item.id !== undefined ? String(item.id) : String(index + 1);
+            const owner = item.owner || item.name || "Неизвестно";
+            const type = item.type || "Standard";
+            const balance = item.balance !== undefined ? item.balance : 0;
+
+            if (owner.toLowerCase().includes(filter) || cardId.includes(filter)) {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${cardId}</td>
+                        <td>${owner}</td>
+                        <td><span class="${getBadgeClass(type)}">${type}</span></td>
+                        <td style="font-weight: bold; color: #ffff00;">${balance} ЛК</td>
+                    </tr>`;
+                total += balance;
+            }
+        });
+
+        document.getElementById("stat-count").innerText = cardsData.length;
+        document.getElementById("stat-total").innerText = total + " ЛК";
+        document.getElementById("stat-avg").innerText = cardsData.length ? Math.round(total / cardsData.length) + " ЛК" : "0 ЛК";
+    }
+
+    function openTerminal() {
+        const pass = prompt("Введите пароль администратора:");
+        if (pass === "1593") {
+            document.getElementById("terminal-modal").style.display = "flex";
+            document.getElementById("term-card-id").focus();
+        } else if (pass !== null) {
+            alert("Ах ты негодяй ща по попке дам атата");
+        }
+    }
+
+    function closeTerminal() {
+        document.getElementById("terminal-modal").style.display = "none";
+        document.getElementById("term-card-id").value = "";
+        searchCard();
+    }
+
+    function searchCard() {
+        const queryId = document.getElementById("term-card-id").value.trim();
+        const displayBox = document.getElementById("card-display");
+        const transBox = document.getElementById("transaction-box");
+
+        if (!queryId) {
+            displayBox.style.display = "none";
+            transBox.style.display = "none";
+            activeCardIndex = null;
+            return;
+        }
+
+        const index = cardsData.findIndex((item, idx) => {
+            const currentId = item.id !== undefined ? String(item.id) : String(idx + 1);
+            return currentId === queryId;
+        });
+
+        if (index !== -1) {
+            activeCardIndex = index;
+            const card = cardsData[index];
+            
+            document.getElementById("disp-owner").innerText = card.owner || card.name || "---";
+            document.getElementById("disp-type-select").value = card.type || "Standard";
+            document.getElementById("disp-balance").innerText = card.balance;
+
+            displayBox.style.display = "block";
+            transBox.style.display = "block";
+        } else {
+            displayBox.style.display = "none";
+            transBox.style.display = "none";
+            activeCardIndex = null;
+        }
+    }
+
+    function changeCardType() {
+        if (activeCardIndex === null) return;
+        const newType = document.getElementById("disp-type-select").value;
+        cardsData[activeCardIndex].type = newType;
+        renderTable();
+    }
+
+    function setAmount(val) {
+        document.getElementById("term-sum").value = val;
+    }
+
+    function makeTransaction(type) {
+        if (activeCardIndex === null) return;
+        const sumInput = document.getElementById("term-sum");
+        const amount = parseInt(sumInput.value);
+
+        if (isNaN(amount) || amount <= 0) {
+            alert("Введите корректную сумму!");
+            return;
+        }
+
+        const card = cardsData[activeCardIndex];
+
+        if (type === 'sub') {
+            if (card.balance < amount) {
+                alert(`Не хватает денег! Баланс счета: ${card.balance} ЛК.`);
                 return;
             }
-
-            // Добавляем таймстамп (?t=...), чтобы мобильный WebView не кэшировал старый GET-ответ
-            const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}?t=${new Date().getTime()}`;
-
-            try {
-                logMessage("Получение актуального SHA файла с GitHub...");
-                const getRes = await fetch(apiUrl, {
-                    headers: { 
-                        "Authorization": `token ${token.trim()}`,
-                        "Accept": "application/vnd.github.v3+json",
-                        "Cache-Control": "no-cache"
-                    }
-                });
-
-                if (!getRes.ok) {
-                    if (getRes.status === 401 || getRes.status === 403) {
-                        alert("Ошибка авторизации! Проверь токен и права repo.");
-                        logMessage("Ошибка 401/403: Неверный токен.");
-                    } else {
-                        alert(`Ошибка чтения с GitHub: код ${getRes.status}`);
-                        logMessage(`Ошибка чтения: код ${getRes.status}`);
-                    }
-                    return;
-                }
-
-                const fileData = await getRes.json();
-                const currentSha = fileData.sha;
-
-                // Кодируем JSON в Base64 с поддержкой кириллицы (для мобилок)
-                const jsonString = JSON.stringify(cardsData, null, 2);
-                const utf8Bytes = new TextEncoder().encode(jsonString);
-                let binaryString = "";
-                for (let i = 0; i < utf8Bytes.length; i++) {
-                    binaryString += String.fromCharCode(utf8Bytes[i]);
-                }
-                const encodedContent = btoa(binaryString);
-
-                logMessage("Отправка PUT-запроса на GitHub...");
-                const putRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
-                    method: "PUT",
-                    headers: {
-                        "Authorization": `token ${token.trim()}`,
-                        "Content-Type": "application/json",
-                        "Accept": "application/vnd.github.v3+json"
-                    },
-                    body: JSON.stringify({
-                        message: "POS Terminal balance update via mobile WebView",
-                        content: encodedContent,
-                        sha: currentSha
-                    })
-                });
-
-                if (!putRes.ok) {
-                    const errJson = await putRes.json();
-                    alert("GitHub отклонил сохранение: " + (errJson.message || "Ошибка"));
-                    logMessage("Ошибка GitHub API: " + (errJson.message || "Неизвестная ошибка"));
-                } else {
-                    logMessage("Успешно сохранено на GitHub!");
-                    alert("Списание прошло успешно, данные отправлены!");
-                }
-
-            } catch (err) {
-                console.error("Сетевая ошибка:", err);
-                logMessage("Сетевая ошибка: " + err.message);
-                alert("Не удалось отправить данные на GitHub.");
-            }
+            card.balance -= amount;
+        } else {
+            card.balance += amount;
         }
-    </script>
+
+        sumInput.value = "";
+        searchCard();
+        renderTable();
+    }
+
+    function openNewAccountModal() {
+        const pass = prompt("Введите пароль администратора:");
+        if (pass !== "1593") {
+            if (pass !== null) alert("Неверный пароль!");
+            return;
+        }
+
+        const name = prompt("Введите имя владельца счета:");
+        if (!name) return;
+
+        let typeChoice = prompt("Выберите тип карты (1 - Standard, 2 - VIP, 3 - Linux, 4 - Nextendo):", "1");
+        let cardType = "Standard";
+        if (typeChoice === "2") cardType = "VIP";
+        else if (typeChoice === "3") cardType = "Linux";
+        else if (typeChoice === "4") cardType = "Nextendo";
+
+        const newId = String(cardsData.length + 1);
+        cardsData.push({
+            id: newId,
+            owner: name,
+            type: cardType,
+            balance: 100
+        });
+
+        renderTable();
+        alert(`Счет успешно создан!\nID: ${newId}\nВладелец: ${name}\nТип: ${cardType}`);
+    }
+
+    loadData();
+</script>
+
 </body>
 </html>
