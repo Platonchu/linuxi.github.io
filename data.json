@@ -10,5 +10,11 @@
     "owner": "Рома Сухоносов",
     "type": "VIP",
     "balance": 100000
+  },
+  {
+    "id": "3",
+    "owner": "Мия Чукович",
+    "type": "Standard",
+    "balance": 100
   }
 ]
