@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linuxi Bank — Terminal</title>
+    <title>Linuxi Bank — Terminal v2.0</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -17,14 +17,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto 20px auto;
             border-bottom: 2px solid #00ff66;
             padding-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         h1 { margin: 0; font-size: 26px; text-transform: uppercase; text-shadow: 0 0 8px #00ff66; }
         
-        .top-btns { display: flex; gap: 10px; }
+        .top-btns { display: flex; gap: 10px; flex-wrap: wrap; }
 
         .term-btn {
             background: #151515;
@@ -36,11 +38,12 @@
             font-weight: bold;
             border-radius: 4px;
             box-shadow: 0 0 5px rgba(0,255,102,0.3);
+            transition: all 0.2s;
         }
-        .term-btn:hover { background: #00ff66; color: #0a0a0a; }
+        .term-btn:hover { background: #00ff66; color: #0a0a0a; box-shadow: 0 0 12px #00ff66; }
 
         .container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
             background: #121212;
             padding: 20px;
@@ -76,9 +79,10 @@
             padding: 10px;
             font-family: monospace;
             border-radius: 4px;
+            outline: none;
         }
         input, select { background: #0d0d0d; width: 100%; }
-        button { cursor: pointer; }
+        button { cursor: pointer; transition: all 0.2s; }
         button:hover { background: #00ff66; color: #0a0a0a; }
 
         table {
@@ -93,6 +97,7 @@
         }
         th { background-color: #1a1a1a; color: #00ff66; }
         tr:nth-child(even) { background-color: #141414; }
+        tr:hover { background-color: #1c2b22; }
 
         /* Значки типов карт */
         .badge-standard { color: #aaa; }
@@ -113,8 +118,10 @@
         .terminal-box {
             background: #121212;
             border: 2px solid #00ff66;
-            width: 100%;
-            max-width: 450px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
             border-radius: 8px;
             box-shadow: 0 0 25px rgba(0,255,102,0.3);
             display: flex;
@@ -153,11 +160,14 @@
         }
         .btn-sub { border-color: #ff5555; color: #ff5555; }
         .btn-sub:hover { background: #ff5555; color: #121212; }
+        .btn-danger { background: #3a1111; border-color: #ff3333; color: #ff5555; width: 100%; margin-top: 10px; }
+        .btn-danger:hover { background: #ff3333; color: #fff; }
 
         .preset-btns {
             display: flex;
             gap: 5px;
             margin: 8px 0;
+            flex-wrap: wrap;
         }
         .preset-btns button {
             padding: 5px 8px;
@@ -166,6 +176,43 @@
             color: #aaa;
         }
         .preset-btns button:hover { border-color: #00ff66; color: #00ff66; background: transparent; }
+
+        .history-list {
+            max-height: 120px;
+            overflow-y: auto;
+            font-size: 12px;
+            background: #050505;
+            padding: 8px;
+            border: 1px solid #222;
+            margin-top: 8px;
+        }
+        .history-item { margin-bottom: 4px; border-bottom: 1px dotted #333; padding-bottom: 2px; }
+        .hist-add { color: #00ff66; }
+        .hist-sub { color: #ff5555; }
+
+        /* Toast Уведомления */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #00ff66;
+            color: #000;
+            text-align: center;
+            border-radius: 4px;
+            padding: 12px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(0,255,102,0.5);
+        }
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.3s, fadeout 0.5s 2.5s;
+        }
+        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+        @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
     </style>
 </head>
 <body>
@@ -175,6 +222,7 @@
     <div class="top-btns">
         <button onclick="openNewAccountModal()">➕ Открыть счет</button>
         <button class="term-btn" onclick="openTerminal()">💳 POS-Терминал</button>
+        <button onclick="setupGitHubToken()">🔑 Токен GH</button>
     </div>
 </div>
 
@@ -212,7 +260,7 @@
     </table>
 </div>
 
-<!-- Банковский POS-Терминал -->
+<!-- POS-Терминал -->
 <div id="terminal-modal" class="modal-overlay">
     <div class="terminal-box">
         <div class="term-header">
@@ -224,7 +272,10 @@
         <input type="text" id="term-card-id" placeholder="Например: 1 или 2" oninput="searchCard()">
 
         <div id="card-display" class="card-info" style="display:none;">
-            <div><b>Владелец:</b> <span id="disp-owner">---</span></div>
+            <div>
+                <b>Владелец:</b> <span id="disp-owner">---</span> 
+                <button style="padding: 2px 6px; font-size: 10px; margin-left: 5px;" onclick="renameOwner()">✏️</button>
+            </div>
             <div style="margin: 8px 0;">
                 <b>Тип карты:</b> 
                 <select id="disp-type-select" onchange="changeCardType()" style="margin-top: 5px;">
@@ -235,6 +286,12 @@
                 </select>
             </div>
             <div><b>Баланс:</b> <span id="disp-balance" style="color: #ffff00; font-size: 18px;">0</span> ЛК</div>
+
+            <!-- Выписка транзакций -->
+            <div style="margin-top: 10px;">
+                <b>История операций:</b>
+                <div id="disp-history" class="history-list"></div>
+            </div>
         </div>
 
         <div id="transaction-box" style="display:none;">
@@ -253,9 +310,22 @@
                 <button class="btn-sub" onclick="makeTransaction('sub')">Списать (-)</button>
                 <button onclick="makeTransaction('add')">Зачислить (+)</button>
             </div>
+
+            <hr style="border-color: #224433; margin: 15px 0;">
+
+            <!-- Перевод средств -->
+            <label>Перевести на ID:</label>
+            <div style="display: flex; gap: 5px; margin-top: 5px;">
+                <input type="text" id="transfer-target-id" placeholder="ID получателя">
+                <button onclick="makeTransfer()">Перевести</button>
+            </div>
+
+            <button class="btn-danger" onclick="deleteAccount()">🗑️ Удалить счет</button>
         </div>
     </div>
 </div>
+
+<div id="toast"></div>
 
 <script>
     const GITHUB_USERNAME = "Platonchu";
@@ -265,6 +335,13 @@
     let cardsData = [];
     let activeCardIndex = null;
 
+    function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.innerText = msg;
+        t.className = "show";
+        setTimeout(() => { t.className = t.className.replace("show", ""); }, 3000);
+    }
+
     async function loadData() {
         try {
             const res = await fetch('data.json?' + new Date().getTime());
@@ -273,8 +350,8 @@
         } catch (err) {
             console.error("Ошибка загрузки data.json", err);
             cardsData = [
-                { id: "1", owner: "Платон Чукович", type: "Linux", balance: 1000 },
-                { id: "2", owner: "Рома Сухоносов", type: "Standard", balance: 1000 }
+                { id: "1", owner: "Платон Чукович", type: "Linux", balance: 1000, history: [] },
+                { id: "2", owner: "Рома Сухоносов", type: "Standard", balance: 1000, history: [] }
             ];
             renderTable();
         }
@@ -360,6 +437,20 @@
             document.getElementById("disp-type-select").value = card.type || "Standard";
             document.getElementById("disp-balance").innerText = card.balance;
 
+            // Рендер истории
+            const histDiv = document.getElementById("disp-history");
+            histDiv.innerHTML = "";
+            const history = card.history || [];
+            if (history.length === 0) {
+                histDiv.innerHTML = "<span style='color:#666;'>Нет операций</span>";
+            } else {
+                history.slice(-5).reverse().forEach(h => {
+                    const cls = h.type === 'add' ? 'hist-add' : 'hist-sub';
+                    const sign = h.type === 'add' ? '+' : '-';
+                    histDiv.innerHTML += `<div class="history-item ${cls}">${h.time} | ${sign}${h.amount} ЛК (${h.note || 'Операция'})</div>`;
+                });
+            }
+
             displayBox.style.display = "block";
             transBox.style.display = "block";
         } else {
@@ -377,8 +468,25 @@
         await saveChangesToGitHub();
     }
 
+    async function renameOwner() {
+        if (activeCardIndex === null) return;
+        const newName = prompt("Новое имя владельца:", cardsData[activeCardIndex].owner);
+        if (newName) {
+            cardsData[activeCardIndex].owner = newName;
+            searchCard();
+            renderTable();
+            await saveChangesToGitHub();
+        }
+    }
+
     function setAmount(val) {
         document.getElementById("term-sum").value = val;
+    }
+
+    function logHistory(card, type, amount, note) {
+        if (!card.history) card.history = [];
+        const time = new Date().toLocaleTimeString().slice(0, 5);
+        card.history.push({ time, type, amount, note });
     }
 
     async function makeTransaction(type) {
@@ -399,14 +507,65 @@
                 return;
             }
             card.balance -= amount;
+            logHistory(card, 'sub', amount, 'Списание');
         } else {
             card.balance += amount;
+            logHistory(card, 'add', amount, 'Пополнение');
         }
 
         sumInput.value = "";
         searchCard();
         renderTable();
         await saveChangesToGitHub();
+    }
+
+    async function makeTransfer() {
+        if (activeCardIndex === null) return;
+        const targetId = document.getElementById("transfer-target-id").value.trim();
+        const sumInput = document.getElementById("term-sum");
+        const amount = parseInt(sumInput.value);
+
+        if (!targetId) { alert("Укажите ID получателя!"); return; }
+        if (isNaN(amount) || amount <= 0) { alert("Введите сумму для перевода!"); return; }
+
+        const senderCard = cardsData[activeCardIndex];
+        const targetIndex = cardsData.findIndex((item, idx) => (item.id ? String(item.id) : String(idx + 1)) === targetId);
+
+        if (targetIndex === -1) { alert("Получатель не найден!"); return; }
+        if (targetIndex === activeCardIndex) { alert("Нельзя перевести самому себе!"); return; }
+
+        const targetCard = cardsData[targetIndex];
+
+        if (senderCard.balance < amount) {
+            alert(`Недостаточно средств для перевода! Баланс: ${senderCard.balance} ЛК`);
+            return;
+        }
+
+        senderCard.balance -= amount;
+        targetCard.balance += amount;
+
+        logHistory(senderCard, 'sub', amount, `Перевод на ID ${targetId}`);
+        logHistory(targetCard, 'add', amount, `Перевод от ID ${senderCard.id}`);
+
+        sumInput.value = "";
+        document.getElementById("transfer-target-id").value = "";
+        
+        searchCard();
+        renderTable();
+        showToast(`Успешно переведено ${amount} ЛК!`);
+        await saveChangesToGitHub();
+    }
+
+    async function deleteAccount() {
+        if (activeCardIndex === null) return;
+        const card = cardsData[activeCardIndex];
+        if (confirm(`Вы уверены, что хотите удалить счет ${card.owner} (ID: ${card.id})?`)) {
+            cardsData.splice(activeCardIndex, 1);
+            searchCard();
+            renderTable();
+            showToast("Счет удален.");
+            await saveChangesToGitHub();
+        }
     }
 
     async function openNewAccountModal() {
@@ -430,14 +589,27 @@
             id: newId,
             owner: name,
             type: cardType,
-            balance: 100
+            balance: 100,
+            history: [{ time: new Date().toLocaleTimeString().slice(0, 5), type: 'add', amount: 100, note: 'Открытие счета' }]
         });
 
         renderTable();
-        alert(`Счет успешно создан!\nID: ${newId}\nВладелец: ${name}\nТип: ${cardType}`);
-        
-        // Автоматически сохраняем изменения на GitHub
+        showToast(`Счет ID: ${newId} создан!`);
         await saveChangesToGitHub();
+    }
+
+    function setupGitHubToken() {
+        const currentToken = localStorage.getItem("linuxi_github_token") || "";
+        const newToken = prompt("Введи твой GitHub Personal Access Token:", currentToken);
+        if (newToken !== null) {
+            if (newToken.trim() === "") {
+                localStorage.removeItem("linuxi_github_token");
+                showToast("Токен удален.");
+            } else {
+                localStorage.setItem("linuxi_github_token", newToken.trim());
+                showToast("Токен сохранен!");
+            }
+        }
     }
 
     async function saveChangesToGitHub() {
@@ -446,7 +618,7 @@
         if (!token) {
             token = prompt("Введи твой GitHub Personal Access Token (нужен один раз для автосохранения на GitHub):");
             if (!token) {
-                alert("Без токена изменения останутся только на устройстве.");
+                alert("Без токена изменения останутся только до перезагрузки страницы.");
                 return;
             }
             localStorage.setItem("linuxi_github_token", token);
@@ -469,7 +641,7 @@
             const jsonString = JSON.stringify(cardsData, null, 2);
             const updatedContent = btoa(unescape(encodeURIComponent(jsonString)));
 
-            await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
+            const putRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
                 method: "PUT",
                 headers: {
                     "Authorization": `token ${token}`,
@@ -481,6 +653,12 @@
                     sha: sha
                 })
             });
+
+            if (putRes.ok) {
+                showToast("Данные сохранены на GitHub! 🚀");
+            } else {
+                alert("Не удалось сохранить на GitHub.");
+            }
         } catch (err) {
             console.error("Ошибка синхронизации с GitHub:", err);
         }
