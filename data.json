@@ -3,13 +3,29 @@
     "id": "1",
     "owner": "Платон Чукович",
     "type": "Nextendo",
-    "balance": 100250
+    "balance": 100000,
+    "history": [
+      {
+        "time": "11:45",
+        "type": "sub",
+        "amount": 250,
+        "note": "Перевод на ID 2"
+      }
+    ]
   },
   {
     "id": "2",
     "owner": "Рома Сухоносов",
     "type": "VIP",
-    "balance": 100250
+    "balance": 100500,
+    "history": [
+      {
+        "time": "11:45",
+        "type": "add",
+        "amount": 250,
+        "note": "Перевод от ID 1"
+      }
+    ]
   },
   {
     "id": "3",
