@@ -7,9 +7,9 @@
     <style>
         * { box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f6f9;
-            color: #333;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #0a0a0a;
+            color: #00ff66;
             margin: 0;
             padding: 20px;
         }
@@ -19,71 +19,74 @@
             align-items: center;
             max-width: 900px;
             margin: 0 auto 20px auto;
-            background: #fff;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-bottom: 2px solid #00ff66;
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        h1 { margin: 0; font-size: 22px; color: #1a73e8; }
+        h1 { margin: 0; font-size: 26px; text-transform: uppercase; text-shadow: 0 0 8px #00ff66; }
         
         .top-btns { display: flex; gap: 10px; flex-wrap: wrap; }
 
         .btn {
-            background: #1a73e8;
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
+            background: #151515;
+            color: #00ff66;
+            border: 1px solid #00ff66;
+            padding: 10px 18px;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
+            font-family: monospace;
+            font-weight: bold;
             border-radius: 4px;
-            transition: background 0.2s;
+            box-shadow: 0 0 5px rgba(0,255,102,0.3);
+            transition: all 0.2s;
         }
-        .btn:hover { background: #1557b0; }
-        .btn-secondary { background: #e8eaed; color: #3c4043; }
-        .btn-secondary:hover { background: #dadce0; }
-        .btn-danger { background: #d93025; }
-        .btn-danger:hover { background: #b31412; }
+        .btn:hover { background: #00ff66; color: #0a0a0a; box-shadow: 0 0 12px #00ff66; }
+        .btn-secondary { background: #151515; color: #aaa; border-color: #444; }
+        .btn-secondary:hover { border-color: #00ff66; color: #00ff66; background: transparent; }
+        .btn-danger { background: #2a1111; border-color: #ff5555; color: #ff5555; }
+        .btn-danger:hover { background: #ff5555; color: #121212; }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background: #fff;
+            background: #121212;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #1a3a2a;
+            box-shadow: 0 0 15px rgba(0,255,102,0.1);
         }
 
+        /* Оставили только 2 карточки в статистике (без общего баланса) */
         .stats-panel {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
         .stat-card {
-            background: #f8f9fa;
-            border: 1px solid #e1e4e8;
+            background: #181818;
+            border: 1px solid #224433;
             padding: 15px;
             border-radius: 6px;
             text-align: center;
         }
-        .stat-card div:first-child { color: #5f6368; font-size: 13px; }
-        .stat-value { font-size: 20px; font-weight: bold; color: #1a73e8; margin-top: 5px; }
+        .stat-card div:first-child { color: #888; font-size: 13px; }
+        .stat-value { font-size: 22px; font-weight: bold; color: #ffff00; margin-top: 5px; }
 
         .search-box {
             margin-bottom: 15px;
         }
         input, select {
-            background: #fff;
-            color: #333;
-            border: 1px solid #dadce0;
+            background: #0d0d0d;
+            color: #00ff66;
+            border: 1px solid #00ff66;
             padding: 10px;
-            font-size: 14px;
+            font-family: monospace;
             border-radius: 4px;
             width: 100%;
             outline: none;
         }
-        input:focus, select:focus { border-color: #1a73e8; }
+        input:focus, select:focus { box-shadow: 0 0 5px #00ff66; }
 
         table {
             width: 100%;
@@ -91,64 +94,70 @@
             margin-top: 10px;
         }
         th, td {
-            border-bottom: 1px solid #e1e4e8;
+            border: 1px solid #222;
             padding: 12px;
             text-align: left;
-            font-size: 14px;
         }
-        th { background-color: #f8f9fa; color: #5f6368; font-weight: 600; }
-        tr:hover { background-color: #f8f9fa; }
+        th { background-color: #1a1a1a; color: #00ff66; }
+        tr:nth-child(even) { background-color: #141414; }
+        tr:hover { background-color: #1c2b22; }
 
         /* Значки типов карт */
-        .badge { padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: 500; }
-        .badge-standard { background: #e8eaed; color: #3c4043; }
-        .badge-vip { background: #fef7e0; color: #b06000; }
-        .badge-linux { background: #e6f4ea; color: #137333; }
-        .badge-nextendo { background: #fce8e6; color: #c5221f; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .badge-standard { color: #aaa; background: #1a1a1a; }
+        .badge-vip { color: #ffcc00; background: #2a2200; border: 1px solid #ffcc00; }
+        .badge-linux { color: #00ff66; background: #0a2214; border: 1px solid #00ff66; }
+        .badge-nextendo { color: #ff3366; background: #2a0f18; border: 1px solid #ff3366; }
 
         /* Модальное окно */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(5, 10, 5, 0.9);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 999;
         }
         .modal-box {
-            background: #fff;
+            background: #121212;
+            border: 2px solid #00ff66;
             width: 90%;
             max-width: 480px;
             max-height: 90vh;
             overflow-y: auto;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 0 25px rgba(0,255,102,0.3);
             display: flex;
             flex-direction: column;
-            padding: 24px;
+            padding: 20px;
             position: relative;
         }
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px dashed #00ff66;
+            padding-bottom: 10px;
             margin-bottom: 15px;
         }
         .close-btn {
-            background: none;
-            border: none;
-            font-size: 18px;
+            background: #2a1111;
+            color: #ff5555;
+            border: 1px solid #ff5555;
+            padding: 4px 10px;
             cursor: pointer;
-            color: #5f6368;
+            border-radius: 4px;
+            font-family: monospace;
         }
+        .close-btn:hover { background: #ff5555; color: #fff; }
 
         .card-info {
-            background: #f8f9fa;
-            border: 1px solid #e1e4e8;
-            padding: 15px;
+            background: #080808;
+            border: 1px dashed #00ff66;
+            padding: 12px;
             margin: 12px 0;
-            border-radius: 6px;
+            border-radius: 4px;
         }
         .btn-group {
             display: flex;
@@ -162,36 +171,37 @@
             flex-wrap: wrap;
         }
         .preset-btns button {
-            padding: 6px 12px;
+            padding: 5px 8px;
             font-size: 12px;
-            background: #f1f3f4;
-            border: 1px solid #dadce0;
-            color: #3c4043;
+            background: #181818;
+            border: 1px solid #444;
+            color: #aaa;
             border-radius: 4px;
             cursor: pointer;
+            font-family: monospace;
         }
-        .preset-btns button:hover { background: #e8eaed; }
+        .preset-btns button:hover { border-color: #00ff66; color: #00ff66; background: transparent; }
 
         .history-list {
             max-height: 120px;
             overflow-y: auto;
             font-size: 12px;
-            background: #fff;
+            background: #050505;
             padding: 8px;
-            border: 1px solid #dadce0;
+            border: 1px solid #222;
             margin-top: 8px;
             border-radius: 4px;
         }
-        .history-item { margin-bottom: 4px; border-bottom: 1px solid #f1f3f4; padding-bottom: 2px; }
-        .hist-add { color: #137333; }
-        .hist-sub { color: #c5221f; }
+        .history-item { margin-bottom: 4px; border-bottom: 1px dotted #333; padding-bottom: 2px; }
+        .hist-add { color: #00ff66; }
+        .hist-sub { color: #ff5555; }
 
         /* Уведомления */
         #toast {
             visibility: hidden;
             min-width: 250px;
-            background-color: #333;
-            color: #fff;
+            background-color: #00ff66;
+            color: #000;
             text-align: center;
             border-radius: 4px;
             padding: 12px;
@@ -200,8 +210,9 @@
             left: 50%;
             bottom: 30px;
             transform: translateX(-50%);
-            font-size: 14px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            font-weight: bold;
+            font-family: monospace;
+            box-shadow: 0 0 15px rgba(0,255,102,0.5);
         }
         #toast.show {
             visibility: visible;
@@ -214,11 +225,11 @@
 <body>
 
 <div class="header-bar">
-    <h1>Linuxi Bank 🐧</h1>
+    <h1>Банк линуксов 🐧</h1>
     <div class="top-btns">
-        <button class="btn" onclick="openNewAccountModal()">+ Открыть счет</button>
-        <button class="btn btn-secondary" onclick="openTerminal()">Управление</button>
-        <button class="btn btn-secondary" onclick="setupGitHubToken()">Токен GH</button>
+        <button class="btn" onclick="openNewAccountModal()">➕ Открыть счет</button>
+        <button class="btn" onclick="openTerminal()">💳 Управление</button>
+        <button class="btn btn-secondary" onclick="setupGitHubToken()">🔑 Токен GH</button>
     </div>
 </div>
 
@@ -227,10 +238,6 @@
         <div class="stat-card">
             <div>Всего счетов</div>
             <div id="stat-count" class="stat-value">0</div>
-        </div>
-        <div class="stat-card">
-            <div>Общий баланс</div>
-            <div id="stat-total" class="stat-value">0 ЛК</div>
         </div>
         <div class="stat-card">
             <div>Средний баланс</div>
@@ -260,37 +267,37 @@
 <div id="terminal-modal" class="modal-overlay">
     <div class="modal-box">
         <div class="modal-header">
-            <h3 style="margin:0;">Управление счетом</h3>
+            <h3 style="margin:0; font-size: 18px;">💳 Управление счетом</h3>
             <button class="close-btn" onclick="closeTerminal()">✕</button>
         </div>
 
-        <label style="font-size: 13px; color: #5f6368; margin-bottom: 5px; display: block;">ID или номер карты:</label>
+        <label style="font-size: 13px; color: #888; margin-bottom: 5px; display: block;">ID или номер карты:</label>
         <input type="text" id="term-card-id" placeholder="Например: 1" oninput="searchCard()">
 
         <div id="card-display" class="card-info" style="display:none;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div><b>Владелец:</b> <span id="disp-owner">---</span></div>
-                <button class="btn btn-secondary" style="padding: 2px 6px; font-size: 11px;" onclick="renameOwner()">Изменить</button>
+                <button class="btn btn-secondary" style="padding: 2px 6px; font-size: 11px;" onclick="renameOwner()">✏️</button>
             </div>
             <div style="margin: 10px 0;">
-                <label style="font-size: 12px; color: #5f6368;">Тип карты:</label>
+                <label style="font-size: 12px; color: #888;">Тип карты:</label>
                 <select id="disp-type-select" onchange="changeCardType()" style="margin-top: 4px;">
                     <option value="Standard">Standard</option>
-                    <option value="VIP">VIP</option>
-                    <option value="Linux">Linux</option>
-                    <option value="Nextendo">Nextendo</option>
+                    <option value="VIP">VIP 🌟</option>
+                    <option value="Linux">Linux 🐧</option>
+                    <option value="Nextendo">Nextendo 🌐</option>
                 </select>
             </div>
-            <div><b>Баланс:</b> <span id="disp-balance" style="color: #1a73e8; font-weight: bold;">0</span> ЛК</div>
+            <div><b>Баланс:</b> <span id="disp-balance" style="color: #ffff00; font-size: 18px;">0</span> ЛК</div>
 
             <div style="margin-top: 12px;">
-                <span style="font-size: 12px; color: #5f6368;">История операций:</span>
+                <span style="font-size: 12px; color: #888;">История операций:</span>
                 <div id="disp-history" class="history-list"></div>
             </div>
         </div>
 
         <div id="transaction-box" style="display:none; margin-top: 15px;">
-            <label style="font-size: 13px; color: #5f6368; margin-bottom: 5px; display: block;">Сумма:</label>
+            <label style="font-size: 13px; color: #888; margin-bottom: 5px; display: block;">Сумма операции:</label>
             <input type="number" id="term-sum" placeholder="Введите сумму">
             
             <div class="preset-btns">
@@ -302,19 +309,19 @@
             </div>
 
             <div class="btn-group">
-                <button class="btn btn-danger" style="flex:1;" onclick="makeTransaction('sub')">Списать</button>
-                <button class="btn" style="flex:1;" onclick="makeTransaction('add')">Зачислить</button>
+                <button class="btn btn-danger" style="flex:1;" onclick="makeTransaction('sub')">Списать (-)</button>
+                <button class="btn" style="flex:1;" onclick="makeTransaction('add')">Зачислить (+)</button>
             </div>
 
-            <hr style="border: none; border-top: 1px solid #e1e4e8; margin: 20px 0;">
+            <hr style="border: none; border-top: 1px dashed #224433; margin: 20px 0;">
 
-            <label style="font-size: 13px; color: #5f6368; margin-bottom: 5px; display: block;">Перевод на ID:</label>
+            <label style="font-size: 13px; color: #888; margin-bottom: 5px; display: block;">Перевод на ID:</label>
             <div style="display: flex; gap: 8px;">
-                <input type="text" id="transfer-target-id" placeholder="ID">
+                <input type="text" id="transfer-target-id" placeholder="ID получателя">
                 <button class="btn btn-secondary" onclick="makeTransfer()">Перевести</button>
             </div>
 
-            <button class="btn btn-danger" style="width: 100%; margin-top: 15px;" onclick="deleteAccount()">Удалить счет</button>
+            <button class="btn btn-danger" style="width: 100%; margin-top: 15px;" onclick="deleteAccount()">🗑️ Удалить счет</button>
         </div>
     </div>
 </div>
@@ -379,14 +386,13 @@
                         <td>${cardId}</td>
                         <td>${owner}</td>
                         <td><span class="${getBadgeClass(type)}">${type}</span></td>
-                        <td style="font-weight: bold; color: #1a73e8;">${balance} ЛК</td>
+                        <td style="font-weight: bold; color: #ffff00;">${balance} ЛК</td>
                     </tr>`;
                 total += balance;
             }
         });
 
         document.getElementById("stat-count").innerText = cardsData.length;
-        document.getElementById("stat-total").innerText = total + " ЛК";
         document.getElementById("stat-avg").innerText = cardsData.length ? Math.round(total / cardsData.length) + " ЛК" : "0 ЛК";
     }
 
@@ -435,7 +441,7 @@
             histDiv.innerHTML = "";
             const history = card.history || [];
             if (history.length === 0) {
-                histDiv.innerHTML = "<span style='color:#888;'>Нет операций</span>";
+                histDiv.innerHTML = "<span style='color:#666;'>Нет операций</span>";
             } else {
                 history.slice(-5).reverse().forEach(h => {
                     const cls = h.type === 'add' ? 'hist-add' : 'hist-sub';
