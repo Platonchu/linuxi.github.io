@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linuxi Bank — Terminal v2.0</title>
+    <title>Linuxi Bank</title>
     <style>
         * { box-sizing: border-box; }
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #0a0a0a;
-            color: #00ff66;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
             margin: 0;
             padding: 20px;
         }
@@ -17,39 +17,41 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 950px;
+            max-width: 900px;
             margin: 0 auto 20px auto;
-            border-bottom: 2px solid #00ff66;
-            padding-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        h1 { margin: 0; font-size: 26px; text-transform: uppercase; text-shadow: 0 0 8px #00ff66; }
+        h1 { margin: 0; font-size: 22px; color: #1a73e8; }
         
         .top-btns { display: flex; gap: 10px; flex-wrap: wrap; }
 
-        .term-btn {
-            background: #151515;
-            color: #00ff66;
-            border: 1px solid #00ff66;
-            padding: 10px 18px;
+        .btn {
+            background: #1a73e8;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
             cursor: pointer;
-            font-family: monospace;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: 500;
             border-radius: 4px;
-            box-shadow: 0 0 5px rgba(0,255,102,0.3);
-            transition: all 0.2s;
+            transition: background 0.2s;
         }
-        .term-btn:hover { background: #00ff66; color: #0a0a0a; box-shadow: 0 0 12px #00ff66; }
+        .btn:hover { background: #1557b0; }
+        .btn-secondary { background: #e8eaed; color: #3c4043; }
+        .btn-secondary:hover { background: #dadce0; }
+        .btn-danger { background: #d93025; }
+        .btn-danger:hover { background: #b31412; }
 
         .container {
-            max-width: 950px;
+            max-width: 900px;
             margin: 0 auto;
-            background: #121212;
+            background: #fff;
             padding: 20px;
             border-radius: 8px;
-            border: 1px solid #1a3a2a;
-            box-shadow: 0 0 15px rgba(0,255,102,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .stats-panel {
@@ -59,31 +61,29 @@
             margin-bottom: 25px;
         }
         .stat-card {
-            background: #181818;
-            border: 1px solid #224433;
+            background: #f8f9fa;
+            border: 1px solid #e1e4e8;
             padding: 15px;
             border-radius: 6px;
             text-align: center;
         }
-        .stat-value { font-size: 22px; font-weight: bold; color: #ffff00; margin-top: 5px; }
+        .stat-card div:first-child { color: #5f6368; font-size: 13px; }
+        .stat-value { font-size: 20px; font-weight: bold; color: #1a73e8; margin-top: 5px; }
 
         .search-box {
             margin-bottom: 15px;
-            display: flex;
-            gap: 10px;
         }
-        input, button, select {
-            background: #181818;
-            color: #00ff66;
-            border: 1px solid #00ff66;
+        input, select {
+            background: #fff;
+            color: #333;
+            border: 1px solid #dadce0;
             padding: 10px;
-            font-family: monospace;
+            font-size: 14px;
             border-radius: 4px;
+            width: 100%;
             outline: none;
         }
-        input, select { background: #0d0d0d; width: 100%; }
-        button { cursor: pointer; transition: all 0.2s; }
-        button:hover { background: #00ff66; color: #0a0a0a; }
+        input:focus, select:focus { border-color: #1a73e8; }
 
         table {
             width: 100%;
@@ -91,78 +91,70 @@
             margin-top: 10px;
         }
         th, td {
-            border: 1px solid #222;
+            border-bottom: 1px solid #e1e4e8;
             padding: 12px;
             text-align: left;
+            font-size: 14px;
         }
-        th { background-color: #1a1a1a; color: #00ff66; }
-        tr:nth-child(even) { background-color: #141414; }
-        tr:hover { background-color: #1c2b22; }
+        th { background-color: #f8f9fa; color: #5f6368; font-weight: 600; }
+        tr:hover { background-color: #f8f9fa; }
 
         /* Значки типов карт */
-        .badge-standard { color: #aaa; }
-        .badge-vip { color: #ffcc00; font-weight: bold; }
-        .badge-linux { color: #00ff66; font-weight: bold; }
-        .badge-nextendo { color: #ff3366; font-weight: bold; }
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+        .badge-standard { background: #e8eaed; color: #3c4043; }
+        .badge-vip { background: #fef7e0; color: #b06000; }
+        .badge-linux { background: #e6f4ea; color: #137333; }
+        .badge-nextendo { background: #fce8e6; color: #c5221f; }
 
-        /* Банковский POS-Терминал */
+        /* Модальное окно */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(5, 10, 5, 0.9);
+            background: rgba(0, 0, 0, 0.5);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 999;
         }
-        .terminal-box {
-            background: #121212;
-            border: 2px solid #00ff66;
+        .modal-box {
+            background: #fff;
             width: 90%;
-            max-width: 500px;
+            max-width: 480px;
             max-height: 90vh;
             overflow-y: auto;
             border-radius: 8px;
-            box-shadow: 0 0 25px rgba(0,255,102,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
-            padding: 20px;
+            padding: 24px;
             position: relative;
         }
-        .term-header {
+        .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px dashed #00ff66;
-            padding-bottom: 10px;
             margin-bottom: 15px;
         }
         .close-btn {
-            background: #2a1111;
-            color: #ff5555;
-            border: 1px solid #ff5555;
-            padding: 4px 10px;
-            width: auto;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #5f6368;
         }
-        .close-btn:hover { background: #ff5555; color: #fff; }
 
         .card-info {
-            background: #080808;
-            border: 1px dashed #00ff66;
-            padding: 12px;
+            background: #f8f9fa;
+            border: 1px solid #e1e4e8;
+            padding: 15px;
             margin: 12px 0;
-            border-radius: 4px;
+            border-radius: 6px;
         }
         .btn-group {
             display: flex;
             gap: 10px;
             margin-top: 10px;
         }
-        .btn-sub { border-color: #ff5555; color: #ff5555; }
-        .btn-sub:hover { background: #ff5555; color: #121212; }
-        .btn-danger { background: #3a1111; border-color: #ff3333; color: #ff5555; width: 100%; margin-top: 10px; }
-        .btn-danger:hover { background: #ff3333; color: #fff; }
-
         .preset-btns {
             display: flex;
             gap: 5px;
@@ -170,32 +162,36 @@
             flex-wrap: wrap;
         }
         .preset-btns button {
-            padding: 5px 8px;
+            padding: 6px 12px;
             font-size: 12px;
-            border-color: #444;
-            color: #aaa;
+            background: #f1f3f4;
+            border: 1px solid #dadce0;
+            color: #3c4043;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        .preset-btns button:hover { border-color: #00ff66; color: #00ff66; background: transparent; }
+        .preset-btns button:hover { background: #e8eaed; }
 
         .history-list {
             max-height: 120px;
             overflow-y: auto;
             font-size: 12px;
-            background: #050505;
+            background: #fff;
             padding: 8px;
-            border: 1px solid #222;
+            border: 1px solid #dadce0;
             margin-top: 8px;
+            border-radius: 4px;
         }
-        .history-item { margin-bottom: 4px; border-bottom: 1px dotted #333; padding-bottom: 2px; }
-        .hist-add { color: #00ff66; }
-        .hist-sub { color: #ff5555; }
+        .history-item { margin-bottom: 4px; border-bottom: 1px solid #f1f3f4; padding-bottom: 2px; }
+        .hist-add { color: #137333; }
+        .hist-sub { color: #c5221f; }
 
-        /* Toast Уведомления */
+        /* Уведомления */
         #toast {
             visibility: hidden;
             min-width: 250px;
-            background-color: #00ff66;
-            color: #000;
+            background-color: #333;
+            color: #fff;
             text-align: center;
             border-radius: 4px;
             padding: 12px;
@@ -204,8 +200,8 @@
             left: 50%;
             bottom: 30px;
             transform: translateX(-50%);
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(0,255,102,0.5);
+            font-size: 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
         #toast.show {
             visibility: visible;
@@ -218,11 +214,11 @@
 <body>
 
 <div class="header-bar">
-    <h1>Банк линуксов 🐧</h1>
+    <h1>Linuxi Bank 🐧</h1>
     <div class="top-btns">
-        <button onclick="openNewAccountModal()">➕ Открыть счет</button>
-        <button class="term-btn" onclick="openTerminal()">💳 POS-Терминал</button>
-        <button onclick="setupGitHubToken()">🔑 Токен GH</button>
+        <button class="btn" onclick="openNewAccountModal()">+ Открыть счет</button>
+        <button class="btn btn-secondary" onclick="openTerminal()">Управление</button>
+        <button class="btn btn-secondary" onclick="setupGitHubToken()">Токен GH</button>
     </div>
 </div>
 
@@ -260,42 +256,41 @@
     </table>
 </div>
 
-<!-- POS-Терминал -->
+<!-- Окно управления -->
 <div id="terminal-modal" class="modal-overlay">
-    <div class="terminal-box">
-        <div class="term-header">
-            <h2 style="margin:0; font-size: 20px;">💳 POS-Терминал</h2>
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 style="margin:0;">Управление счетом</h3>
             <button class="close-btn" onclick="closeTerminal()">✕</button>
         </div>
 
-        <label>ID или номер карты:</label>
-        <input type="text" id="term-card-id" placeholder="Например: 1 или 2" oninput="searchCard()">
+        <label style="font-size: 13px; color: #5f6368; margin-bottom: 5px; display: block;">ID или номер карты:</label>
+        <input type="text" id="term-card-id" placeholder="Например: 1" oninput="searchCard()">
 
         <div id="card-display" class="card-info" style="display:none;">
-            <div>
-                <b>Владелец:</b> <span id="disp-owner">---</span> 
-                <button style="padding: 2px 6px; font-size: 10px; margin-left: 5px;" onclick="renameOwner()">✏️</button>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div><b>Владелец:</b> <span id="disp-owner">---</span></div>
+                <button class="btn btn-secondary" style="padding: 2px 6px; font-size: 11px;" onclick="renameOwner()">Изменить</button>
             </div>
-            <div style="margin: 8px 0;">
-                <b>Тип карты:</b> 
-                <select id="disp-type-select" onchange="changeCardType()" style="margin-top: 5px;">
+            <div style="margin: 10px 0;">
+                <label style="font-size: 12px; color: #5f6368;">Тип карты:</label>
+                <select id="disp-type-select" onchange="changeCardType()" style="margin-top: 4px;">
                     <option value="Standard">Standard</option>
-                    <option value="VIP">VIP 🌟</option>
-                    <option value="Linux">Linux 🐧</option>
-                    <option value="Nextendo">Nextendo 🌐</option>
+                    <option value="VIP">VIP</option>
+                    <option value="Linux">Linux</option>
+                    <option value="Nextendo">Nextendo</option>
                 </select>
             </div>
-            <div><b>Баланс:</b> <span id="disp-balance" style="color: #ffff00; font-size: 18px;">0</span> ЛК</div>
+            <div><b>Баланс:</b> <span id="disp-balance" style="color: #1a73e8; font-weight: bold;">0</span> ЛК</div>
 
-            <!-- Выписка транзакций -->
-            <div style="margin-top: 10px;">
-                <b>История операций:</b>
+            <div style="margin-top: 12px;">
+                <span style="font-size: 12px; color: #5f6368;">История операций:</span>
                 <div id="disp-history" class="history-list"></div>
             </div>
         </div>
 
-        <div id="transaction-box" style="display:none;">
-            <label>Сумма операции:</label>
+        <div id="transaction-box" style="display:none; margin-top: 15px;">
+            <label style="font-size: 13px; color: #5f6368; margin-bottom: 5px; display: block;">Сумма:</label>
             <input type="number" id="term-sum" placeholder="Введите сумму">
             
             <div class="preset-btns">
@@ -307,20 +302,19 @@
             </div>
 
             <div class="btn-group">
-                <button class="btn-sub" onclick="makeTransaction('sub')">Списать (-)</button>
-                <button onclick="makeTransaction('add')">Зачислить (+)</button>
+                <button class="btn btn-danger" style="flex:1;" onclick="makeTransaction('sub')">Списать</button>
+                <button class="btn" style="flex:1;" onclick="makeTransaction('add')">Зачислить</button>
             </div>
 
-            <hr style="border-color: #224433; margin: 15px 0;">
+            <hr style="border: none; border-top: 1px solid #e1e4e8; margin: 20px 0;">
 
-            <!-- Перевод средств -->
-            <label>Перевести на ID:</label>
-            <div style="display: flex; gap: 5px; margin-top: 5px;">
-                <input type="text" id="transfer-target-id" placeholder="ID получателя">
-                <button onclick="makeTransfer()">Перевести</button>
+            <label style="font-size: 13px; color: #5f6368; margin-bottom: 5px; display: block;">Перевод на ID:</label>
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="transfer-target-id" placeholder="ID">
+                <button class="btn btn-secondary" onclick="makeTransfer()">Перевести</button>
             </div>
 
-            <button class="btn-danger" onclick="deleteAccount()">🗑️ Удалить счет</button>
+            <button class="btn btn-danger" style="width: 100%; margin-top: 15px;" onclick="deleteAccount()">Удалить счет</button>
         </div>
     </div>
 </div>
@@ -359,10 +353,10 @@
 
     function getBadgeClass(type) {
         switch(type) {
-            case 'VIP': return 'badge-vip';
-            case 'Linux': return 'badge-linux';
-            case 'Nextendo': return 'badge-nextendo';
-            default: return 'badge-standard';
+            case 'VIP': return 'badge badge-vip';
+            case 'Linux': return 'badge badge-linux';
+            case 'Nextendo': return 'badge badge-nextendo';
+            default: return 'badge badge-standard';
         }
     }
 
@@ -385,7 +379,7 @@
                         <td>${cardId}</td>
                         <td>${owner}</td>
                         <td><span class="${getBadgeClass(type)}">${type}</span></td>
-                        <td style="font-weight: bold; color: #ffff00;">${balance} ЛК</td>
+                        <td style="font-weight: bold; color: #1a73e8;">${balance} ЛК</td>
                     </tr>`;
                 total += balance;
             }
@@ -402,7 +396,7 @@
             document.getElementById("terminal-modal").style.display = "flex";
             document.getElementById("term-card-id").focus();
         } else if (pass !== null) {
-            alert("Ах ты негодяй ща по попке дам атата");
+            alert("Неверный пароль.");
         }
     }
 
@@ -437,12 +431,11 @@
             document.getElementById("disp-type-select").value = card.type || "Standard";
             document.getElementById("disp-balance").innerText = card.balance;
 
-            // Рендер истории
             const histDiv = document.getElementById("disp-history");
             histDiv.innerHTML = "";
             const history = card.history || [];
             if (history.length === 0) {
-                histDiv.innerHTML = "<span style='color:#666;'>Нет операций</span>";
+                histDiv.innerHTML = "<span style='color:#888;'>Нет операций</span>";
             } else {
                 history.slice(-5).reverse().forEach(h => {
                     const cls = h.type === 'add' ? 'hist-add' : 'hist-sub';
@@ -462,8 +455,7 @@
 
     async function changeCardType() {
         if (activeCardIndex === null) return;
-        const newType = document.getElementById("disp-type-select").value;
-        cardsData[activeCardIndex].type = newType;
+        cardsData[activeCardIndex].type = document.getElementById("disp-type-select").value;
         renderTable();
         await saveChangesToGitHub();
     }
@@ -503,7 +495,7 @@
 
         if (type === 'sub') {
             if (card.balance < amount) {
-                alert(`Не хватает денег! Баланс счета: ${card.balance} ЛК.`);
+                alert(`Недостаточно средств! Баланс: ${card.balance} ЛК.`);
                 return;
             }
             card.balance -= amount;
@@ -537,7 +529,7 @@
         const targetCard = cardsData[targetIndex];
 
         if (senderCard.balance < amount) {
-            alert(`Недостаточно средств для перевода! Баланс: ${senderCard.balance} ЛК`);
+            alert(`Недостаточно средств! Баланс: ${senderCard.balance} ЛК`);
             return;
         }
 
@@ -552,18 +544,18 @@
         
         searchCard();
         renderTable();
-        showToast(`Успешно переведено ${amount} ЛК!`);
+        showToast(`Переведено ${amount} ЛК`);
         await saveChangesToGitHub();
     }
 
     async function deleteAccount() {
         if (activeCardIndex === null) return;
         const card = cardsData[activeCardIndex];
-        if (confirm(`Вы уверены, что хотите удалить счет ${card.owner} (ID: ${card.id})?`)) {
+        if (confirm(`Удалить счет ${card.owner} (ID: ${card.id})?`)) {
             cardsData.splice(activeCardIndex, 1);
             searchCard();
             renderTable();
-            showToast("Счет удален.");
+            showToast("Счет удален");
             await saveChangesToGitHub();
         }
     }
@@ -578,7 +570,7 @@
         const name = prompt("Введите имя владельца счета:");
         if (!name) return;
 
-        let typeChoice = prompt("Выберите тип карты (1 - Standard, 2 - VIP, 3 - Linux, 4 - Nextendo):", "1");
+        let typeChoice = prompt("Тип карты (1 - Standard, 2 - VIP, 3 - Linux, 4 - Nextendo):", "1");
         let cardType = "Standard";
         if (typeChoice === "2") cardType = "VIP";
         else if (typeChoice === "3") cardType = "Linux";
@@ -594,20 +586,20 @@
         });
 
         renderTable();
-        showToast(`Счет ID: ${newId} создан!`);
+        showToast(`Счет ID: ${newId} создан`);
         await saveChangesToGitHub();
     }
 
     function setupGitHubToken() {
         const currentToken = localStorage.getItem("linuxi_github_token") || "";
-        const newToken = prompt("Введи твой GitHub Personal Access Token:", currentToken);
+        const newToken = prompt("Введи GitHub Personal Access Token:", currentToken);
         if (newToken !== null) {
             if (newToken.trim() === "") {
                 localStorage.removeItem("linuxi_github_token");
-                showToast("Токен удален.");
+                showToast("Токен удален");
             } else {
                 localStorage.setItem("linuxi_github_token", newToken.trim());
-                showToast("Токен сохранен!");
+                showToast("Токен сохранен");
             }
         }
     }
@@ -616,9 +608,9 @@
         let token = localStorage.getItem("linuxi_github_token");
         
         if (!token) {
-            token = prompt("Введи твой GitHub Personal Access Token (нужен один раз для автосохранения на GitHub):");
+            token = prompt("Введи GitHub Personal Access Token для автосохранения:");
             if (!token) {
-                alert("Без токена изменения останутся только до перезагрузки страницы.");
+                alert("Без токена изменения не сохранятся в репозиторий.");
                 return;
             }
             localStorage.setItem("linuxi_github_token", token);
@@ -631,7 +623,7 @@
 
             if (!getFileRes.ok) {
                 localStorage.removeItem("linuxi_github_token");
-                alert("Ошибка доступа! Проверь токен.");
+                alert("Ошибка доступа. Проверь токен.");
                 return;
             }
 
@@ -655,12 +647,10 @@
             });
 
             if (putRes.ok) {
-                showToast("Данные сохранены на GitHub! 🚀");
-            } else {
-                alert("Не удалось сохранить на GitHub.");
+                showToast("Изменения сохранены на GitHub");
             }
         } catch (err) {
-            console.error("Ошибка синхронизации с GitHub:", err);
+            console.error("Ошибка синхронизации:", err);
         }
     }
 
