@@ -23,13 +23,19 @@
     "id": "2",
     "owner": "Рома Сухоносов",
     "type": "VIP",
-    "balance": 100500,
+    "balance": 1100500,
     "history": [
       {
         "time": "11:45",
         "type": "add",
         "amount": 250,
         "note": "Перевод от ID 1"
+      },
+      {
+        "time": "12:51",
+        "type": "add",
+        "amount": 1000000,
+        "note": "Пополнение"
       }
     ]
   },
