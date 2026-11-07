@@ -61,6 +61,21 @@
     "id": "3",
     "owner": "Мия Чукович",
     "type": "Standard",
-    "balance": 100
+    "balance": 100,
+    "history": []
+  },
+  {
+    "id": "4",
+    "owner": "Platonchu",
+    "type": "Standard",
+    "balance": 100,
+    "history": [
+      {
+        "time": "20:03",
+        "type": "add",
+        "amount": 100,
+        "note": "Стартовый бонус"
+      }
+    ]
   }
 ]
