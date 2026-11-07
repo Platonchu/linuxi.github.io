@@ -7,16 +7,16 @@
     "accountId": 4
   },
   {
-    "username": "demo",
-    "password": "demo123",
-    "salt": "linuxi-demo",
-    "role": "user",
+    "username": "Roma",
+    "password": "RomaSyhoiNos67",
+    "salt": "linuxi-admin",
+    "role": "admin",
     "accountId": 3
   },
   {
-    "username": "roma",
-    "password": "roma123",
-    "salt": "linuxi-roma",
+    "username": "Mia",
+    "password": "MiaPrincessa67",
+    "salt": "linuxi-user",
     "role": "user",
     "accountId": 2
   }
