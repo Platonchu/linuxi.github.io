@@ -4,20 +4,20 @@
     "password": "qwerty",
     "salt": "linuxi-admin",
     "role": "admin",
-    "accountId": 4
+    "accountId": 1
   },
   {
     "username": "Roma",
     "password": "RomaSyhoiNos67",
     "salt": "linuxi-admin",
     "role": "admin",
-    "accountId": 3
+    "accountId": 2
   },
   {
     "username": "Mia",
     "password": "MiaPrincessa67",
     "salt": "linuxi-user",
     "role": "user",
-    "accountId": 2
+    "accountId": 3
   }
 ]
