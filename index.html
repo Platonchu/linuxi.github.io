@@ -60,10 +60,17 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <script>
     "use strict";
-    const CONFIG = Object.freeze({ owner: "Platonchu", repo: "linuxi.github.io", file: "data.json", tokenKey: "linuxi_github_token", adminPin: "1593" });
+    const CONFIG = Object.freeze({ owner: "Platonchu", repo: "linuxi.github.io", file: "data.json", tokenKey: "linuxi_github_token", adminPinHash: "f3ae5630e91f62b1a6146d3c25adaf6cb48dbd780338ace16868b2d4f1eb0e4c" });
     const state = { accounts: [], loaded: false, saving: false, baseline: "", activeId: null };
     const $ = (id) => document.getElementById(id);
     const allowedTypes = new Set(["Standard", "VIP", "Linux", "Nextendo"]);
+
+    async function sha256Hex(value) {
+      const bytes = new TextEncoder().encode(value);
+      const digest = await crypto.subtle.digest("SHA-256", bytes);
+      return Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
+    }
+
     function setStatus(message, kind = "") { const node = $("status"); node.textContent = message; node.className = `status ${kind}`.trim(); }
     function toast(message) { const node = $("toast"); node.textContent = message; node.classList.add("show"); clearTimeout(toast.timer); toast.timer = setTimeout(() => node.classList.remove("show"), 3000); }
     function canonical(accounts = state.accounts) { return JSON.stringify(accounts, null, 2); }
@@ -78,7 +85,14 @@
       return { id, owner, type, balance, history };
     }
     function normalizeAccounts(raw) { if (!Array.isArray(raw)) throw new Error("Файл data.json должен содержать массив счетов."); const accounts = raw.map(normalizeAccount); if (new Set(accounts.map((account) => account.id)).size !== accounts.length) throw new Error("В data.json обнаружены повторяющиеся ID счетов."); return accounts; }
-    function pinAccepted() { if (window.prompt("Введите PIN-код администратора:") === CONFIG.adminPin) return true; toast("Неверный PIN-код"); return false; }
+    async function pinAccepted() {
+      const input = window.prompt("Введите PIN-код администратора:");
+      if (input === null) return false;
+      const candidateHash = await sha256Hex(input);
+      if (candidateHash === CONFIG.adminPinHash) return true;
+      toast("Неверный PIN-код");
+      return false;
+    }
     function findActive() { return state.accounts.find((account) => account.id === state.activeId) || null; }
     function renderTable() {
       const tbody = $("accounts"); tbody.replaceChildren(); const filter = $("search").value.trim().toLocaleLowerCase("ru"); let total = 0;
@@ -95,7 +109,7 @@
       if (!account.history.length) { const empty = document.createElement("div"); empty.textContent = "Нет операций"; empty.style.color = "var(--muted)"; history.append(empty); return; }
       account.history.slice(-5).reverse().forEach((item) => { const row = document.createElement("div"); row.className = "history-row"; const note = document.createElement("span"); note.textContent = `${item.time} (${item.note})`; const amount = document.createElement("span"); amount.className = item.type; amount.textContent = `${item.type === "add" ? "+" : "−"}${item.amount} ЛК`; row.append(note, amount); history.append(row); });
     }
-    function openTerminal() { if (!state.loaded || !pinAccepted()) return; $("terminal").classList.add("open"); $("card-id").focus(); }
+    async function openTerminal() { if (!state.loaded || !(await pinAccepted())) return; $("terminal").classList.add("open"); $("card-id").focus(); }
     function closeTerminal() { $("terminal").classList.remove("open"); $("card-id").value = ""; $("amount").value = ""; $("target-id").value = ""; state.activeId = null; renderCard(); }
     function updateActiveCard() { const id = $("card-id").value.trim(); state.activeId = state.accounts.some((account) => account.id === id) ? id : null; renderCard(); }
     function record(account, type, amount, note) { account.history.push({ time: new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }), type, amount, note }); }
@@ -106,7 +120,7 @@
     function decodeContent(content) { return new TextDecoder().decode(Uint8Array.from(atob(content.replace(/\s/g, "")), (char) => char.charCodeAt(0))); }
     async function saveChanges() {
       if (!state.loaded || state.saving) return false; const token = localStorage.getItem(CONFIG.tokenKey);
-      if (!token) { setStatus("Изменения пока не сохранены. Добавьте токен, чтобы сохранить их.", "warn"); return false; }
+      if (!token) { setStatus("Из��енения пока не сохранены. Добавьте токен, чтобы сохранить их.", "warn"); return false; }
       state.saving = true; setStatus("Сохранение изменений…"); const headers = { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }; const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.file}`;
       try {
         const currentResponse = await fetch(url, { headers, cache: "no-store" });
@@ -121,7 +135,8 @@
     }
     async function mutate(operation) { if (!requireReady()) return; try { await operation(); renderTable(); renderCard(); await saveChanges(); } catch (error) { toast(error.message); } }
     async function createAccount() {
-      if (!requireReady() || !pinAccepted()) return; const owner = window.prompt("Введите имя владельца счета:"); if (!owner || !owner.trim()) return;
+      if (!requireReady() || !(await pinAccepted())) return;
+      const owner = window.prompt("Введите имя владельца счета:"); if (!owner || !owner.trim()) return;
       const choice = window.prompt("Тип карты (1 — Standard, 2 — VIP, 3 — Linux, 4 — Nextendo):", "1"); const type = ({ "2": "VIP", "3": "Linux", "4": "Nextendo" })[choice] || "Standard";
       const account = { id: nextId(), owner: owner.trim(), type, balance: 100, history: [] }; record(account, "add", 100, "Открытие счета"); state.accounts.push(account); renderTable(); toast(`Счет №${account.id} создан`); await saveChanges();
     }
