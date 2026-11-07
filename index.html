@@ -20,7 +20,7 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
@@ -34,7 +34,6 @@
             margin: 0 auto;
         }
 
-        /* Шапка банка */
         .bank-header {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -86,7 +85,6 @@
         .btn-danger { background: rgba(255, 82, 82, 0.1); color: var(--danger); border-color: rgba(255, 82, 82, 0.3); }
         .btn-danger:hover { background: var(--danger); color: #fff; }
 
-        /* Панель статистики */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -104,7 +102,6 @@
         .metric-title { font-size: 13px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
         .metric-value { font-size: 28px; font-weight: 700; color: var(--accent); margin-top: 8px; }
 
-        /* Основной блок с таблицей */
         .content-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -137,21 +134,18 @@
         }
         .search-input:focus { border-color: var(--accent); }
 
-        /* Таблица счетов */
         .table-responsive { width: 100%; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; text-align: left; }
         th, td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
         th { color: var(--text-muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; background: rgba(0,0,0,0.1); }
         tr:hover td { background: rgba(255,255,255,0.01); }
 
-        /* Бэйджи */
         .badge { padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; display: inline-block; }
         .badge-standard { color: var(--text-muted); background: rgba(255,255,255,0.05); }
         .badge-vip { color: #ffd700; background: rgba(255, 215, 0, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); }
         .badge-linux { color: var(--accent); background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.3); }
         .badge-nextendo { color: #ff4081; background: rgba(255, 64, 129, 0.1); border: 1px solid rgba(255, 64, 129, 0.3); }
 
-        /* Модальные окна */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -199,7 +193,7 @@
 
         .form-group { margin-bottom: 16px; }
         .form-label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
-        
+
         .form-input, .form-select {
             background: var(--bg-color);
             color: var(--text-main);
@@ -255,7 +249,6 @@
         .h-add { color: var(--accent); }
         .h-sub { color: var(--danger); }
 
-        /* Тост уведомления */
         #toast {
             visibility: hidden;
             background-color: var(--surface);
@@ -282,466 +275,582 @@
     </style>
 </head>
 <body>
-
-<div class="app-container">
-    <!-- Шапка -->
-    <div class="bank-header">
-        <div class="logo-area">
-            <div class="logo-icon">🐧</div>
-            <div class="logo-text">
-                <h1>Linuxi Bank</h1>
-                <span>Secure Core System v2.6</span>
-            </div>
-        </div>
-        <div class="header-actions">
-            <button class="btn btn-primary" onclick="openNewAccountModal()">➕ Открыть счет</button>
-            <button class="btn" onclick="openTerminal()">💳 Терминал</button>
-            <button class="btn" onclick="setupGitHubToken()">🔑 Токен</button>
-        </div>
-    </div>
-
-    <!-- Метрики -->
-    <div class="dashboard-grid">
-        <div class="metric-card">
-            <div class="metric-title">Активных счетов</div>
-            <div id="stat-count" class="metric-value">0</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-title">Средний баланс</div>
-            <div id="stat-avg" class="metric-value">0 ЛК</div>
-        </div>
-    </div>
-
-    <!-- Таблица -->
-    <div class="content-card">
-        <div class="section-header">
-            <h2>Реестр участников</h2>
-            <input type="text" id="search-input" class="search-input" placeholder="Поиск по имени или ID..." oninput="renderTable()">
-        </div>
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Владелец счета</th>
-                        <th>Тип карты</th>
-                        <th>Баланс</th>
-                    </tr>
-                </thead>
-                <tbody id="accounts-table"></tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<!-- Модальное окно терминала -->
-<div id="terminal-modal" class="modal-overlay">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h3>Управление счетом</h3>
-            <button class="close-btn" onclick="closeTerminal()">✕</button>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">Введите ID или номер карты:</label>
-            <input type="text" id="term-card-id" class="form-input" placeholder="Например: 1" oninput="searchCard()">
-        </div>
-
-        <div id="card-display" class="card-details-box" style="display:none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <div><b>Клиент:</b> <span id="disp-owner">---</span></div>
-                <button class="btn" style="padding: 4px 10px; font-size: 12px;" onclick="renameOwner()">Изменить</button>
-            </div>
-            <div class="form-group" style="margin-bottom: 10px;">
-                <label class="form-label" style="margin-bottom: 4px;">Тип карты:</label>
-                <select id="disp-type-select" class="form-select" onchange="changeCardType()">
-                    <option value="Standard">Standard</option>
-                    <option value="VIP">VIP 🌟</option>
-                    <option value="Linux">Linux 🐧</option>
-                    <option value="Nextendo">Nextendo 🌐</option>
-                </select>
-            </div>
-            <div style="font-size: 15px; margin-bottom: 10px;"><b>Баланс:</b> <span id="disp-balance" style="color: var(--accent); font-weight: 700;">0</span> ЛК</div>
-            
-            <label class="form-label">Последние операции:</label>
-            <div id="disp-history" class="history-container"></div>
-        </div>
-
-        <div id="transaction-box" style="display:none;">
-            <div class="form-group" style="margin-top: 15px;">
-                <label class="form-label">Сумма операции:</label>
-                <input type="number" id="term-sum" class="form-input" placeholder="0">
-                
-                <div class="preset-grid">
-                    <button class="preset-btn" onclick="setAmount(10)">+10</button>
-                    <button class="preset-btn" onclick="setAmount(50)">+50</button>
-                    <button class="preset-btn" onclick="setAmount(100)">+100</button>
-                    <button class="preset-btn" onclick="setAmount(500)">+500</button>
-                    <button class="preset-btn" onclick="setAmount(1000)">+1000</button>
+    <div class="app-container">
+        <div class="bank-header">
+            <div class="logo-area">
+                <div class="logo-icon">🐧</div>
+                <div class="logo-text">
+                    <h1>Linuxi Bank</h1>
+                    <span>Secure Core System v2.6</span>
                 </div>
             </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="openNewAccountModal()">➕ Открыть счет</button>
+                <button class="btn" onclick="openTerminal()">💳 Терминал</button>
+                <button class="btn" onclick="setupGitHubToken()">🔑 Токен</button>
+            </div>
+        </div>
 
-            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <button class="btn btn-danger" style="flex:1; justify-content: center;" onclick="makeTransaction('sub')">Списать</button>
-                <button class="btn btn-primary" style="flex:1; justify-content: center;" onclick="makeTransaction('add')">Зачислить</button>
+        <div class="dashboard-grid">
+            <div class="metric-card">
+                <div class="metric-title">Активных счетов</div>
+                <div id="stat-count" class="metric-value">0</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Средний баланс</div>
+                <div id="stat-avg" class="metric-value">0 ЛК</div>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <div class="section-header">
+                <h2>Реестр участников</h2>
+                <input type="text" id="search-input" class="search-input" placeholder="Поиск по имени или ID..." oninput="renderTable()">
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Владелец счета</th>
+                            <th>Тип карты</th>
+                            <th>Баланс</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accounts-table"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="terminal-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>Управление счетом</h3>
+                <button class="close-btn" onclick="closeTerminal()">✕</button>
             </div>
 
             <div class="form-group">
-                <label class="form-label">Перевод средств на ID:</label>
-                <div style="display: flex; gap: 8px;">
-                    <input type="text" id="transfer-target-id" class="form-input" placeholder="ID получателя">
-                    <button class="btn" onclick="makeTransfer()">Отправить</button>
-                </div>
+                <label class="form-label">Введите ID или номер карты:</label>
+                <input type="text" id="term-card-id" class="form-input" placeholder="Например: 1" oninput="searchCard()">
             </div>
 
-            <button class="btn btn-danger" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="deleteAccount()">Удалить банковский счет</button>
+            <div id="card-display" class="card-details-box" style="display:none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div><b>Клиент:</b> <span id="disp-owner">---</span></div>
+                    <button class="btn" style="padding: 4px 10px; font-size: 12px;" onclick="renameOwner()">Изменить</button>
+                </div>
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label class="form-label" style="margin-bottom: 4px;">Тип карты:</label>
+                    <select id="disp-type-select" class="form-select" onchange="changeCardType()">
+                        <option value="Standard">Standard</option>
+                        <option value="VIP">VIP 🌟</option>
+                        <option value="Linux">Linux 🐧</option>
+                        <option value="Nextendo">Nextendo 🌐</option>
+                    </select>
+                </div>
+                <div style="font-size: 15px; margin-bottom: 10px;"><b>Баланс:</b> <span id="disp-balance" style="color: var(--accent); font-weight: 700;">0</span> ЛК</div>
+
+                <label class="form-label">Последние опе��ации:</label>
+                <div id="disp-history" class="history-container"></div>
+            </div>
+
+            <div id="transaction-box" style="display:none;">
+                <div class="form-group" style="margin-top: 15px;">
+                    <label class="form-label">Сумма операции:</label>
+                    <input type="number" id="term-sum" class="form-input" placeholder="0">
+
+                    <div class="preset-grid">
+                        <button type="button" class="preset-btn" onclick="setAmount(10)">+10</button>
+                        <button type="button" class="preset-btn" onclick="setAmount(50)">+50</button>
+                        <button type="button" class="preset-btn" onclick="setAmount(100)">+100</button>
+                        <button type="button" class="preset-btn" onclick="setAmount(500)">+500</button>
+                        <button type="button" class="preset-btn" onclick="setAmount(1000)">+1000</button>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button class="btn btn-danger" style="flex:1; justify-content: center;" onclick="makeTransaction('sub')">Списать</button>
+                    <button class="btn btn-primary" style="flex:1; justify-content: center;" onclick="makeTransaction('add')">Зачислить</button>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Перевод средств на ID:</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="transfer-target-id" class="form-input" placeholder="ID получателя">
+                        <button class="btn" onclick="makeTransfer()">Отправить</button>
+                    </div>
+                </div>
+
+                <button class="btn btn-danger" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="deleteAccount()">Удалить банковский счет</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="toast"></div>
+    <div id="toast"></div>
 
-<script>
-    const GITHUB_USERNAME = "Platonchu";
-    const REPO_NAME = "linuxi.github.io"; 
-    const FILE_PATH = "data.json";
+    <script>
+        const GITHUB_USERNAME = "Platonchu";
+        const REPO_NAME = "linuxi.github.io";
+        const FILE_PATH = "data.json";
+        const ADMIN_PIN = "1593";
+        const TOKEN_STORAGE_KEY = "linuxi_github_token";
 
-    // Прямой надежный пароль без крипто-багов (теперь 1593 сработает на 100%)
-    const ADMIN_PIN = "1593";
+        const state = {
+            cardsData: [],
+            activeCardIndex: null
+        };
 
-    let cardsData = [];
-    let activeCardIndex = null;
-
-    function showToast(msg) {
-        const t = document.getElementById("toast");
-        t.innerText = msg;
-        t.className = "show";
-        setTimeout(() => { t.className = ""; }, 3000);
-    }
-
-    async function loadData() {
-        try {
-            const res = await fetch('data.json?' + new Date().getTime());
-            cardsData = await res.json();
-            renderTable();
-        } catch (err) {
-            console.error("Ошибка загрузки", err);
-            cardsData = [
-                { id: "1", owner: "Платон Чукович", type: "Linux", balance: 1000, history: [] },
-                { id: "2", owner: "Рома Сухоносов", type: "Standard", balance: 1000, history: [] }
-            ];
-            renderTable();
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.innerText = msg;
+            toast.className = "show";
+            window.clearTimeout(showToast.timeoutId);
+            showToast.timeoutId = window.setTimeout(() => {
+                toast.className = "";
+            }, 3000);
         }
-    }
 
-    function getBadgeClass(type) {
-        switch(type) {
-            case 'VIP': return 'badge badge-vip';
-            case 'Linux': return 'badge badge-linux';
-            case 'Nextendo': return 'badge badge-nextendo';
-            default: return 'badge badge-standard';
+        function normalizeCard(item, fallbackIndex) {
+            const idValue = item && item.id !== undefined ? String(item.id) : String(fallbackIndex + 1);
+            const owner = typeof item?.owner === "string" && item.owner.trim() ? item.owner.trim() : "Неизвестно";
+            const type = ["Standard", "VIP", "Linux", "Nextendo"].includes(item?.type) ? item.type : "Standard";
+            const balance = Number.isFinite(Number(item?.balance)) ? Number(item.balance) : 0;
+            const history = Array.isArray(item?.history) ? item.history.map((entry) => ({
+                time: entry?.time || "--:--",
+                type: entry?.type === "add" ? "add" : "sub",
+                amount: Number.isFinite(Number(entry?.amount)) ? Number(entry.amount) : 0,
+                note: entry?.note || "Операция"
+            })) : [];
+
+            return {
+                id: idValue,
+                owner,
+                type,
+                balance,
+                history
+            };
         }
-    }
 
-    function renderTable() {
-        const tbody = document.getElementById("accounts-table");
-        const filter = document.getElementById("search-input").value.toLowerCase();
-        tbody.innerHTML = "";
-
-        let total = 0;
-
-        cardsData.forEach((item, index) => {
-            const cardId = item.id !== undefined ? String(item.id) : String(index + 1);
-            const owner = item.owner || item.name || "Неизвестно";
-            const type = item.type || "Standard";
-            const balance = item.balance !== undefined ? item.balance : 0;
-
-            if (owner.toLowerCase().includes(filter) || cardId.includes(filter)) {
-                tbody.innerHTML += `
-                    <tr>
-                        <td><b>#${cardId}</b></td>
-                        <td>${owner}</td>
-                        <td><span class="${getBadgeClass(type)}">${type}</span></td>
-                        <td style="font-weight: 700; color: var(--accent);">${balance} ЛК</td>
-                    </tr>`;
-                total += balance;
+        function normalizeCards(rawCards) {
+            if (!Array.isArray(rawCards)) {
+                return [];
             }
-        });
+            return rawCards.map((item, index) => normalizeCard(item, index));
+        }
 
-        document.getElementById("stat-count").innerText = cardsData.length;
-        document.getElementById("stat-avg").innerText = cardsData.length ? Math.round(total / cardsData.length) + " ЛК" : "0 ЛК";
-    }
+        function getCardId(card, index) {
+            return card.id !== undefined ? String(card.id) : String(index + 1);
+        }
 
-    function verifyAdmin() {
-        const pass = prompt("Введите PIN-код администратора:");
-        if (pass === null) return false;
-        if (pass === ADMIN_PIN) {
+        function getBadgeClass(type) {
+            switch (type) {
+                case "VIP": return "badge badge-vip";
+                case "Linux": return "badge badge-linux";
+                case "Nextendo": return "badge badge-nextendo";
+                default: return "badge badge-standard";
+            }
+        }
+
+        function getGithubToken() {
+            return localStorage.getItem(TOKEN_STORAGE_KEY) || "";
+        }
+
+        function setGithubToken(token) {
+            if (!token || !token.trim()) {
+                localStorage.removeItem(TOKEN_STORAGE_KEY);
+                return false;
+            }
+            localStorage.setItem(TOKEN_STORAGE_KEY, token.trim());
             return true;
-        } else {
-            alert("Неверный PIN-код.");
+        }
+
+        function getNextAvailableId() {
+            const ids = state.cardsData
+                .map((card) => Number(card.id))
+                .filter((value) => Number.isFinite(value));
+            const nextValue = ids.length ? Math.max(...ids) + 1 : 1;
+            return String(nextValue);
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById("accounts-table");
+            const searchInput = document.getElementById("search-input");
+            const filter = searchInput.value.trim().toLowerCase();
+
+            tbody.innerHTML = "";
+            let totalBalance = 0;
+
+            state.cardsData.forEach((card, index) => {
+                const cardId = getCardId(card, index);
+                const owner = card.owner || "Неизвестно";
+                const type = card.type || "Standard";
+                const balance = Number(card.balance) || 0;
+                const matchesFilter = owner.toLowerCase().includes(filter) || cardId.includes(filter);
+
+                if (!matchesFilter) {
+                    return;
+                }
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><b>#${cardId}</b></td>
+                    <td>${owner}</td>
+                    <td><span class="${getBadgeClass(type)}">${type}</span></td>
+                    <td style="font-weight: 700; color: var(--accent);">${balance} ЛК</td>
+                `;
+                tbody.appendChild(row);
+                totalBalance += balance;
+            });
+
+            const accountCount = state.cardsData.length;
+            document.getElementById("stat-count").innerText = String(accountCount);
+            document.getElementById("stat-avg").innerText = accountCount ? `${Math.round(totalBalance / accountCount)} ЛК` : "0 ЛК";
+        }
+
+        function renderHistory(card) {
+            const historyContainer = document.getElementById("disp-history");
+            historyContainer.innerHTML = "";
+
+            const history = Array.isArray(card.history) ? card.history : [];
+            if (!history.length) {
+                historyContainer.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>Нет операций</div>";
+                return;
+            }
+
+            [...history].slice(-5).reverse().forEach((entry) => {
+                const row = document.createElement("div");
+                row.className = "history-row";
+
+                const info = document.createElement("span");
+                info.textContent = `${entry.time} (${entry.note || "Операция"})`;
+
+                const amount = document.createElement("span");
+                const delta = entry.type === "add" ? "+" : "-";
+                amount.className = entry.type === "add" ? "h-add" : "h-sub";
+                amount.textContent = `${delta}${entry.amount} ЛК`;
+
+                row.append(info, amount);
+                historyContainer.appendChild(row);
+            });
+        }
+
+        function verifyAdmin() {
+            const pass = window.prompt("Введите PIN-код администратора:");
+            if (pass === null) return false;
+            if (pass === ADMIN_PIN) {
+                return true;
+            }
+            window.alert("Неверный PIN-код.");
             return false;
         }
-    }
 
-    function openTerminal() {
-        if (verifyAdmin()) {
+        function openTerminal() {
+            if (!verifyAdmin()) return;
             document.getElementById("terminal-modal").style.display = "flex";
             document.getElementById("term-card-id").focus();
         }
-    }
 
-    function closeTerminal() {
-        document.getElementById("terminal-modal").style.display = "none";
-        document.getElementById("term-card-id").value = "";
-        searchCard();
-    }
-
-    function searchCard() {
-        const queryId = document.getElementById("term-card-id").value.trim();
-        const displayBox = document.getElementById("card-display");
-        const transBox = document.getElementById("transaction-box");
-
-        if (!queryId) {
-            displayBox.style.display = "none";
-            transBox.style.display = "none";
-            activeCardIndex = null;
-            return;
+        function closeTerminal() {
+            document.getElementById("terminal-modal").style.display = "none";
+            document.getElementById("term-card-id").value = "";
+            state.activeCardIndex = null;
+            document.getElementById("card-display").style.display = "none";
+            document.getElementById("transaction-box").style.display = "none";
         }
 
-        const index = cardsData.findIndex((item, idx) => {
-            const currentId = item.id !== undefined ? String(item.id) : String(idx + 1);
-            return currentId === queryId;
-        });
+        function searchCard() {
+            const queryId = document.getElementById("term-card-id").value.trim();
+            const displayBox = document.getElementById("card-display");
+            const transBox = document.getElementById("transaction-box");
 
-        if (index !== -1) {
-            activeCardIndex = index;
-            const card = cardsData[index];
-            
-            document.getElementById("disp-owner").innerText = card.owner || card.name || "---";
-            document.getElementById("disp-type-select").value = card.type || "Standard";
-            document.getElementById("disp-balance").innerText = card.balance;
-
-            const histDiv = document.getElementById("disp-history");
-            histDiv.innerHTML = "";
-            const history = card.history || [];
-            if (history.length === 0) {
-                histDiv.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>Нет операций</div>";
-            } else {
-                history.slice(-5).reverse().forEach(h => {
-                    const cls = h.type === 'add' ? 'h-add' : 'h-sub';
-                    const sign = h.type === 'add' ? '+' : '-';
-                    histDiv.innerHTML += `<div class="history-row"><span>${h.time} (${h.note || 'Операция'})</span><span class="${cls}">${sign}${h.amount} ЛК</span></div>`;
-                });
+            if (!queryId) {
+                displayBox.style.display = "none";
+                transBox.style.display = "none";
+                state.activeCardIndex = null;
+                return;
             }
+
+            const index = state.cardsData.findIndex((card, idx) => getCardId(card, idx) === queryId);
+
+            if (index === -1) {
+                displayBox.style.display = "none";
+                transBox.style.display = "none";
+                state.activeCardIndex = null;
+                return;
+            }
+
+            state.activeCardIndex = index;
+            const card = state.cardsData[index];
+            document.getElementById("disp-owner").textContent = card.owner || "---";
+            document.getElementById("disp-type-select").value = card.type || "Standard";
+            document.getElementById("disp-balance").textContent = String(card.balance || 0);
+            renderHistory(card);
 
             displayBox.style.display = "block";
             transBox.style.display = "block";
-        } else {
-            displayBox.style.display = "none";
-            transBox.style.display = "none";
-            activeCardIndex = null;
         }
-    }
 
-    async function changeCardType() {
-        if (activeCardIndex === null) return;
-        cardsData[activeCardIndex].type = document.getElementById("disp-type-select").value;
-        renderTable();
-        await saveChangesToGitHub();
-    }
+        function setAmount(value) {
+            document.getElementById("term-sum").value = String(value);
+        }
 
-    async function renameOwner() {
-        if (activeCardIndex === null) return;
-        const newName = prompt("Новое имя владельца:", cardsData[activeCardIndex].owner);
-        if (newName) {
-            cardsData[activeCardIndex].owner = newName;
+        function logHistory(card, type, amount, note) {
+            if (!card.history) {
+                card.history = [];
+            }
+            const time = new Date().toLocaleTimeString().slice(0, 5);
+            card.history.push({ time, type, amount, note });
+        }
+
+        async function changeCardType() {
+            if (state.activeCardIndex === null) return;
+            state.cardsData[state.activeCardIndex].type = document.getElementById("disp-type-select").value;
+            renderTable();
+            await saveChangesToGitHub();
+        }
+
+        async function renameOwner() {
+            if (state.activeCardIndex === null) return;
+            const currentName = state.cardsData[state.activeCardIndex].owner || "";
+            const newName = window.prompt("Новое имя владельца:", currentName);
+            if (!newName || !newName.trim()) return;
+
+            state.cardsData[state.activeCardIndex].owner = newName.trim();
             searchCard();
             renderTable();
             await saveChangesToGitHub();
         }
-    }
 
-    function setAmount(val) {
-        document.getElementById("term-sum").value = val;
-    }
+        async function makeTransaction(type) {
+            if (state.activeCardIndex === null) return;
 
-    function logHistory(card, type, amount, note) {
-        if (!card.history) card.history = [];
-        const time = new Date().toLocaleTimeString().slice(0, 5);
-        card.history.push({ time, type, amount, note });
-    }
+            const sumInput = document.getElementById("term-sum");
+            const amount = Number.parseInt(sumInput.value, 10);
 
-    async function makeTransaction(type) {
-        if (activeCardIndex === null) return;
-        const sumInput = document.getElementById("term-sum");
-        const amount = parseInt(sumInput.value);
-
-        if (isNaN(amount) || amount <= 0) {
-            alert("Введите корректную сумму!");
-            return;
-        }
-
-        const card = cardsData[activeCardIndex];
-
-        if (type === 'sub') {
-            if (card.balance < amount) {
-                alert(`Недостаточно средств! Баланс: ${card.balance} ЛК.`);
+            if (!Number.isFinite(amount) || amount <= 0) {
+                window.alert("Введите корректную сумму!");
                 return;
             }
-            card.balance -= amount;
-            logHistory(card, 'sub', amount, 'Списание');
-        } else {
-            card.balance += amount;
-            logHistory(card, 'add', amount, 'Пополнение');
+
+            const card = state.cardsData[state.activeCardIndex];
+
+            if (type === "sub") {
+                if (card.balance < amount) {
+                    window.alert(`Недостаточно средств! Баланс: ${card.balance} ЛК.`);
+                    return;
+                }
+                card.balance -= amount;
+                logHistory(card, "sub", amount, "Списание");
+            } else {
+                card.balance += amount;
+                logHistory(card, "add", amount, "Пополнение");
+            }
+
+            sumInput.value = "";
+            searchCard();
+            renderTable();
+            await saveChangesToGitHub();
         }
 
-        sumInput.value = "";
-        searchCard();
-        renderTable();
-        await saveChangesToGitHub();
-    }
+        async function makeTransfer() {
+            if (state.activeCardIndex === null) return;
 
-    async function makeTransfer() {
-        if (activeCardIndex === null) return;
-        const targetId = document.getElementById("transfer-target-id").value.trim();
-        const sumInput = document.getElementById("term-sum");
-        const amount = parseInt(sumInput.value);
+            const targetId = document.getElementById("transfer-target-id").value.trim();
+            const sumInput = document.getElementById("term-sum");
+            const amount = Number.parseInt(sumInput.value, 10);
 
-        if (!targetId) { alert("Укажите ID получателя!"); return; }
-        if (isNaN(amount) || amount <= 0) { alert("Введите сумму для перевода!"); return; }
+            if (!targetId) {
+                window.alert("Укажите ID получателя!");
+                return;
+            }
+            if (!Number.isFinite(amount) || amount <= 0) {
+                window.alert("Введите сумму для перевода!");
+                return;
+            }
 
-        const senderCard = cardsData[activeCardIndex];
-        const targetIndex = cardsData.findIndex((item, idx) => (item.id ? String(item.id) : String(idx + 1)) === targetId);
+            const senderCard = state.cardsData[state.activeCardIndex];
+            const targetIndex = state.cardsData.findIndex((item, idx) => getCardId(item, idx) === targetId);
 
-        if (targetIndex === -1) { alert("Получатель не найден!"); return; }
-        if (targetIndex === activeCardIndex) { alert("Нельзя перевести самому себе!"); return; }
+            if (targetIndex === -1) {
+                window.alert("Получатель не найден!");
+                return;
+            }
+            if (targetIndex === state.activeCardIndex) {
+                window.alert("Нельзя перевести самому себе!");
+                return;
+            }
 
-        const targetCard = cardsData[targetIndex];
+            const targetCard = state.cardsData[targetIndex];
+            if (senderCard.balance < amount) {
+                window.alert(`Недостаточно средств! Баланс: ${senderCard.balance} ЛК`);
+                return;
+            }
 
-        if (senderCard.balance < amount) {
-            alert(`Недостаточно средств! Баланс: ${senderCard.balance} ЛК`);
-            return;
+            senderCard.balance -= amount;
+            targetCard.balance += amount;
+
+            logHistory(senderCard, "sub", amount, `Перевод на ID ${targetId}`);
+            logHistory(targetCard, "add", amount, `Перевод от ID ${senderCard.id}`);
+
+            sumInput.value = "";
+            document.getElementById("transfer-target-id").value = "";
+
+            searchCard();
+            renderTable();
+            showToast(`Переведено ${amount} ЛК`);
+            await saveChangesToGitHub();
         }
 
-        senderCard.balance -= amount;
-        targetCard.balance += amount;
+        async function deleteAccount() {
+            if (state.activeCardIndex === null) return;
+            const card = state.cardsData[state.activeCardIndex];
+            if (!window.confirm(`Удалить счет ${card.owner} (ID: ${card.id})?`)) {
+                return;
+            }
 
-        logHistory(senderCard, 'sub', amount, `Перевод на ID ${targetId}`);
-        logHistory(targetCard, 'add', amount, `Перевод от ID ${senderCard.id}`);
-
-        sumInput.value = "";
-        document.getElementById("transfer-target-id").value = "";
-        
-        searchCard();
-        renderTable();
-        showToast(`Переведено ${amount} ЛК`);
-        await saveChangesToGitHub();
-    }
-
-    async function deleteAccount() {
-        if (activeCardIndex === null) return;
-        const card = cardsData[activeCardIndex];
-        if (confirm(`Удалить счет ${card.owner} (ID: ${card.id})?`)) {
-            cardsData.splice(activeCardIndex, 1);
+            state.cardsData.splice(state.activeCardIndex, 1);
             searchCard();
             renderTable();
             showToast("Счет удален");
             await saveChangesToGitHub();
         }
-    }
 
-    async function openNewAccountModal() {
-        if (!verifyAdmin()) return;
+        async function openNewAccountModal() {
+            if (!verifyAdmin()) return;
 
-        const name = prompt("Введите имя владельца счета:");
-        if (!name) return;
+            const name = window.prompt("Введите имя владельца счета:");
+            if (!name || !name.trim()) return;
 
-        let typeChoice = prompt("Тип карты (1 - Standard, 2 - VIP, 3 - Linux, 4 - Nextendo):", "1");
-        let cardType = "Standard";
-        if (typeChoice === "2") cardType = "VIP";
-        else if (typeChoice === "3") cardType = "Linux";
-        else if (typeChoice === "4") cardType = "Nextendo";
+            const typeChoice = window.prompt("Тип карты (1 - Standard, 2 - VIP, 3 - Linux, 4 - Nextendo):", "1");
+            let cardType = "Standard";
+            if (typeChoice === "2") cardType = "VIP";
+            else if (typeChoice === "3") cardType = "Linux";
+            else if (typeChoice === "4") cardType = "Nextendo";
 
-        const newId = String(cardsData.length + 1);
-        cardsData.push({
-            id: newId,
-            owner: name,
-            type: cardType,
-            balance: 100,
-            history: [{ time: new Date().toLocaleTimeString().slice(0, 5), type: 'add', amount: 100, note: 'Открытие счета' }]
-        });
+            const newId = getNextAvailableId();
+            state.cardsData.push({
+                id: newId,
+                owner: name.trim(),
+                type: cardType,
+                balance: 100,
+                history: [{ time: new Date().toLocaleTimeString().slice(0, 5), type: "add", amount: 100, note: "Открытие счета" }]
+            });
 
-        renderTable();
-        showToast(`Счет ID: ${newId} успешно создан`);
-        await saveChangesToGitHub();
-    }
+            renderTable();
+            showToast(`Счет ID: ${newId} успешно создан`);
+            await saveChangesToGitHub();
+        }
 
-    function setupGitHubToken() {
-        const currentToken = localStorage.getItem("linuxi_github_token") || "";
-        const newToken = prompt("Введи GitHub Personal Access Token:", currentToken);
-        if (newToken !== null) {
-            if (newToken.trim() === "") {
-                localStorage.removeItem("linuxi_github_token");
+        function setupGitHubToken() {
+            const currentToken = getGithubToken();
+            const newToken = window.prompt("Введи GitHub Personal Access Token:", currentToken);
+            if (newToken === null) {
+                return;
+            }
+
+            if (!setGithubToken(newToken)) {
                 showToast("Токен удален");
-            } else {
-                localStorage.setItem("linuxi_github_token", newToken.trim());
-                showToast("Токен сохранен");
+                return;
             }
+            showToast("Токен сохранен");
         }
-    }
 
-    async function saveChangesToGitHub() {
-        let token = localStorage.getItem("linuxi_github_token");
-        
-        if (!token) {
-            token = prompt("Введи GitHub Personal Access Token для автосохранения:");
+        function base64EncodeUtf8(value) {
+            const bytes = new TextEncoder().encode(value);
+            let binary = "";
+            bytes.forEach((byte) => {
+                binary += String.fromCharCode(byte);
+            });
+            return btoa(binary);
+        }
+
+        async function saveChangesToGitHub() {
+            const token = getGithubToken();
             if (!token) {
-                alert("Без токена изменения не сохранятся в репозиторий.");
-                return;
-            }
-            localStorage.setItem("linuxi_github_token", token);
-        }
+                const shouldPrompt = window.confirm("Введи GitHub Personal Access Token для автосохранения?");
+                if (!shouldPrompt) {
+                    window.alert("Без токена изменения не сохранятся в репозиторий.");
+                    return;
+                }
 
-        try {
-            const getFileRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
-                headers: { "Authorization": `token ${token}` }
-            });
-
-            if (!getFileRes.ok) {
-                localStorage.removeItem("linuxi_github_token");
-                alert("Ошибка доступа. Проверь токен.");
-                return;
+                const manualToken = window.prompt("Введи GitHub Personal Access Token:");
+                if (!manualToken || !manualToken.trim()) {
+                    window.alert("Токен не введён. Сохранение отменено.");
+                    return;
+                }
+                setGithubToken(manualToken);
             }
 
-            const fileData = await getFileRes.json();
-            const sha = fileData.sha;
+            try {
+                const fileResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
+                    headers: {
+                        "Authorization": `Bearer ${getGithubToken()}`,
+                        "Accept": "application/vnd.github+json",
+                        "X-GitHub-Api-Version": "2022-11-28"
+                    }
+                });
 
-            const jsonString = JSON.stringify(cardsData, null, 2);
-            const updatedContent = btoa(unescape(encodeURIComponent(jsonString)));
+                if (!fileResponse.ok) {
+                    localStorage.removeItem(TOKEN_STORAGE_KEY);
+                    window.alert("Ошибка доступа. Проверь токен.");
+                    return;
+                }
 
-            const putRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
-                method: "PUT",
-                headers: {
-                    "Authorization": `token ${token}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    message: "Bank data automatic update",
-                    content: updatedContent,
-                    sha: sha
-                })
-            });
+                const fileData = await fileResponse.json();
+                const sha = fileData.sha;
+                const jsonString = JSON.stringify(state.cardsData, null, 2);
+                const encoded = base64EncodeUtf8(jsonString);
 
-            if (putRes.ok) {
+                const putResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `Bearer ${getGithubToken()}`,
+                        "Content-Type": "application/json",
+                        "Accept": "application/vnd.github+json",
+                        "X-GitHub-Api-Version": "2022-11-28"
+                    },
+                    body: JSON.stringify({
+                        message: "Bank data automatic update",
+                        content: encoded,
+                        sha
+                    })
+                });
+
+                if (!putResponse.ok) {
+                    throw new Error(`GitHub API error: ${putResponse.status}`);
+                }
+
                 showToast("Изменения синхронизированы с GitHub");
+            } catch (error) {
+                console.error("Ошибка синхронизации:", error);
+                showToast("Ошибка синхронизации");
             }
-        } catch (err) {
-            console.error("Ошибка синхронизации:", err);
         }
-    }
 
-    loadData();
-</script>
+        async function loadData() {
+            try {
+                const response = await fetch(`data.json?ts=${Date.now()}`, { cache: "no-store" });
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                const data = await response.json();
+                state.cardsData = normalizeCards(data);
+            } catch (error) {
+                console.warn("Ошибка загрузки данных, используется резервный набор:", error);
+                state.cardsData = normalizeCards([
+                    { id: "1", owner: "Платон Чукович", type: "Linux", balance: 1000, history: [] },
+                    { id: "2", owner: "Рома Сухоносов", type: "Standard", balance: 1000, history: [] },
+                    { id: "3", owner: "Мия Чукович", type: "VIP", balance: 2500, history: [] }
+                ]);
+            }
 
+            renderTable();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadData();
+        });
+    </script>
 </body>
 </html>
