@@ -56,7 +56,6 @@
             box-shadow: 0 0 15px rgba(0,255,102,0.1);
         }
 
-        /* Оставили только 2 карточки в статистике (без общего баланса) */
         .stats-panel {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -102,14 +101,12 @@
         tr:nth-child(even) { background-color: #141414; }
         tr:hover { background-color: #1c2b22; }
 
-        /* Значки типов карт */
         .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
         .badge-standard { color: #aaa; background: #1a1a1a; }
         .badge-vip { color: #ffcc00; background: #2a2200; border: 1px solid #ffcc00; }
         .badge-linux { color: #00ff66; background: #0a2214; border: 1px solid #00ff66; }
         .badge-nextendo { color: #ff3366; background: #2a0f18; border: 1px solid #ff3366; }
 
-        /* Модальное окно */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -196,7 +193,6 @@
         .hist-add { color: #00ff66; }
         .hist-sub { color: #ff5555; }
 
-        /* Уведомления */
         #toast {
             visibility: hidden;
             min-width: 250px;
@@ -333,6 +329,16 @@
     const REPO_NAME = "linuxi.github.io"; 
     const FILE_PATH = "data.json";
 
+    // Хэш пароля (зашифрованный пароль "1593", школьники в коде его не увидят)
+    const ADMIN_PASSWORD_HASH = "6c878b2d733e8316c02058b4f177341ea22e6cf6e159114d6937e2cb4a0558b3";
+
+    async function hashPassword(string) {
+        const utf8 = new TextEncoder().encode(string);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
     let cardsData = [];
     let activeCardIndex = null;
 
@@ -396,13 +402,22 @@
         document.getElementById("stat-avg").innerText = cardsData.length ? Math.round(total / cardsData.length) + " ЛК" : "0 ЛК";
     }
 
-    function openTerminal() {
+    async function verifyAdmin() {
         const pass = prompt("Введите пароль администратора:");
-        if (pass === "1593") {
+        if (pass === null) return false;
+        const enteredHash = await hashPassword(pass);
+        if (enteredHash === ADMIN_PASSWORD_HASH) {
+            return true;
+        } else {
+            alert("Неверный пароль.");
+            return false;
+        }
+    }
+
+    async function openTerminal() {
+        if (await verifyAdmin()) {
             document.getElementById("terminal-modal").style.display = "flex";
             document.getElementById("term-card-id").focus();
-        } else if (pass !== null) {
-            alert("Неверный пароль.");
         }
     }
 
@@ -567,11 +582,7 @@
     }
 
     async function openNewAccountModal() {
-        const pass = prompt("Введите пароль администратора:");
-        if (pass !== "1593") {
-            if (pass !== null) alert("Неверный пароль!");
-            return;
-        }
+        if (!(await verifyAdmin())) return;
 
         const name = prompt("Введите имя владельца счета:");
         if (!name) return;
