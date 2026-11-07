@@ -13,7 +13,7 @@
     *{box-sizing:border-box}body{margin:0;padding:20px;min-height:100vh;background:var(--bg);color:var(--text);font:15px Inter,system-ui,sans-serif}.app{max-width:1000px;margin:auto}
     .header,.panel,.metric{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 24px #0004}.header{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:14px}.logo{width:48px;height:48px;border:1px solid var(--accent);border-radius:12px;display:grid;place-items:center;font-size:24px;color:var(--accent);background:#00e6761a}.brand h1{font-size:20px;margin:0 0 4px}.brand small{color:var(--muted)}.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
     button,input,select{font:inherit}button{border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);padding:10px 14px;font-weight:600;cursor:pointer;transition:.2s}button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}button:disabled{opacity:.55;cursor:not-allowed}.primary{background:var(--accent);color:#06120a;border-color:var(--accent)}.primary:hover:not(:disabled){background:#00c853;color:#06120a}.danger{color:var(--danger);border-color:#ff525255;background:#ff52521a}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:22px}.metric{padding:22px}.metric-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}.metric-value{font-size:28px;color:var(--accent);font-weight:700;margin-top:8px}.panel{padding:22px}.panel-heading{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}.panel-heading h2{font-size:18px;margin:0}.input{width:100%;padding:11px 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);outline:none}.input:focus{border-color:var(--accent)}.search{max-width:290px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left}th,td{padding:13px 14px;border-bottom:1px solid var(--border)}th{font-size:11px;color:var(--muted);text-transform:uppercase}tbody tr:hover{background:#ffffff05}.badge{display:inline-block;padding:5px 9px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase}.standard{color:var(--muted);background:#ffffff0d}.vip{color:#ffd700;background:#ffd7001a}.linux{color:var(--accent);background:#00e6761a}.nextendo{color:#ff4081;background:#ff40811a}
-    .status{margin:0 0 16px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;color:var(--muted)}.status.error{color:var(--danger);border-color:#ff525255}.status.warn{color:var(--warning);border-color:#ffab4055}.modal{position:fixed;inset:0;z-index:5;display:none;place-items:center;padding:16px;background:#0a0c10cc;backdrop-filter:blur(7px)}.modal.open{display:grid}.dialog{width:min(500px,100%);max-height:90vh;overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:0 20px 40px #0008}.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.dialog-head h2{font-size:19px;margin:0}.form-group{margin:14px 0}.form-group label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}.row{display:flex;gap:9px;align-items:center}.row>*{min-width:0}.detail{padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--bg);margin:12px 0}.presets,.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}.presets button{flex:1;min-width:54px;padding:8px}.history{max-height:140px;overflow:auto;margin-top:8px}.history-row{display:flex;justify-content:space-between;gap:10px;padding:7px;border-bottom:1px solid #ffffff0a;font-size:13px}.add{color:var(--accent)}.sub{color:var(--danger)}#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:12px 18px;color:var(--accent);transition:.2s;z-index:10}#toast.show{opacity:1;transform:translate(-50%,0)}.security-note{font-size:12px;color:var(--warning);margin-top:14px;line-height:1.5}
+    .status{margin:0 0 16px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;color:var(--muted)}.status.error{color:var(--danger);border-color:#ff525255}.status.warn{color:var(--warning);border-color:#ffab4055}.modal{position:fixed;inset:0;z-index:5;display:none;place-items:center;padding:16px;background:#0a0c10cc;backdrop-filter:blur(7px)}.modal.open{display:grid}.dialog{width:min(500px,100%);max-height:90vh;overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:0 20px 40px #0008}.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.dialog-head h2{font-size:19px;margin:0}.form-group{margin:14px 0}.form-group label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}.row{display:flex;gap:9px;align-items:center}.row>*{min-width:0}.detail{padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--bg);margin:12px 0}.presets{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}.presets button{flex:1;min-width:54px;padding:8px}.history{max-height:140px;overflow:auto;margin-top:8px}.history-row{display:flex;justify-content:space-between;gap:10px;padding:7px;border-bottom:1px solid #ffffff0a;font-size:13px}.add{color:var(--accent)}.sub{color:var(--danger)}#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:12px 18px;color:var(--accent);transition:.2s;z-index:10}#toast.show{opacity:1;transform:translate(-50%,0)}
     @media(max-width:650px){body{padding:12px}.header{align-items:flex-start;flex-direction:column;padding:17px}.actions{justify-content:flex-start}.metrics{gap:10px}.metric,.panel{padding:16px}.metric-value{font-size:23px}.search{max-width:none;width:100%}th,td{padding:10px;font-size:13px}.row.mobile-wrap{flex-wrap:wrap}.row.mobile-wrap>*{flex:1 1 100%}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
   </style>
@@ -38,7 +38,6 @@
       <div class="table-wrap"><table><thead><tr><th>ID</th><th>Владелец счета</th><th>Тип карты</th><th>Баланс</th></tr></thead><tbody id="accounts"></tbody></table></div>
     </section>
   </main>
-
   <div id="terminal" class="modal" role="dialog" aria-modal="true" aria-labelledby="terminal-title">
     <section class="dialog">
       <div class="dialog-head"><h2 id="terminal-title">Управление счетом</h2><button data-action="close-terminal" aria-label="Закрыть">✕</button></div>
@@ -59,21 +58,14 @@
     </section>
   </div>
   <div id="toast" role="status" aria-live="polite"></div>
-
   <script>
     "use strict";
     const CONFIG = Object.freeze({ owner: "Platonchu", repo: "linuxi.github.io", file: "data.json", tokenKey: "linuxi_github_token", adminPin: "1593" });
     const state = { accounts: [], loaded: false, saving: false, baseline: "", activeId: null };
     const $ = (id) => document.getElementById(id);
     const allowedTypes = new Set(["Standard", "VIP", "Linux", "Nextendo"]);
-
-    function setStatus(message, kind = "") {
-      const node = $("status"); node.textContent = message; node.className = `status ${kind}`.trim();
-    }
-    function toast(message) {
-      const node = $("toast"); node.textContent = message; node.classList.add("show");
-      clearTimeout(toast.timer); toast.timer = setTimeout(() => node.classList.remove("show"), 3000);
-    }
+    function setStatus(message, kind = "") { const node = $("status"); node.textContent = message; node.className = `status ${kind}`.trim(); }
+    function toast(message) { const node = $("toast"); node.textContent = message; node.classList.add("show"); clearTimeout(toast.timer); toast.timer = setTimeout(() => node.classList.remove("show"), 3000); }
     function canonical(accounts = state.accounts) { return JSON.stringify(accounts, null, 2); }
     function normalizeAccount(account, index) {
       if (!account || typeof account !== "object" || Array.isArray(account)) throw new Error(`Некорректная запись счета №${index + 1}`);
@@ -82,186 +74,72 @@
       const type = allowedTypes.has(account.type) ? account.type : "Standard";
       const balance = Number(account.balance ?? 0);
       if (!Number.isSafeInteger(balance) || balance < 0) throw new Error(`Некорректный баланс у счета ${id}`);
-      const history = Array.isArray(account.history) ? account.history.map((item) => {
-        const amount = Number(item?.amount ?? 0);
-        if (!Number.isSafeInteger(amount) || amount < 0) throw new Error(`Некорректная история счета ${id}`);
-        return { time: String(item?.time || "--:--"), type: item?.type === "add" ? "add" : "sub", amount, note: String(item?.note || "Операция") };
-      }) : [];
+      const history = Array.isArray(account.history) ? account.history.map((item) => { const amount = Number(item?.amount ?? 0); if (!Number.isSafeInteger(amount) || amount < 0) throw new Error(`Некорректная история счета ${id}`); return { time: String(item?.time || "--:--"), type: item?.type === "add" ? "add" : "sub", amount, note: String(item?.note || "Операция") }; }) : [];
       return { id, owner, type, balance, history };
     }
-    function normalizeAccounts(raw) {
-      if (!Array.isArray(raw)) throw new Error("Файл data.json должен содержать массив счетов.");
-      const accounts = raw.map(normalizeAccount);
-      const ids = accounts.map((account) => account.id);
-      if (new Set(ids).size !== ids.length) throw new Error("В data.json обнаружены повторяющиеся ID счетов.");
-      return accounts;
-    }
-    function pinAccepted() {
-      if (window.prompt("Введите PIN-код администратора:") === CONFIG.adminPin) return true;
-      toast("Неверный PIN-код"); return false;
-    }
+    function normalizeAccounts(raw) { if (!Array.isArray(raw)) throw new Error("Файл data.json должен содержать массив счетов."); const accounts = raw.map(normalizeAccount); if (new Set(accounts.map((account) => account.id)).size !== accounts.length) throw new Error("В data.json обнаружены повторяющиеся ID счетов."); return accounts; }
+    function pinAccepted() { if (window.prompt("Введите PIN-код администратора:") === CONFIG.adminPin) return true; toast("Неверный PIN-код"); return false; }
     function findActive() { return state.accounts.find((account) => account.id === state.activeId) || null; }
     function renderTable() {
-      const tbody = $("accounts"); tbody.replaceChildren();
-      const filter = $("search").value.trim().toLocaleLowerCase("ru");
-      let total = 0;
-      state.accounts.forEach((account) => {
-        total += account.balance;
-        if (!account.owner.toLocaleLowerCase("ru").includes(filter) && !account.id.toLocaleLowerCase("ru").includes(filter)) return;
-        const row = document.createElement("tr");
-        const idCell = document.createElement("td"); const id = document.createElement("b"); id.textContent = `#${account.id}`; idCell.append(id);
-        const owner = document.createElement("td"); owner.textContent = account.owner;
-        const typeCell = document.createElement("td"); const badge = document.createElement("span"); badge.className = `badge ${account.type.toLowerCase()}`; badge.textContent = account.type; typeCell.append(badge);
-        const balance = document.createElement("td"); balance.className = "add"; balance.textContent = `${account.balance} ЛК`;
-        row.append(idCell, owner, typeCell, balance); tbody.append(row);
+      const tbody = $("accounts"); tbody.replaceChildren(); const filter = $("search").value.trim().toLocaleLowerCase("ru"); let total = 0;
+      state.accounts.forEach((account) => { total += account.balance; if (!account.owner.toLocaleLowerCase("ru").includes(filter) && !account.id.toLocaleLowerCase("ru").includes(filter)) return;
+        const row = document.createElement("tr"); const idCell = document.createElement("td"); const id = document.createElement("b"); id.textContent = `#${account.id}`; idCell.append(id);
+        const owner = document.createElement("td"); owner.textContent = account.owner; const typeCell = document.createElement("td"); const badge = document.createElement("span"); badge.className = `badge ${account.type.toLowerCase()}`; badge.textContent = account.type; typeCell.append(badge);
+        const balance = document.createElement("td"); balance.className = "add"; balance.textContent = `${account.balance} ЛК`; row.append(idCell, owner, typeCell, balance); tbody.append(row);
       });
-      $("stat-count").textContent = String(state.accounts.length);
-      $("stat-avg").textContent = state.accounts.length ? `${Math.round(total / state.accounts.length)} ЛК` : "0 ЛК";
+      $("stat-count").textContent = String(state.accounts.length); $("stat-avg").textContent = state.accounts.length ? `${Math.round(total / state.accounts.length)} ЛК` : "0 ЛК";
     }
     function renderCard() {
-      const account = findActive(); const details = $("card-details"); const transactions = $("transactions");
-      details.hidden = transactions.hidden = !account;
-      if (!account) return;
-      $("owner").textContent = account.owner; $("balance").textContent = String(account.balance); $("card-type").value = account.type;
-      const history = $("history"); history.replaceChildren();
+      const account = findActive(); const details = $("card-details"); const transactions = $("transactions"); details.hidden = transactions.hidden = !account; if (!account) return;
+      $("owner").textContent = account.owner; $("balance").textContent = String(account.balance); $("card-type").value = account.type; const history = $("history"); history.replaceChildren();
       if (!account.history.length) { const empty = document.createElement("div"); empty.textContent = "Нет операций"; empty.style.color = "var(--muted)"; history.append(empty); return; }
-      account.history.slice(-5).reverse().forEach((item) => {
-        const row = document.createElement("div"); row.className = "history-row";
-        const note = document.createElement("span"); note.textContent = `${item.time} (${item.note})`;
-        const amount = document.createElement("span"); amount.className = item.type; amount.textContent = `${item.type === "add" ? "+" : "−"}${item.amount} ЛК`;
-        row.append(note, amount); history.append(row);
-      });
+      account.history.slice(-5).reverse().forEach((item) => { const row = document.createElement("div"); row.className = "history-row"; const note = document.createElement("span"); note.textContent = `${item.time} (${item.note})`; const amount = document.createElement("span"); amount.className = item.type; amount.textContent = `${item.type === "add" ? "+" : "−"}${item.amount} ЛК`; row.append(note, amount); history.append(row); });
     }
-    function openTerminal() {
-      if (!state.loaded || !pinAccepted()) return;
-      $("terminal").classList.add("open"); $("card-id").focus();
-    }
-    function closeTerminal() {
-      $("terminal").classList.remove("open"); $("card-id").value = ""; $("amount").value = ""; $("target-id").value = "";
-      state.activeId = null; renderCard();
-    }
-    function updateActiveCard() {
-      const id = $("card-id").value.trim(); state.activeId = state.accounts.some((account) => account.id === id) ? id : null; renderCard();
-    }
-    function record(account, type, amount, note) {
-      account.history.push({ time: new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }), type, amount, note });
-    }
-    function readAmount() {
-      const amount = Number($("amount").value);
-      if (!Number.isSafeInteger(amount) || amount <= 0) throw new Error("Введите положительную целую сумму.");
-      return amount;
-    }
-    function nextId() {
-      const numericIds = state.accounts.map((account) => Number(account.id)).filter(Number.isSafeInteger);
-      let id = String(numericIds.length ? Math.max(...numericIds) + 1 : 1);
-      while (state.accounts.some((account) => account.id === id)) id = String(Number(id) + 1);
-      return id;
-    }
-    function requireReady() {
-      if (!state.loaded) { toast("Данные не загружены — изменения отключены"); return false; }
-      if (state.saving) { toast("Дождитесь завершения сохранения"); return false; }
-      return true;
-    }
-    function utf8Base64(value) {
-      const bytes = new TextEncoder().encode(value); let binary = "";
-      for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
-      return btoa(binary);
-    }
+    function openTerminal() { if (!state.loaded || !pinAccepted()) return; $("terminal").classList.add("open"); $("card-id").focus(); }
+    function closeTerminal() { $("terminal").classList.remove("open"); $("card-id").value = ""; $("amount").value = ""; $("target-id").value = ""; state.activeId = null; renderCard(); }
+    function updateActiveCard() { const id = $("card-id").value.trim(); state.activeId = state.accounts.some((account) => account.id === id) ? id : null; renderCard(); }
+    function record(account, type, amount, note) { account.history.push({ time: new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }), type, amount, note }); }
+    function readAmount() { const amount = Number($("amount").value); if (!Number.isSafeInteger(amount) || amount <= 0) throw new Error("Введите положительную целую сумму."); return amount; }
+    function nextId() { const ids = state.accounts.map((account) => Number(account.id)).filter(Number.isSafeInteger); let id = String(ids.length ? Math.max(...ids) + 1 : 1); while (state.accounts.some((account) => account.id === id)) id = String(Number(id) + 1); return id; }
+    function requireReady() { if (!state.loaded) { toast("Данные не загружены — изменения отключены"); return false; } if (state.saving) { toast("Дождитесь завершения сохранения"); return false; } return true; }
+    function utf8Base64(value) { const bytes = new TextEncoder().encode(value); let binary = ""; for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000)); return btoa(binary); }
     function decodeContent(content) { return new TextDecoder().decode(Uint8Array.from(atob(content.replace(/\s/g, "")), (char) => char.charCodeAt(0))); }
     async function saveChanges() {
-      if (!state.loaded || state.saving) return false;
-      const token = localStorage.getItem(CONFIG.tokenKey);
-      if (!token) { setStatus("Изменения пока только в этой вкладке. Добавьте токен GitHub, чтобы сохранить их.", "warn"); return false; }
-      state.saving = true; setStatus("Сохранение в GitHub…");
-      const headers = { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
-      const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.file}`;
+      if (!state.loaded || state.saving) return false; const token = localStorage.getItem(CONFIG.tokenKey);
+      if (!token) { setStatus("Изменения пока не сохранены. Добавьте токен, чтобы сохранить их.", "warn"); return false; }
+      state.saving = true; setStatus("Сохранение изменений…"); const headers = { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }; const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.file}`;
       try {
         const currentResponse = await fetch(url, { headers, cache: "no-store" });
-        if (!currentResponse.ok) throw new Error(currentResponse.status === 401 || currentResponse.status === 403 ? "GitHub отклонил токен. Проверьте его и права записи." : `GitHub API вернул ${currentResponse.status}.`);
-        const current = await currentResponse.json();
-        const remote = normalizeAccounts(JSON.parse(decodeContent(current.content)));
-        if (canonical(remote) !== state.baseline) throw new Error("Файл изменился в GitHub после загрузки. Перезагрузите страницу, чтобы не затереть чужие изменения.");
-        const content = canonical();
-        const writeResponse = await fetch(url, { method: "PUT", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify({ message: "Update bank account data", content: utf8Base64(content), sha: current.sha }) });
-        if (!writeResponse.ok) {
-          if (writeResponse.status === 409 || writeResponse.status === 422) throw new Error("GitHub сообщил о конфликте версии. Данные не перезаписаны; обновите страницу и повторите изменение.");
-          throw new Error(`Не удалось сохранить файл (HTTP ${writeResponse.status}).`);
-        }
-        state.baseline = content; setStatus("Сохранено в GitHub."); toast("Изменения синхронизированы"); return true;
-      } catch (error) {
-        console.error("Ошибка синхронизации:", error); setStatus(error.message || "Ошибка синхронизации.", "error"); toast("Не удалось сохранить изменения"); return false;
-      } finally { state.saving = false; }
+        if (!currentResponse.ok) throw new Error(currentResponse.status === 401 || currentResponse.status === 403 ? "Токен недействителен или не имеет права записи. Проверьте его." : `Не удалось получить данные (ошибка ${currentResponse.status}).`);
+        const current = await currentResponse.json(); const remote = normalizeAccounts(JSON.parse(decodeContent(current.content)));
+        if (canonical(remote) !== state.baseline) throw new Error("Данные изменились в другом месте. Обновите страницу, чтобы не затереть изменения.");
+        const content = canonical(); const writeResponse = await fetch(url, { method: "PUT", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify({ message: "Update bank account data", content: utf8Base64(content), sha: current.sha }) });
+        if (!writeResponse.ok) { if (writeResponse.status === 409 || writeResponse.status === 422) throw new Error("Обнаружен конфликт версии. Данные не перезаписаны; обновите страницу и повторите изменение."); throw new Error(`Не удалось сохранить данные (ошибка ${writeResponse.status}).`); }
+        state.baseline = content; setStatus("Изменения сохранены."); toast("Изменения сохранены"); return true;
+      } catch (error) { console.error("Ошибка синхронизации:", error); setStatus(error.message || "Не удалось сохранить изменения.", "error"); toast("Не удалось сохранить изменения"); return false; }
+      finally { state.saving = false; }
     }
-    async function mutate(operation) {
-      if (!requireReady()) return;
-      try { await operation(); renderTable(); renderCard(); await saveChanges(); }
-      catch (error) { toast(error.message); }
-    }
+    async function mutate(operation) { if (!requireReady()) return; try { await operation(); renderTable(); renderCard(); await saveChanges(); } catch (error) { toast(error.message); } }
     async function createAccount() {
-      if (!requireReady() || !pinAccepted()) return;
-      const owner = window.prompt("Введите имя владельца счета:"); if (!owner || !owner.trim()) return;
-      const choice = window.prompt("Тип карты (1 — Standard, 2 — VIP, 3 — Linux, 4 — Nextendo):", "1");
-      const type = ({ "2": "VIP", "3": "Linux", "4": "Nextendo" })[choice] || "Standard";
-      const account = { id: nextId(), owner: owner.trim(), type, balance: 100, history: [] };
-      record(account, "add", 100, "Открытие счета"); state.accounts.push(account); renderTable(); toast(`Счет №${account.id} создан`); await saveChanges();
+      if (!requireReady() || !pinAccepted()) return; const owner = window.prompt("Введите имя владельца счета:"); if (!owner || !owner.trim()) return;
+      const choice = window.prompt("Тип карты (1 — Standard, 2 — VIP, 3 — Linux, 4 — Nextendo):", "1"); const type = ({ "2": "VIP", "3": "Linux", "4": "Nextendo" })[choice] || "Standard";
+      const account = { id: nextId(), owner: owner.trim(), type, balance: 100, history: [] }; record(account, "add", 100, "Открытие счета"); state.accounts.push(account); renderTable(); toast(`Счет №${account.id} создан`); await saveChanges();
     }
     async function handleAction(action) {
-      if (action === "open-terminal") return openTerminal();
-      if (action === "close-terminal") return closeTerminal();
-      if (action === "set-token") {
-        const oldToken = localStorage.getItem(CONFIG.tokenKey) || "";
-        const token = window.prompt("GitHub token с правом Contents: Read and write (токен хранится в localStorage):", oldToken);
-        if (token === null) return;
-        if (token.trim()) { localStorage.setItem(CONFIG.tokenKey, token.trim()); toast("Токен сохранен в этом браузере"); }
-        else { localStorage.removeItem(CONFIG.tokenKey); toast("Токен удален"); }
-        return;
-      }
+      if (action === "open-terminal") return openTerminal(); if (action === "close-terminal") return closeTerminal();
+      if (action === "set-token") { const current = localStorage.getItem(CONFIG.tokenKey) || ""; const token = window.prompt("Введите токен для сохранения изменений:", current); if (token === null) return; if (token.trim()) { localStorage.setItem(CONFIG.tokenKey, token.trim()); toast("Токен сохранен в этом браузере"); } else { localStorage.removeItem(CONFIG.tokenKey); toast("Токен удален"); } return; }
       if (action === "new-account") return createAccount();
-      if (action === "rename") return mutate(async () => {
-        const account = findActive(); if (!account) return;
-        const name = window.prompt("Новое имя владельца:", account.owner); if (name && name.trim()) account.owner = name.trim();
-      });
-      if (action === "delete") return mutate(async () => {
-        const account = findActive(); if (!account || !window.confirm(`Удалить счет ${account.owner} (ID: ${account.id})?`)) return;
-        state.accounts = state.accounts.filter((item) => item.id !== account.id); state.activeId = null;
-      });
-      if (action === "deposit" || action === "withdraw") return mutate(async () => {
-        const account = findActive(); if (!account) throw new Error("Сначала найдите счет.");
-        const amount = readAmount();
-        if (action === "withdraw" && account.balance < amount) throw new Error(`Недостаточно средств. Баланс: ${account.balance} ЛК.`);
-        if (action === "deposit" && !Number.isSafeInteger(account.balance + amount)) throw new Error("Сумма превышает допустимый предел.");
-        account.balance += action === "deposit" ? amount : -amount; record(account, action === "deposit" ? "add" : "sub", amount, action === "deposit" ? "Пополнение" : "Списание"); $("amount").value = "";
-      });
-      if (action === "transfer") return mutate(async () => {
-        const sender = findActive(); const targetId = $("target-id").value.trim(); const target = state.accounts.find((item) => item.id === targetId); const amount = readAmount();
-        if (!sender || !targetId) throw new Error("Укажите счет и ID получателя.");
-        if (!target) throw new Error("Получатель не найден."); if (target === sender) throw new Error("Нельзя перевести самому себе.");
-        if (sender.balance < amount) throw new Error(`Недостаточно средств. Баланс: ${sender.balance} ЛК.`);
-        if (!Number.isSafeInteger(target.balance + amount)) throw new Error("Сумма превышает допустимый предел.");
-        sender.balance -= amount; target.balance += amount; record(sender, "sub", amount, `Перевод на ID ${target.id}`); record(target, "add", amount, `Перевод от ID ${sender.id}`); $("amount").value = ""; $("target-id").value = "";
-      });
+      if (action === "rename") return mutate(async () => { const account = findActive(); if (!account) return; const name = window.prompt("Новое имя владельца:", account.owner); if (name && name.trim()) account.owner = name.trim(); });
+      if (action === "delete") return mutate(async () => { const account = findActive(); if (!account || !window.confirm(`Удалить счет ${account.owner} (ID: ${account.id})?`)) return; state.accounts = state.accounts.filter((item) => item.id !== account.id); state.activeId = null; });
+      if (action === "deposit" || action === "withdraw") return mutate(async () => { const account = findActive(); if (!account) throw new Error("Сначала найдите счет."); const amount = readAmount(); if (action === "withdraw" && account.balance < amount) throw new Error(`Недостаточно средств. Баланс: ${account.balance} ЛК.`); if (action === "deposit" && !Number.isSafeInteger(account.balance + amount)) throw new Error("Сумма превышает допустимый предел."); account.balance += action === "deposit" ? amount : -amount; record(account, action === "deposit" ? "add" : "sub", amount, action === "deposit" ? "Пополнение" : "Списание"); $("amount").value = ""; });
+      if (action === "transfer") return mutate(async () => { const sender = findActive(); const targetId = $("target-id").value.trim(); const target = state.accounts.find((item) => item.id === targetId); const amount = readAmount(); if (!sender || !targetId) throw new Error("Укажите счет и ID получателя."); if (!target) throw new Error("Получатель не найден."); if (target === sender) throw new Error("Нельзя перевести самому себе."); if (sender.balance < amount) throw new Error(`Недостаточно средств. Баланс: ${sender.balance} ЛК.`); if (!Number.isSafeInteger(target.balance + amount)) throw new Error("Сумма превышает допустимый предел."); sender.balance -= amount; target.balance += amount; record(sender, "sub", amount, `Перевод на ID ${target.id}`); record(target, "add", amount, `Перевод от ID ${sender.id}`); $("amount").value = ""; $("target-id").value = ""; });
     }
     async function loadData() {
-      try {
-        const response = await fetch(`data.json?ts=${Date.now()}`, { cache: "no-store" });
-        if (!response.ok) throw new Error(`Не удалось загрузить data.json (HTTP ${response.status}).`);
-        state.accounts = normalizeAccounts(await response.json()); state.baseline = canonical(); state.loaded = true;
-        setStatus("Счета загружены. Изменения требуют GitHub token с правом записи.", "warn");
-        document.querySelectorAll('[data-action="new-account"], [data-action="open-terminal"]').forEach((button) => { button.disabled = false; });
-        renderTable();
-      } catch (error) { setStatus(`${error.message} Обновление отключено, чтобы случайно не перезаписать данные.`, "error"); console.error(error); }
+      try { const response = await fetch(`data.json?ts=${Date.now()}`, { cache: "no-store" }); if (!response.ok) throw new Error(`Не удалось загрузить список счетов (ошибка ${response.status}).`); state.accounts = normalizeAccounts(await response.json()); state.baseline = canonical(); state.loaded = true; setStatus("Счета загружены. Для сохранения изменений нужен токен с правом записи.", "warn"); document.querySelectorAll('[data-action="new-account"], [data-action="open-terminal"]').forEach((button) => { button.disabled = false; }); renderTable(); }
+      catch (error) { setStatus(`${error.message} Изменение данных отключено, чтобы избежать потери информации.`, "error"); console.error(error); }
     }
-    document.addEventListener("click", (event) => {
-      const amountButton = event.target.closest("[data-amount]");
-      if (amountButton) { $("amount").value = amountButton.dataset.amount; return; }
-      const actionButton = event.target.closest("[data-action]");
-      if (actionButton) void handleAction(actionButton.dataset.action);
-    });
-    $("search").addEventListener("input", renderTable);
-    $("card-id").addEventListener("input", updateActiveCard);
-    $("card-type").addEventListener("change", () => { void mutate(async () => { const account = findActive(); if (account) account.type = $("card-type").value; }); });
-    $("terminal").addEventListener("click", (event) => { if (event.target === $("terminal")) closeTerminal(); });
-    document.addEventListener("keydown", (event) => { if (event.key === "Escape" && $("terminal").classList.contains("open")) closeTerminal(); });
+    document.addEventListener("click", (event) => { const amountButton = event.target.closest("[data-amount]"); if (amountButton) { $("amount").value = amountButton.dataset.amount; return; } const actionButton = event.target.closest("[data-action]"); if (actionButton) void handleAction(actionButton.dataset.action); });
+    $("search").addEventListener("input", renderTable); $("card-id").addEventListener("input", updateActiveCard); $("card-type").addEventListener("change", () => { void mutate(async () => { const account = findActive(); if (account) account.type = $("card-type").value; }); }); $("terminal").addEventListener("click", (event) => { if (event.target === $("terminal")) closeTerminal(); }); document.addEventListener("keydown", (event) => { if (event.key === "Escape" && $("terminal").classList.contains("open")) closeTerminal(); });
     void loadData();
   </script>
 </body>
