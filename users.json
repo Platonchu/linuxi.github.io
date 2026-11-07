@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "username": "Platonchu",
+    "password": "qwerty",
+    "salt": "linuxi-admin",
+    "role": "admin",
+    "accountId": 4
+  },
+  {
+    "username": "demo",
+    "password": "demo123",
+    "salt": "linuxi-demo",
+    "role": "user",
+    "accountId": 3
+  },
+  {
+    "username": "roma",
+    "password": "roma123",
+    "salt": "linuxi-roma",
+    "role": "user",
+    "accountId": 2
+  }
+]
