@@ -4,158 +4,161 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0f1115">
-  <title>Linuxi Bank — Персональный финансовый терминал</title>
+  <title>Linuxi Bank — игровой банк</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{color-scheme:dark;--bg:#0f1115;--surface:#181b22;--card:#1f242d;--border:#2d333f;--accent:#00e676;--text:#f0f2f5;--muted:#9aa0a6;--danger:#ff5252;--warning:#ffab40}
-    *{box-sizing:border-box}body{margin:0;padding:20px;min-height:100vh;background:var(--bg);color:var(--text);font:15px Inter,system-ui,sans-serif}.app{max-width:1000px;margin:auto}
-    .header,.panel,.metric{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 24px #0004}.header{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:14px}.logo{width:48px;height:48px;border:1px solid var(--accent);border-radius:12px;display:grid;place-items:center;font-size:24px;color:var(--accent);background:#00e6761a}.brand h1{font-size:20px;margin:0 0 4px}.brand small{color:var(--muted)}.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-    button,input,select{font:inherit}button{border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);padding:10px 14px;font-weight:600;cursor:pointer;transition:.2s}button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}button:disabled{opacity:.55;cursor:not-allowed}.primary{background:var(--accent);color:#06120a;border-color:var(--accent)}.primary:hover:not(:disabled){background:#00c853;color:#06120a}.danger{color:var(--danger);border-color:#ff525255;background:#ff52521a}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:22px}.metric{padding:22px}.metric-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}.metric-value{font-size:28px;color:var(--accent);font-weight:700;margin-top:8px}.panel{padding:22px}.panel-heading{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}.panel-heading h2{font-size:18px;margin:0}.input{width:100%;padding:11px 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);outline:none}.input:focus{border-color:var(--accent)}.search{max-width:290px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left}th,td{padding:13px 14px;border-bottom:1px solid var(--border)}th{font-size:11px;color:var(--muted);text-transform:uppercase}tbody tr:hover{background:#ffffff05}.badge{display:inline-block;padding:5px 9px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase}.standard{color:var(--muted);background:#ffffff0d}.vip{color:#ffd700;background:#ffd7001a}.linux{color:var(--accent);background:#00e6761a}.nextendo{color:#ff4081;background:#ff40811a}
-    .status{margin:0 0 16px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;color:var(--muted)}.status.error{color:var(--danger);border-color:#ff525255}.status.warn{color:var(--warning);border-color:#ffab4055}.modal{position:fixed;inset:0;z-index:5;display:none;place-items:center;padding:16px;background:#0a0c10cc;backdrop-filter:blur(7px)}.modal.open{display:grid}.dialog{width:min(500px,100%);max-height:90vh;overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:0 20px 40px #0008}.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.dialog-head h2{font-size:19px;margin:0}.form-group{margin:14px 0}.form-group label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}.row{display:flex;gap:9px;align-items:center}.row>*{min-width:0}.detail{padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--bg);margin:12px 0}.presets{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}.presets button{flex:1;min-width:54px;padding:8px}.history{max-height:140px;overflow:auto;margin-top:8px}.history-row{display:flex;justify-content:space-between;gap:10px;padding:7px;border-bottom:1px solid #ffffff0a;font-size:13px}.add{color:var(--accent)}.sub{color:var(--danger)}#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:12px 18px;color:var(--accent);transition:.2s;z-index:10}#toast.show{opacity:1;transform:translate(-50%,0)}
-    @media(max-width:650px){body{padding:12px}.header{align-items:flex-start;flex-direction:column;padding:17px}.actions{justify-content:flex-start}.metrics{gap:10px}.metric,.panel{padding:16px}.metric-value{font-size:23px}.search{max-width:none;width:100%}th,td{padding:10px;font-size:13px}.row.mobile-wrap{flex-wrap:wrap}.row.mobile-wrap>*{flex:1 1 100%}}
+    *{box-sizing:border-box}body{margin:0;padding:20px;min-height:100vh;background:var(--bg);color:var(--text);font:15px Inter,system-ui,sans-serif}.app{max-width:1000px;margin:auto}.header,.panel,.metric,.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 24px #0004}.header{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:14px}.logo{width:48px;height:48px;border:1px solid var(--accent);border-radius:12px;display:grid;place-items:center;font-size:24px;background:#00e6761a}.brand h1{font-size:20px;margin:0 0 4px}.brand small{color:var(--muted)}.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}button,input,select{font:inherit}button{border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);padding:10px 14px;font-weight:600;cursor:pointer;transition:.2s}button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}button:disabled{opacity:.55;cursor:not-allowed}.primary{background:var(--accent);color:#06120a;border-color:var(--accent)}.primary:hover:not(:disabled){background:#00c853;color:#06120a}.danger{color:var(--danger);border-color:#ff525255;background:#ff52521a}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:22px}.metric{padding:22px}.metric-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}.metric-value{font-size:28px;color:var(--accent);font-weight:700;margin-top:8px}.panel{padding:22px}.panel-heading{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}.panel-heading h2{font-size:18px;margin:0}.input{width:100%;padding:11px 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);outline:none}.input:focus{border-color:var(--accent)}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left}th,td{padding:13px 14px;border-bottom:1px solid var(--border)}th{font-size:11px;color:var(--muted);text-transform:uppercase}tbody tr:hover{background:#ffffff05}.badge{display:inline-block;padding:5px 9px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase}.standard{color:var(--muted);background:#ffffff0d}.vip{color:#ffd700;background:#ffd7001a}.linux{color:var(--accent);background:#00e6761a}.nextendo{color:#ff4081;background:#ff40811a}.status{margin:0 0 16px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;color:var(--muted)}.status.error{color:var(--danger);border-color:#ff525255}.status.warn{color:var(--warning);border-color:#ffab4055}.auth-screen{min-height:75vh;display:grid;place-items:center}.auth-card{width:min(420px,100%);padding:26px}.auth-card h2{margin:0 0 8px}.auth-card p{color:var(--muted);line-height:1.55}.form-group{margin:14px 0}.form-group label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}.auth-buttons{display:flex;gap:10px}.auth-buttons button{flex:1}.note{font-size:12px;color:var(--warning)!important}.row{display:flex;gap:9px;align-items:center}.row>*{min-width:0}.detail{padding:16px;border:1px solid var(--border);border-radius:12px;background:var(--bg);margin:14px 0}.history{max-height:160px;overflow:auto;margin-top:8px}.history-row{display:flex;justify-content:space-between;gap:10px;padding:7px;border-bottom:1px solid #ffffff0a;font-size:13px}.add{color:var(--accent)}.sub{color:var(--danger)}.hidden{display:none!important}#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--surface);border:1px solid var(--accent);border-radius:10px;padding:12px 18px;color:var(--accent);transition:.2s;z-index:10}#toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:650px){body{padding:12px}.header{align-items:flex-start;flex-direction:column;padding:17px}.actions{justify-content:flex-start}.metrics{gap:10px}.metric,.panel{padding:16px}.metric-value{font-size:23px}th,td{padding:10px;font-size:13px}.row.mobile-wrap{flex-wrap:wrap}.row.mobile-wrap>*{flex:1 1 100%}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
 <body>
   <main class="app">
-    <header class="header">
-      <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small>Персональный финансовый терминал</small></div></div>
-      <div class="actions">
-        <button class="primary" data-action="new-account" disabled>➕ Открыть счет</button>
-        <button data-action="open-terminal" disabled>💳 Терминал</button>
-        <button data-action="set-token">🔑 Токен</button>
+    <section id="auth-screen" class="auth-screen">
+      <div class="auth-card">
+        <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small>Игровой банк</small></div></div>
+        <h2 id="auth-title" style="margin-top:24px">Вход в аккаунт</h2>
+        <p>Войди или создай игровой аккаунт.</p>
+        <div class="form-group"><label for="username">Логин</label><input id="username" class="input" maxlength="24" autocomplete="username" required></div>
+        <div class="form-group"><label for="password">Пароль</label><input id="password" class="input" type="password" minlength="6" autocomplete="current-password" required></div>
+        <div id="token-group" class="form-group hidden"><label for="token">Токен для сохранения аккаунта</label><input id="token" class="input" type="password" autocomplete="off" placeholder="Вставь токен сюда"></div>
+        <div class="auth-buttons"><button class="primary" id="login-button">Войти</button><button id="register-button">Регистрация</button></div>
+        <p class="note">Игровой проект: данные и проверка аккаунтов находятся в публичных файлах сайта. Не используй настоящий пароль. Токен нужен для создания аккаунта и сохранения изменений; он хранится в cookie этого браузера.</p>
       </div>
-    </header>
-    <div id="status" class="status" role="status" aria-live="polite">Загрузка счетов…</div>
-    <section class="metrics" aria-label="Статистика">
-      <article class="metric"><div class="metric-label">Активных счетов</div><div id="stat-count" class="metric-value">0</div></article>
-      <article class="metric"><div class="metric-label">Средний баланс</div><div id="stat-avg" class="metric-value">0 ЛК</div></article>
     </section>
-    <section class="panel">
-      <div class="panel-heading"><h2>Реестр участников</h2><input id="search" class="input search" type="search" placeholder="Поиск по имени или ID…" aria-label="Поиск по имени или ID"></div>
-      <div class="table-wrap"><table><thead><tr><th>ID</th><th>Владелец счета</th><th>Тип карты</th><th>Баланс</th></tr></thead><tbody id="accounts"></tbody></table></div>
+
+    <section id="bank-screen" class="hidden">
+      <header class="header">
+        <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small>Счет игрока: <span id="current-user"></span></small></div></div>
+        <div class="actions"><button id="token-button">🔑 Токен</button><button id="logout-button">Выйти</button></div>
+      </header>
+      <div id="status" class="status" role="status" aria-live="polite">Загрузка счета…</div>
+      <section class="metrics" aria-label="Статистика"><article class="metric"><div class="metric-label">Мой баланс</div><div id="balance" class="metric-value">0 ЛК</div></article><article class="metric"><div class="metric-label">Мой ID</div><div id="account-id" class="metric-value">—</div></article></section>
+      <section class="panel">
+        <div class="panel-heading"><h2>Операции со счетом</h2></div>
+        <div class="detail">
+          <div class="form-group"><label for="amount">Сумма</label><input id="amount" class="input" type="number" min="1" step="1" placeholder="Например: 50"></div>
+          <div class="row"><button id="withdraw-button" class="danger" style="flex:1">Списать</button><button id="deposit-button" class="primary" style="flex:1">Пополнить</button></div>
+          <div class="form-group"><label for="target-id">Перевести на ID счета</label><div class="row mobile-wrap"><input id="target-id" class="input" inputmode="numeric" placeholder="ID получателя"><button id="transfer-button">Перевести</button></div></div>
+        </div>
+        <h2 style="font-size:16px">Последние операции</h2><div id="history" class="history"></div>
+      </section>
     </section>
   </main>
-  <div id="terminal" class="modal" role="dialog" aria-modal="true" aria-labelledby="terminal-title">
-    <section class="dialog">
-      <div class="dialog-head"><h2 id="terminal-title">Управление счетом</h2><button data-action="close-terminal" aria-label="Закрыть">✕</button></div>
-      <div class="form-group"><label for="card-id">Введите ID счета:</label><input id="card-id" class="input" type="text" inputmode="numeric" autocomplete="off" placeholder="Например: 1"></div>
-      <div id="card-details" class="detail" hidden>
-        <div class="row" style="justify-content:space-between"><div><b>Клиент:</b> <span id="owner"></span></div><button data-action="rename">Изменить имя</button></div>
-        <div class="form-group"><label for="card-type">Тип карты:</label><select id="card-type" class="input"><option>Standard</option><option>VIP</option><option>Linux</option><option>Nextendo</option></select></div>
-        <div><b>Баланс:</b> <span id="balance" class="add"></span> ЛК</div>
-        <div class="form-group"><label>Последние операции:</label><div id="history" class="history"></div></div>
-      </div>
-      <div id="transactions" hidden>
-        <div class="form-group"><label for="amount">Сумма операции:</label><input id="amount" class="input" type="number" min="1" step="1" placeholder="0"></div>
-        <div class="presets"><button data-amount="10">+10</button><button data-amount="50">+50</button><button data-amount="100">+100</button><button data-amount="500">+500</button><button data-amount="1000">+1000</button></div>
-        <div class="row"><button class="danger" data-action="withdraw" style="flex:1">Списать</button><button class="primary" data-action="deposit" style="flex:1">Зачислить</button></div>
-        <div class="form-group"><label for="target-id">Перевод средств на ID:</label><div class="row mobile-wrap"><input id="target-id" class="input" type="text" inputmode="numeric" placeholder="ID получателя"><button data-action="transfer">Отправить</button></div></div>
-        <button class="danger" data-action="delete" style="width:100%">Удалить банковский счет</button>
-      </div>
-    </section>
-  </div>
   <div id="toast" role="status" aria-live="polite"></div>
   <script>
     "use strict";
-    const CONFIG = Object.freeze({ owner: "Platonchu", repo: "linuxi.github.io", file: "data.json", tokenKey: "linuxi_github_token", adminPinHash: "f3ae5630e91f62b1a6146d3c25adaf6cb48dbd780338ace16868b2d4f1eb0e4c" });
-    const state = { accounts: [], loaded: false, saving: false, baseline: "", activeId: null };
+    const CONFIG = Object.freeze({ owner: "Platonchu", repo: "linuxi.github.io", usersFile: "users.json", dataFile: "data.json", tokenCookie: "linuxi_token", maxAge: 2592000 });
+    const state = { users: [], accounts: [], user: null, baselineUsers: "", baselineData: "", saving: false };
     const $ = (id) => document.getElementById(id);
     const allowedTypes = new Set(["Standard", "VIP", "Linux", "Nextendo"]);
-
-    async function sha256Hex(value) {
-      const bytes = new TextEncoder().encode(value);
-      const digest = await crypto.subtle.digest("SHA-256", bytes);
-      return Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
-    }
-
+    const apiUrl = (file) => `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${file}`;
+    function toast(message) { const node = $("toast"); node.textContent = message; node.classList.add("show"); clearTimeout(toast.timer); toast.timer = setTimeout(() => node.classList.remove("show"), 3200); }
     function setStatus(message, kind = "") { const node = $("status"); node.textContent = message; node.className = `status ${kind}`.trim(); }
-    function toast(message) { const node = $("toast"); node.textContent = message; node.classList.add("show"); clearTimeout(toast.timer); toast.timer = setTimeout(() => node.classList.remove("show"), 3000); }
-    function canonical(accounts = state.accounts) { return JSON.stringify(accounts, null, 2); }
+    function canonical(value) { return JSON.stringify(value, null, 2); }
+    function readCookie(name) { const prefix = `${name}=`; const item = document.cookie.split("; ").find((part) => part.startsWith(prefix)); return item ? decodeURIComponent(item.slice(prefix.length)) : ""; }
+    function saveToken(token) { const secure = location.protocol === "https:" ? "; Secure" : ""; document.cookie = `${CONFIG.tokenCookie}=${encodeURIComponent(token)}; Max-Age=${CONFIG.maxAge}; Path=/; SameSite=Strict${secure}`; }
+    function clearToken() { document.cookie = `${CONFIG.tokenCookie}=; Max-Age=0; Path=/; SameSite=Strict${location.protocol === "https:" ? "; Secure" : ""}`; }
+    function setSession(user) { sessionStorage.setItem("linuxi_user", user.username); state.user = user; $("auth-screen").classList.add("hidden"); $("bank-screen").classList.remove("hidden"); $("current-user").textContent = user.username; renderAccount(); }
+    function endSession() { state.user = null; sessionStorage.removeItem("linuxi_user"); $("bank-screen").classList.add("hidden"); $("auth-screen").classList.remove("hidden"); $("password").value = ""; }
     function normalizeAccount(account, index) {
       if (!account || typeof account !== "object" || Array.isArray(account)) throw new Error(`Некорректная запись счета №${index + 1}`);
-      const id = account.id == null || String(account.id).trim() === "" ? String(index + 1) : String(account.id).trim();
-      const owner = typeof account.owner === "string" && account.owner.trim() ? account.owner.trim() : (typeof account.name === "string" && account.name.trim() ? account.name.trim() : "Неизвестно");
-      const type = allowedTypes.has(account.type) ? account.type : "Standard";
-      const balance = Number(account.balance ?? 0);
-      if (!Number.isSafeInteger(balance) || balance < 0) throw new Error(`Некорректный баланс у счета ${id}`);
-      const history = Array.isArray(account.history) ? account.history.map((item) => { const amount = Number(item?.amount ?? 0); if (!Number.isSafeInteger(amount) || amount < 0) throw new Error(`Некорректная история счета ${id}`); return { time: String(item?.time || "--:--"), type: item?.type === "add" ? "add" : "sub", amount, note: String(item?.note || "Операция") }; }) : [];
+      const id = account.id == null || String(account.id).trim() === "" ? String(index + 1) : String(account.id).trim(); const owner = String(account.owner || account.name || "Игрок").trim();
+      const type = allowedTypes.has(account.type) ? account.type : "Standard"; const balance = Number(account.balance ?? 0);
+      if (!Number.isSafeInteger(balance) || balance < 0) throw new Error(`Некорректный баланс счета ${id}`);
+      const history = Array.isArray(account.history) ? account.history.map((item) => { const amount = Number(item?.amount ?? 0); if (!Number.isSafeInteger(amount) || amount < 0) throw new Error(`Некорректная операция счета ${id}`); return { time: String(item?.time || "--:--"), type: item?.type === "add" ? "add" : "sub", amount, note: String(item?.note || "Операция") }; }) : [];
       return { id, owner, type, balance, history };
     }
-    function normalizeAccounts(raw) { if (!Array.isArray(raw)) throw new Error("Файл data.json должен содержать массив счетов."); const accounts = raw.map(normalizeAccount); if (new Set(accounts.map((account) => account.id)).size !== accounts.length) throw new Error("В data.json обнаружены повторяющиеся ID счетов."); return accounts; }
-    async function pinAccepted() {
-      const input = window.prompt("Введите PIN-код администратора:");
-      if (input === null) return false;
-      const candidateHash = await sha256Hex(input);
-      if (candidateHash === CONFIG.adminPinHash) return true;
-      toast("Неверный PIN-код");
-      return false;
+    function normalizeAccounts(raw) { if (!Array.isArray(raw)) throw new Error("Файл счетов имеет неверный формат."); const accounts = raw.map(normalizeAccount); if (new Set(accounts.map((item) => item.id)).size !== accounts.length) throw new Error("Есть повторяющиеся ID счетов."); return accounts; }
+    function normalizeUsers(raw) {
+      if (!Array.isArray(raw)) throw new Error("Файл пользователей имеет неверный формат.");
+      const users = raw.map((user) => { if (!user || typeof user.username !== "string" || typeof user.salt !== "string" || typeof user.passwordHash !== "string" || typeof user.accountId !== "string") throw new Error("Некорректная запись пользователя."); return user; });
+      if (new Set(users.map((item) => item.username.toLowerCase())).size !== users.length) throw new Error("Есть повторяющиеся логины."); return users;
     }
-    function findActive() { return state.accounts.find((account) => account.id === state.activeId) || null; }
-    function renderTable() {
-      const tbody = $("accounts"); tbody.replaceChildren(); const filter = $("search").value.trim().toLocaleLowerCase("ru"); let total = 0;
-      state.accounts.forEach((account) => { total += account.balance; if (!account.owner.toLocaleLowerCase("ru").includes(filter) && !account.id.toLocaleLowerCase("ru").includes(filter)) return;
-        const row = document.createElement("tr"); const idCell = document.createElement("td"); const id = document.createElement("b"); id.textContent = `#${account.id}`; idCell.append(id);
-        const owner = document.createElement("td"); owner.textContent = account.owner; const typeCell = document.createElement("td"); const badge = document.createElement("span"); badge.className = `badge ${account.type.toLowerCase()}`; badge.textContent = account.type; typeCell.append(badge);
-        const balance = document.createElement("td"); balance.className = "add"; balance.textContent = `${account.balance} ЛК`; row.append(idCell, owner, typeCell, balance); tbody.append(row);
-      });
-      $("stat-count").textContent = String(state.accounts.length); $("stat-avg").textContent = state.accounts.length ? `${Math.round(total / state.accounts.length)} ЛК` : "0 ЛК";
+    async function hashPassword(password, salt) { const bytes = new TextEncoder().encode(`${salt}:${password}`); const digest = await crypto.subtle.digest("SHA-256", bytes); return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join(""); }
+    function randomSalt() { const bytes = crypto.getRandomValues(new Uint8Array(16)); return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join(""); }
+    async function loadJson(file, token = "") {
+      const headers = token ? { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" } : {};
+      const response = await fetch(`${apiUrl(file)}?ts=${Date.now()}`, { headers, cache: "no-store" });
+      if (!response.ok) throw new Error(`Не удалось загрузить ${file} (ошибка ${response.status}).`);
+      const json = await response.json(); const raw = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(json.content.replace(/\s/g, "")), (char) => char.charCodeAt(0))));
+      return { raw, sha: json.sha };
     }
-    function renderCard() {
-      const account = findActive(); const details = $("card-details"); const transactions = $("transactions"); details.hidden = transactions.hidden = !account; if (!account) return;
-      $("owner").textContent = account.owner; $("balance").textContent = String(account.balance); $("card-type").value = account.type; const history = $("history"); history.replaceChildren();
-      if (!account.history.length) { const empty = document.createElement("div"); empty.textContent = "Нет операций"; empty.style.color = "var(--muted)"; history.append(empty); return; }
-      account.history.slice(-5).reverse().forEach((item) => { const row = document.createElement("div"); row.className = "history-row"; const note = document.createElement("span"); note.textContent = `${item.time} (${item.note})`; const amount = document.createElement("span"); amount.className = item.type; amount.textContent = `${item.type === "add" ? "+" : "−"}${item.amount} ЛК`; row.append(note, amount); history.append(row); });
+    async function loadFiles() {
+      const [usersFile, dataFile] = await Promise.all([loadJson(CONFIG.usersFile), loadJson(CONFIG.dataFile)]);
+      state.users = normalizeUsers(usersFile.raw); state.accounts = normalizeAccounts(dataFile.raw); state.baselineUsers = canonical(state.users); state.baselineData = canonical(state.accounts);
     }
-    async function openTerminal() { if (!state.loaded || !(await pinAccepted())) return; $("terminal").classList.add("open"); $("card-id").focus(); }
-    function closeTerminal() { $("terminal").classList.remove("open"); $("card-id").value = ""; $("amount").value = ""; $("target-id").value = ""; state.activeId = null; renderCard(); }
-    function updateActiveCard() { const id = $("card-id").value.trim(); state.activeId = state.accounts.some((account) => account.id === id) ? id : null; renderCard(); }
-    function record(account, type, amount, note) { account.history.push({ time: new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }), type, amount, note }); }
-    function readAmount() { const amount = Number($("amount").value); if (!Number.isSafeInteger(amount) || amount <= 0) throw new Error("Введите положительную целую сумму."); return amount; }
-    function nextId() { const ids = state.accounts.map((account) => Number(account.id)).filter(Number.isSafeInteger); let id = String(ids.length ? Math.max(...ids) + 1 : 1); while (state.accounts.some((account) => account.id === id)) id = String(Number(id) + 1); return id; }
-    function requireReady() { if (!state.loaded) { toast("Данные не загружены — изменения отключены"); return false; } if (state.saving) { toast("Дождитесь завершения сохранения"); return false; } return true; }
-    function utf8Base64(value) { const bytes = new TextEncoder().encode(value); let binary = ""; for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000)); return btoa(binary); }
-    function decodeContent(content) { return new TextDecoder().decode(Uint8Array.from(atob(content.replace(/\s/g, "")), (char) => char.charCodeAt(0))); }
-    async function saveChanges() {
-      if (!state.loaded || state.saving) return false; const token = localStorage.getItem(CONFIG.tokenKey);
-      if (!token) { setStatus("Из��енения пока не сохранены. Добавьте токен, чтобы сохранить их.", "warn"); return false; }
-      state.saving = true; setStatus("Сохранение изменений…"); const headers = { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }; const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.file}`;
-      try {
-        const currentResponse = await fetch(url, { headers, cache: "no-store" });
-        if (!currentResponse.ok) throw new Error(currentResponse.status === 401 || currentResponse.status === 403 ? "Токен недействителен или не имеет права записи. Проверьте его." : `Не удалось получить данные (ошибка ${currentResponse.status}).`);
-        const current = await currentResponse.json(); const remote = normalizeAccounts(JSON.parse(decodeContent(current.content)));
-        if (canonical(remote) !== state.baseline) throw new Error("Данные изменились в другом месте. Обновите страницу, чтобы не затереть изменения.");
-        const content = canonical(); const writeResponse = await fetch(url, { method: "PUT", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify({ message: "Update bank account data", content: utf8Base64(content), sha: current.sha }) });
-        if (!writeResponse.ok) { if (writeResponse.status === 409 || writeResponse.status === 422) throw new Error("Обнаружен конфликт версии. Данные не перезаписаны; обновите страницу и повторите изменение."); throw new Error(`Не удалось сохранить данные (ошибка ${writeResponse.status}).`); }
-        state.baseline = content; setStatus("Изменения сохранены."); toast("Изменения сохранены"); return true;
-      } catch (error) { console.error("Ошибка синхронизации:", error); setStatus(error.message || "Не удалось сохранить изменения.", "error"); toast("Не удалось сохранить изменения"); return false; }
-      finally { state.saving = false; }
+    async function writeFile(file, value, baseline, token) {
+      const headers = { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
+      const response = await fetch(apiUrl(file), { headers, cache: "no-store" });
+      if (!response.ok) throw new Error(`Токен не подходит или нет доступа к файлу ${file} (ошибка ${response.status}).`);
+      const remote = await response.json(); const decoded = new TextDecoder().decode(Uint8Array.from(atob(remote.content.replace(/\s/g, "")), (char) => char.charCodeAt(0)));
+      const parsed = JSON.parse(decoded); const normalized = file === CONFIG.usersFile ? normalizeUsers(parsed) : normalizeAccounts(parsed);
+      if (canonical(normalized) !== baseline) throw new Error(`Файл ${file} изменился в другом месте. Обнови страницу и попробуй снова.`);
+      const bytes = new TextEncoder().encode(canonical(value)); let binary = ""; for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+      const result = await fetch(apiUrl(file), { method: "PUT", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify({ message: "Update game accounts", content: btoa(binary), sha: remote.sha }) });
+      if (!result.ok) throw new Error(`Не удалось сохранить ${file} (ошибка ${result.status}).`);
     }
-    async function mutate(operation) { if (!requireReady()) return; try { await operation(); renderTable(); renderCard(); await saveChanges(); } catch (error) { toast(error.message); } }
-    async function createAccount() {
-      if (!requireReady() || !(await pinAccepted())) return;
-      const owner = window.prompt("Введите имя владельца счета:"); if (!owner || !owner.trim()) return;
-      const choice = window.prompt("Тип карты (1 — Standard, 2 — VIP, 3 — Linux, 4 — Nextendo):", "1"); const type = ({ "2": "VIP", "3": "Linux", "4": "Nextendo" })[choice] || "Standard";
-      const account = { id: nextId(), owner: owner.trim(), type, balance: 100, history: [] }; record(account, "add", 100, "Открытие счета"); state.accounts.push(account); renderTable(); toast(`Счет №${account.id} создан`); await saveChanges();
+    async function persistAll() {
+      if (state.saving) throw new Error("Подожди завершения сохранения."); const token = readCookie(CONFIG.tokenCookie); if (!token) throw new Error("Нужен токен. Нажми «Токен» и введи его.");
+      state.saving = true; setStatus("Сохранение изменений…");
+      try { await writeFile(CONFIG.dataFile, state.accounts, state.baselineData, token); state.baselineData = canonical(state.accounts); await writeFile(CONFIG.usersFile, state.users, state.baselineUsers, token); state.baselineUsers = canonical(state.users); setStatus("Изменения сохранены."); }
+      catch (error) { setStatus(error.message, "error"); throw error; } finally { state.saving = false; }
     }
-    async function handleAction(action) {
-      if (action === "open-terminal") return openTerminal(); if (action === "close-terminal") return closeTerminal();
-      if (action === "set-token") { const current = localStorage.getItem(CONFIG.tokenKey) || ""; const token = window.prompt("Введите токен для сохранения изменений:", current); if (token === null) return; if (token.trim()) { localStorage.setItem(CONFIG.tokenKey, token.trim()); toast("Токен сохранен в этом браузере"); } else { localStorage.removeItem(CONFIG.tokenKey); toast("Токен удален"); } return; }
-      if (action === "new-account") return createAccount();
-      if (action === "rename") return mutate(async () => { const account = findActive(); if (!account) return; const name = window.prompt("Новое имя владельца:", account.owner); if (name && name.trim()) account.owner = name.trim(); });
-      if (action === "delete") return mutate(async () => { const account = findActive(); if (!account || !window.confirm(`Удалить счет ${account.owner} (ID: ${account.id})?`)) return; state.accounts = state.accounts.filter((item) => item.id !== account.id); state.activeId = null; });
-      if (action === "deposit" || action === "withdraw") return mutate(async () => { const account = findActive(); if (!account) throw new Error("Сначала найдите счет."); const amount = readAmount(); if (action === "withdraw" && account.balance < amount) throw new Error(`Недостаточно средств. Баланс: ${account.balance} ЛК.`); if (action === "deposit" && !Number.isSafeInteger(account.balance + amount)) throw new Error("Сумма превышает допустимый предел."); account.balance += action === "deposit" ? amount : -amount; record(account, action === "deposit" ? "add" : "sub", amount, action === "deposit" ? "Пополнение" : "Списание"); $("amount").value = ""; });
-      if (action === "transfer") return mutate(async () => { const sender = findActive(); const targetId = $("target-id").value.trim(); const target = state.accounts.find((item) => item.id === targetId); const amount = readAmount(); if (!sender || !targetId) throw new Error("Укажите счет и ID получателя."); if (!target) throw new Error("Получатель не найден."); if (target === sender) throw new Error("Нельзя перевести самому себе."); if (sender.balance < amount) throw new Error(`Недостаточно средств. Баланс: ${sender.balance} ЛК.`); if (!Number.isSafeInteger(target.balance + amount)) throw new Error("Сумма превышает допустимый предел."); sender.balance -= amount; target.balance += amount; record(sender, "sub", amount, `Перевод на ID ${target.id}`); record(target, "add", amount, `Перевод от ID ${sender.id}`); $("amount").value = ""; $("target-id").value = ""; });
+    function activeAccount() { return state.user ? state.accounts.find((account) => account.id === state.user.accountId) : null; }
+    function renderAccount() {
+      const account = activeAccount(); if (!account) { setStatus("Счет пользователя не найден.", "error"); endSession(); return; }
+      $("balance").textContent = `${account.balance} ЛК`; $("account-id").textContent = `#${account.id}`; const history = $("history"); history.replaceChildren();
+      if (!account.history.length) { const empty = document.createElement("p"); empty.textContent = "Операций пока нет."; empty.style.color = "var(--muted)"; history.append(empty); return; }
+      account.history.slice(-10).reverse().forEach((item) => { const row = document.createElement("div"); row.className = "history-row"; const note = document.createElement("span"); note.textContent = `${item.time} — ${item.note}`; const amount = document.createElement("span"); amount.className = item.type; amount.textContent = `${item.type === "add" ? "+" : "−"}${item.amount} ЛК`; row.append(note, amount); history.append(row); });
     }
-    async function loadData() {
-      try { const response = await fetch(`data.json?ts=${Date.now()}`, { cache: "no-store" }); if (!response.ok) throw new Error(`Не удалось загрузить список счетов (ошибка ${response.status}).`); state.accounts = normalizeAccounts(await response.json()); state.baseline = canonical(); state.loaded = true; setStatus("Счета загружены. Для сохранения изменений нужен токен с правом записи.", "warn"); document.querySelectorAll('[data-action="new-account"], [data-action="open-terminal"]').forEach((button) => { button.disabled = false; }); renderTable(); }
-      catch (error) { setStatus(`${error.message} Изменение данных отключено, чтобы избежать потери информации.`, "error"); console.error(error); }
+    function addHistory(account, type, amount, note) { account.history.push({ time: new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }), type, amount, note }); }
+    async function register() {
+      const username = $("username").value.trim(); const password = $("password").value;
+      if (!/^[\p{L}\p{N}_-]{3,24}$/u.test(username)) throw new Error("Логин: 3–24 символа (буквы, цифры, _ или -).");
+      if (password.length < 6) throw new Error("Пароль должен быть не короче 6 символов.");
+      if (state.users.some((user) => user.username.toLowerCase() === username.toLowerCase())) throw new Error("Такой логин уже занят.");
+      let token = readCookie(CONFIG.tokenCookie) || $("token").value.trim();
+      if (!token) { $("token-group").classList.remove("hidden"); throw new Error("Введи токен, чтобы создать аккаунт."); }
+      saveToken(token);
+      const accountId = String(Math.max(0, ...state.accounts.map((account) => Number(account.id)).filter(Number.isSafeInteger)) + 1);
+      const salt = randomSalt(); const user = { username, salt, passwordHash: await hashPassword(password, salt), accountId };
+      state.accounts.push({ id: accountId, owner: username, type: "Standard", balance: 100, history: [{ time: new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }), type: "add", amount: 100, note: "Стартовый бонус" }] }); state.users.push(user);
+      await persistAll(); setSession(user); toast("Аккаунт создан! Начислен бонус 100 ЛК.");
     }
-    document.addEventListener("click", (event) => { const amountButton = event.target.closest("[data-amount]"); if (amountButton) { $("amount").value = amountButton.dataset.amount; return; } const actionButton = event.target.closest("[data-action]"); if (actionButton) void handleAction(actionButton.dataset.action); });
-    $("search").addEventListener("input", renderTable); $("card-id").addEventListener("input", updateActiveCard); $("card-type").addEventListener("change", () => { void mutate(async () => { const account = findActive(); if (account) account.type = $("card-type").value; }); }); $("terminal").addEventListener("click", (event) => { if (event.target === $("terminal")) closeTerminal(); }); document.addEventListener("keydown", (event) => { if (event.key === "Escape" && $("terminal").classList.contains("open")) closeTerminal(); });
-    void loadData();
+    async function login() {
+      const username = $("username").value.trim(); const password = $("password").value; const user = state.users.find((item) => item.username.toLowerCase() === username.toLowerCase());
+      if (!user || await hashPassword(password, user.salt) !== user.passwordHash) throw new Error("Неверный логин или пароль.");
+      setSession(user); toast(`Привет, ${user.username}!`);
+    }
+    async function runAuth(mode) {
+      try { $("login-button").disabled = $("register-button").disabled = true; await loadFiles(); if (mode === "register") await register(); else await login(); }
+      catch (error) { toast(error.message); } finally { $("login-button").disabled = $("register-button").disabled = false; }
+    }
+    async function changeBalance(kind) {
+      const account = activeAccount(); if (!account) return; const amount = Number($("amount").value);
+      if (!Number.isSafeInteger(amount) || amount <= 0) { toast("Введи положительную целую сумму."); return; }
+      if (kind === "withdraw" && account.balance < amount) { toast("Недостаточно средств."); return; }
+      if (kind === "deposit" && !Number.isSafeInteger(account.balance + amount)) { toast("Сумма слишком большая."); return; }
+      account.balance += kind === "deposit" ? amount : -amount; addHistory(account, kind === "deposit" ? "add" : "sub", amount, kind === "deposit" ? "Пополнение" : "Списание");
+      try { await persistAll(); renderAccount(); $("amount").value = ""; toast("Изменения сохранены."); } catch (error) { toast(error.message); }
+    }
+    async function transfer() {
+      const sender = activeAccount(); const targetId = $("target-id").value.trim(); const target = state.accounts.find((account) => account.id === targetId); const amount = Number($("amount").value);
+      if (!target) { toast("Счет получателя не найден."); return; } if (target === sender) { toast("Нельзя перевести самому себе."); return; }
+      if (!Number.isSafeInteger(amount) || amount <= 0) { toast("Введи положительную целую сумму."); return; } if (sender.balance < amount) { toast("Недостаточно средств."); return; } if (!Number.isSafeInteger(target.balance + amount)) { toast("Сумма слишком большая."); return; }
+      sender.balance -= amount; target.balance += amount; addHistory(sender, "sub", amount, `Перевод на счет #${target.id}`); addHistory(target, "add", amount, `Перевод от ${sender.owner}`);
+      try { await persistAll(); renderAccount(); $("amount").value = ""; $("target-id").value = ""; toast("Перевод выполнен."); } catch (error) { toast(error.message); }
+    }
+    $("login-button").addEventListener("click", () => void runAuth("login"));
+    $("register-button").addEventListener("click", () => { $("auth-title").textContent = "Создать аккаунт"; $("token-group").classList.remove("hidden"); void runAuth("register"); });
+    $("password").addEventListener("keydown", (event) => { if (event.key === "Enter") void runAuth("login"); });
+    $("withdraw-button").addEventListener("click", () => void changeBalance("withdraw")); $("deposit-button").addEventListener("click", () => void changeBalance("deposit")); $("transfer-button").addEventListener("click", () => void transfer());
+    $("logout-button").addEventListener("click", endSession);
+    $("token-button").addEventListener("click", () => { const token = window.prompt("Введи токен для сохранения аккаунтов и операций:"); if (token === null) return; if (token.trim()) { saveToken(token.trim()); toast("Токен сохранен в cookie этого браузера."); } else { clearToken(); toast("Токен удален."); } });
   </script>
 </body>
 </html>
