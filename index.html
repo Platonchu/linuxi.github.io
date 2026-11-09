@@ -4,183 +4,116 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10151d">
-  <meta name="description" content="Linuxi Bank — игровой личный кабинет.">
+  <meta name="description" content="Linuxi Bank — игровой банк с личным кабинетом, переводами и магазином.">
   <title>Linuxi Bank</title>
   <style>
-    :root{color-scheme:dark;--panel:#1a222d;--line:#344153;--text:#eef4fb;--muted:#a2afbf;--green:#42df91;--red:#ff6b73}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 10% 0%,#15372e 0%,transparent 36%),linear-gradient(145deg,#0d1219,#121b27);color:var(--text);font:16px/1.5 system-ui,sans-serif}button,input,select{font:inherit}button{border:0;border-radius:12px;padding:10px 15px;background:#293647;color:var(--text);font-weight:700;cursor:pointer}button:hover{filter:brightness(1.12)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--green);outline-offset:2px}button:disabled{opacity:.55;cursor:not-allowed}.primary{background:var(--green);color:#082416}.danger{background:var(--red);color:white}.hidden{display:none!important}main{width:min(1120px,calc(100% - 32px));margin:28px auto}.card,.panel{background:rgba(26,34,45,.96);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 55px #0004}.notice{padding:12px 15px;margin-bottom:16px;border:1px solid #826e36;border-radius:12px;background:#332b18;color:#f5dfa0}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 20px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#174331;font-size:26px}h1,h2,h3,p{margin:0}.brand h1{font-size:1.3rem}.muted,.status{color:var(--muted)}.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px}.sidebar,.maincol{display:grid;align-content:start;gap:16px}.stat,.panel{padding:20px}.label{display:block;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.07em}.stat strong{display:block;font-size:1.6rem;margin-top:5px;overflow-wrap:anywhere}.field{margin-top:14px}.field label{display:block;font-weight:650;margin-bottom:7px}.input,select{display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 13px;background:#111923;color:var(--text)}.buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}.terminal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.terminal-box,.history-item,.product{border:1px solid var(--line);border-radius:14px;padding:15px;background:#111923}.history{display:grid;gap:9px;margin-top:12px}.history-item{display:flex;justify-content:space-between;align-items:center;gap:12px}.history-item small{color:var(--muted)}.add{color:var(--green)}.sub{color:var(--red)}.empty{color:var(--muted);border:1px dashed var(--line);border-radius:14px;padding:20px;text-align:center}.market{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}.product{display:grid;gap:10px}.product h3{font-size:1rem}.product .price{color:var(--green);font-weight:750}.toast{position:fixed;right:18px;bottom:18px;max-width:min(420px,calc(100vw - 36px));padding:13px 16px;border:1px solid var(--line);border-radius:12px;background:#202b38;box-shadow:0 10px 30px #0004;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;z-index:5}.toast.show{opacity:1;transform:none}.footer{margin-top:18px;color:var(--muted);font-size:.88rem;text-align:center}@media(max-width:760px){.layout{grid-template-columns:1fr}.terminal-grid{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.topbar .buttons{width:100%}.topbar button{flex:1}}
+    :root{color-scheme:dark;--bg:#10151d;--panel:#1a222d;--panel2:#111923;--line:#344153;--text:#eef4fb;--muted:#a2afbf;--green:#42df91;--red:#ff6b73;--blue:#77b7ff;--yellow:#f0c76d}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 10% 0%,#15372e 0%,transparent 36%),linear-gradient(145deg,#0d1219,#121b27);color:var(--text);font:16px/1.5 system-ui,sans-serif}button,input,select{font:inherit}button{appearance:none;border:0;border-radius:12px;padding:11px 16px;background:#293647;color:var(--text);font-weight:700;cursor:pointer;transition:filter .15s,transform .15s}button:hover{filter:brightness(1.12);transform:translateY(-1px)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--green);outline-offset:2px}button:disabled{opacity:.55;cursor:not-allowed;transform:none}.primary{background:var(--green);color:#082416}.danger{background:var(--red);color:white}.secondary{background:#1d2a39}.hidden{display:none!important}main{width:min(1180px,calc(100% - 32px));margin:28px auto}.card,.panel{background:rgba(26,34,45,.96);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 55px #0004}.auth{min-height:calc(100vh - 56px);display:grid;place-items:center}.auth-card{width:min(460px,100%);padding:28px 24px}.brand{display:flex;align-items:center;gap:12px}.auth-brand{justify-content:center;margin-bottom:22px}.logo{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:#174331;font-size:27px}h1,h2,h3,p{margin:0}.brand h1{font-size:1.35rem}.muted,.status{color:var(--muted)}.field{margin-top:14px}.field label{display:block;color:#d9e3ed;font-weight:650;font-size:.92rem;margin-bottom:7px}.input,select{display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--panel2);color:var(--text)}.buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.auth-note,.notice{margin-top:16px;padding:12px 14px;border:1px solid #826e36;border-radius:12px;background:#332b18;color:#f5dfa0;font-size:.9rem}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 20px;margin-bottom:18px}.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px}.sidebar,.maincol{display:grid;align-content:start;gap:16px}.stat{padding:20px}.label{display:block;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.07em}.stat strong{display:block;font-size:1.7rem;margin-top:5px;overflow-wrap:anywhere}.tip{padding:14px 16px;border:1px solid var(--line);border-radius:14px;color:var(--muted);background:#111923}.panel{padding:20px}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}.terminal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.terminal-box{border:1px solid var(--line);border-radius:15px;padding:16px;background:var(--panel2)}.history,.account-list{display:grid;gap:9px;margin-top:12px}.history-item,.account-card,.product{border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:var(--panel2)}.history-item{display:flex;justify-content:space-between;align-items:center;gap:12px}.history-item small,.account-meta{color:var(--muted)}.add{color:var(--green)}.sub{color:var(--red)}.empty{color:var(--muted);border:1px dashed var(--line);border-radius:14px;padding:22px;text-align:center}.market{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.product{display:flex;flex-direction:column;gap:10px}.product .price,.account-balance{color:var(--green);font-weight:800}.product button{margin-top:auto}.account-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.account-meta{margin-top:3px;font-size:.88rem}.account-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn-mini{padding:8px 11px;font-size:.82rem}.toast{position:fixed;right:18px;bottom:18px;max-width:min(420px,calc(100vw - 36px));padding:13px 16px;border:1px solid var(--line);border-radius:12px;background:#202b38;box-shadow:0 10px 30px #0004;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;z-index:10}.toast.show{opacity:1;transform:none}.footer{margin-top:18px;color:var(--muted);font-size:.86rem;text-align:center}@media(max-width:760px){.layout{grid-template-columns:1fr}.terminal-grid{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.topbar .buttons{width:100%}.topbar button{flex:1}}
   </style>
 </head>
 <body>
-  <main>
-    <aside class="notice" role="note">Важно: профиль не защищён паролем, операции хранятся только в этом браузере и не синхронизируются. Не используйте сайт для реальных денег или личных данных.</aside>
+<main>
+  <section id="auth-screen" class="auth">
+    <form id="auth-form" class="card auth-card">
+      <div class="brand auth-brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><span class="muted">Игровой банк</span></div></div>
+      <h2>Вход в аккаунт</h2><p class="muted" style="margin-top:6px">Выберите свой игровой профиль.</p>
+      <div class="field"><label for="username">Аккаунт</label><select id="username" class="input" required></select></div>
+      <button id="login-button" class="primary" type="submit" style="margin-top:18px;width:100%">Войти</button>
+      <p class="auth-note">Вход в статической версии не защищён паролем. Изменения хранятся только в этом браузере и не синхронизируются.</p>
+    </form>
+  </section>
+
+  <section id="bank-screen" class="hidden">
     <header class="topbar card">
-      <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><span id="welcome" class="muted">Личный кабинет</span></div></div>
-      <div class="buttons"><button id="switch-button" type="button">Сменить профиль</button><button id="reset-button" type="button">Сбросить данные</button></div>
+      <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><span id="welcome" class="muted">Игровой банк</span></div></div>
+      <div class="buttons"><span id="today-label" class="status"></span><button id="open-shop-button" class="primary" type="button">Антикасания</button><button id="logout-button" class="secondary" type="button">Выйти</button></div>
     </header>
-    <section id="choose-screen" class="panel">
-      <h2>Вход в личный кабинет</h2><p class="muted" style="margin-top:6px">Выберите профиль, чтобы открыть соответствующий счёт.</p>
-      <div class="field"><label for="account-select">Профиль</label><select id="account-select" class="input"></select></div>
-      <button id="open-button" class="primary" type="button" style="margin-top:14px">Продолжить</button>
-    </section>
-    <section id="bank-screen" class="hidden">
-      <div class="layout">
-        <aside class="sidebar">
-          <div class="card stat"><span class="label">Баланс счёта</span><strong id="balance">0 ЛК</strong></div>
-          <div class="card stat"><span class="label">Тип счёта</span><strong id="account-type">—</strong></div>
-          <div class="card stat"><span class="label">Номер счёта</span><strong id="account-id">—</strong></div>
-          <div class="card stat"><span class="label">Владелец</span><strong id="account-owner">—</strong></div>
-        </aside>
-        <div class="maincol">
-          <section class="panel">
-            <div class="section-heading"><h2>Операции</h2><span id="status" class="status" role="status" aria-live="polite"></span></div>
-            <div class="terminal-grid">
-              <div class="terminal-box"><h3>Пополнение и снятие</h3><div class="field"><label for="amount">Сумма, ЛК</label><input id="amount" class="input" type="number" min="1" max="1000000" step="1" inputmode="numeric" placeholder="Например, 50"></div><div class="buttons" style="margin-top:10px"><button id="deposit-button" class="primary" type="button">Пополнить</button><button id="withdraw-button" class="danger" type="button">Снять</button></div></div>
-              <div class="terminal-box"><h3>Перевод</h3><div class="field"><label for="target-id">Счёт получателя</label><select id="target-id" class="input"></select></div><div class="field"><label for="transfer-amount">Сумма, ЛК</label><input id="transfer-amount" class="input" type="number" min="1" max="1000000" step="1" inputmode="numeric" placeholder="Например, 100"></div><button id="transfer-button" class="primary" type="button" style="margin-top:10px">Перевести</button></div>
-            </div>
-            <div class="section-heading" style="margin-top:24px"><h3>Последние операции</h3></div><div id="history" class="history"></div>
-          </section>
-          <section class="panel"><div class="section-heading"><div><h2>Антикасания</h2><span class="muted">Каталог товаров</span></div></div><div id="market" class="market"></div></section>
-        </div>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="card stat"><span class="label">Баланс счёта</span><strong id="balance">0 ЛК</strong></div>
+        <div class="card stat"><span class="label">Тип счёта</span><strong id="account-type">—</strong></div>
+        <div class="card stat"><span class="label">Номер счёта</span><strong id="account-id">—</strong></div>
+        <div class="tip">💡 Используй счёт для переводов и покупок в магазине антикасаний.</div>
+      </aside>
+      <div class="maincol">
+        <section id="player-panel" class="panel">
+          <div class="section-heading"><h2>Мой счёт</h2><span id="status" class="status" role="status" aria-live="polite"></span></div>
+          <div class="terminal-grid">
+            <div class="terminal-box"><h3>Операции</h3><div class="field"><label for="amount">Сумма, ЛК</label><input id="amount" class="input" type="number" min="1" max="1000000" step="1" inputmode="numeric" placeholder="50"></div><div class="buttons" style="margin-top:10px"><button id="deposit-button" class="primary" type="button">Пополнить</button><button id="withdraw-button" class="danger" type="button">Снять</button></div></div>
+            <div class="terminal-box"><h3>Перевод другу</h3><div class="field"><label for="target-id">Получатель</label><select id="target-id" class="input"></select></div><div class="field"><label for="transfer-amount">Сумма, ЛК</label><input id="transfer-amount" class="input" type="number" min="1" max="1000000" step="1" inputmode="numeric" placeholder="100"></div><button id="transfer-button" class="primary" type="button" style="margin-top:10px">Перевести</button></div>
+          </div>
+          <div class="section-heading" style="margin-top:24px"><h3>Последние операции</h3></div><div id="player-history" class="history"></div>
+        </section>
+        <section id="admin-panel" class="panel hidden"><div class="section-heading"><div><h2>Терминал администратора</h2><span class="muted">Управление игровыми счетами в этом браузере</span></div></div><div id="admin-accounts" class="account-list"></div></section>
+        <section id="shop-panel" class="panel hidden"><div class="section-heading"><div><h2>Антикасания</h2><span class="muted">Доступные товары</span></div><button id="close-shop-button" class="secondary" type="button">Назад к счёту</button></div><div id="antitouch-list" class="market"></div></section>
       </div>
-    </section>
-    <p class="footer">Linuxi Bank · игровой личный кабинет</p>
-  </main>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+  <p class="footer">Игровые единицы ЛК не являются реальными деньгами. Статическая версия не обеспечивает серверную авторизацию.</p>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script>
   "use strict";
   const STORAGE_KEY = "linuxi_bank_state_v2";
-  const state = { users: [], accounts: [], items: [], user: null };
+  const state = { users: [], accounts: [], antiTouch: [], user: null };
   const $ = id => document.getElementById(id);
   const money = value => `${Number(value || 0).toLocaleString("ru-RU")} ЛК`;
-  function notify(message) {
-    const node = $("toast"); node.textContent = message; node.classList.add("show");
-    clearTimeout(notify.timer); notify.timer = setTimeout(() => node.classList.remove("show"), 3200);
+  function toast(message) { const node = $("toast"); node.textContent = message; node.classList.add("show"); clearTimeout(toast.timer); toast.timer = setTimeout(() => node.classList.remove("show"), 3500); }
+  async function fetchJson(file) { const response = await fetch(`./${file}`, { cache: "no-store" }); if (!response.ok) throw new Error(`Не удалось загрузить ${file} (${response.status}).`); return response.json(); }
+  function loadSaved() {
+    try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null"); if (!saved) return false; if (Array.isArray(saved.accounts)) state.accounts = saved.accounts; if (Array.isArray(saved.antiTouch)) state.antiTouch = saved.antiTouch; return true; }
+    catch { localStorage.removeItem(STORAGE_KEY); return false; }
   }
-  async function fetchJson(path) {
-    const response = await fetch(`./${path}`, { cache: "no-store" });
-    if (!response.ok) throw new Error(`Не удалось загрузить ${path} (${response.status}).`);
-    return response.json();
-  }
-  function readSavedState() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-      if (!saved || !Array.isArray(saved.accounts) || !Array.isArray(saved.items)) return false;
-      state.accounts = saved.accounts; state.items = saved.items; return true;
-    } catch { localStorage.removeItem(STORAGE_KEY); return false; }
-  }
-  function saveState() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ accounts: state.accounts, items: state.items })); }
-    catch { notify("Не удалось сохранить данные. Проверьте свободное место браузера."); }
-  }
-  function accountFor(user) { return state.accounts.find(account => Number(account.id) === Number(user.accountId)); }
-  function currentAccount() { return state.user ? accountFor(state.user) : null; }
-  function persistHistory(account, type, amount, note) {
-    account.history = Array.isArray(account.history) ? account.history : [];
-    account.history.push({ time: new Date().toLocaleString("ru-RU"), type, amount, note });
-    account.history = account.history.slice(-50);
-  }
-  function element(tag, className, text) {
-    const node = document.createElement(tag); if (className) node.className = className;
-    if (text !== undefined) node.textContent = String(text); return node;
-  }
+  function saveState() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ accounts: state.accounts, antiTouch: state.antiTouch })); return true; } catch { toast("Не удалось сохранить изменения в браузере."); return false; } }
+  function el(tag, className, text) { const node = document.createElement(tag); if (className) node.className = className; if (text !== undefined) node.textContent = String(text); return node; }
+  function currentAccount() { return state.user ? state.accounts.find(account => Number(account.id) === Number(state.user.accountId)) : null; }
+  function addHistory(account, type, amount, note) { account.history = Array.isArray(account.history) ? account.history : []; account.history.push({ time: new Date().toLocaleString("ru-RU"), type, amount, note }); account.history = account.history.slice(-50); }
   function renderHistory(account) {
-    const list = $("history"); list.replaceChildren();
-    const entries = Array.isArray(account?.history) ? [...account.history].reverse().slice(0, 10) : [];
-    if (!entries.length) { list.append(element("div", "empty", "Пока нет операций.")); return; }
-    for (const entry of entries) {
-      const row = element("div", "history-item");
-      const details = document.createElement("div");
-      details.append(element("strong", entry.type === "add" ? "add" : "sub", `${entry.type === "add" ? "+" : "−"}${money(entry.amount)}`), element("div", "muted", entry.note || "Операция"));
-      row.append(details, element("small", "", entry.time || "—")); list.append(row);
-    }
+    const list = $("player-history"); list.replaceChildren(); const entries = Array.isArray(account.history) ? [...account.history].reverse().slice(0, 10) : [];
+    if (!entries.length) { list.append(el("div", "empty", "Операций пока нет.")); return; }
+    for (const entry of entries) { const row = el("div", "history-item"), details = document.createElement("div"); details.append(el("strong", entry.type === "add" ? "add" : "sub", `${entry.type === "add" ? "+" : "−"}${money(entry.amount)}`), el("div", "muted", entry.note || "Операция")); row.append(details, el("small", "", entry.time || "—")); list.append(row); }
   }
-  function renderMarket() {
-    const market = $("market"); market.replaceChildren();
-    if (!state.items.length) { market.append(element("div", "empty", "Каталог пока пуст.")); return; }
-    for (const item of state.items) {
-      const card = element("article", "product");
-      card.append(element("h3", "", item.name || "Антикасание"), element("span", "muted", `Автор: ${item.author || "Неизвестно"}`), element("span", "price", money(item.cost)));
-      const button = element("button", item.sold ? "" : "primary", item.sold ? "Уже куплено" : "Купить");
-      button.type = "button"; button.disabled = Boolean(item.sold); button.addEventListener("click", () => buyItem(item.id)); card.append(button); market.append(card);
-    }
+  function renderShop() {
+    const list = $("antitouch-list"); list.replaceChildren();
+    if (!state.antiTouch.length) { list.append(el("div", "empty", "Каталог пуст.")); return; }
+    for (const item of state.antiTouch) { const card = el("article", "product"); card.append(el("h3", "", item.name || "Антикасание"), el("span", "muted", `Автор: ${item.author || "Неизвестно"}`), el("span", "price", money(item.cost))); const button = el("button", item.sold ? "" : "primary", item.sold ? `Куплено${item.buyer ? ` · ${item.buyer}` : ""}` : "Купить"); button.type = "button"; button.disabled = Boolean(item.sold); button.addEventListener("click", () => buyItem(item.id)); card.append(button); list.append(card); }
+  }
+  function renderAdmin() {
+    const list = $("admin-accounts"); list.replaceChildren();
+    for (const account of state.accounts) { const card = el("article", "account-card"), head = el("div", "account-head"); head.append(el("strong", "", account.owner || `Счёт #${account.id}`), el("strong", "account-balance", money(account.balance))); card.append(head, el("div", "account-meta", `ID счёта: ${account.id} · ${account.type || "Standard"}`)); const actions = el("div", "account-actions"); for (const [label, mode, style] of [["+100 ЛК", "add", "primary btn-mini"], ["−100 ЛК", "sub", "danger btn-mini"]]) { const button = el("button", style, label); button.type = "button"; button.addEventListener("click", () => adjustAccount(account.id, mode)); actions.append(button); } card.append(actions); list.append(card); }
   }
   function render() {
     const account = currentAccount(); if (!account) return;
-    $("welcome").textContent = `Личный кабинет · ${state.user.username}`;
-    $("balance").textContent = money(account.balance); $("account-type").textContent = account.type || "Standard";
-    $("account-id").textContent = `#${account.id}`; $("account-owner").textContent = account.owner || state.user.username;
-    $("status").textContent = "Сохранено в этом браузере"; renderHistory(account); renderMarket();
-    const target = $("target-id"), previous = target.value; target.replaceChildren();
-    for (const other of state.accounts.filter(entry => Number(entry.id) !== Number(account.id))) {
-      const option = element("option", "", `#${other.id} · ${other.owner || "Игрок"}`); option.value = String(other.id); target.append(option);
-    }
-    if ([...target.options].some(option => option.value === previous)) target.value = previous;
+    $("welcome").textContent = `Игрок · ${state.user.username}`; $("today-label").textContent = new Date().toLocaleDateString("ru-RU", { weekday: "long", day: "numeric", month: "long" });
+    $("balance").textContent = money(account.balance); $("account-type").textContent = account.type || "Standard"; $("account-id").textContent = `#${account.id}`; $("status").textContent = account.owner || state.user.username;
+    const targets = $("target-id"), previous = targets.value; targets.replaceChildren();
+    for (const other of state.accounts.filter(item => Number(item.id) !== Number(account.id))) { const option = el("option", "", `#${other.id} · ${other.owner || "Игрок"}`); option.value = String(other.id); targets.append(option); }
+    if ([...targets.options].some(option => option.value === previous)) targets.value = previous;
+    renderHistory(account); renderShop();
+    const admin = String(state.user.role || "").toLowerCase() === "admin"; $("admin-panel").classList.toggle("hidden", !admin); if (admin) renderAdmin();
   }
-  function openAccount() {
-    const username = $("account-select").value; state.user = state.users.find(user => user.username === username) || null;
-    if (!state.user || !currentAccount()) { notify("Не удалось найти профиль."); return; }
-    $("choose-screen").classList.add("hidden"); $("bank-screen").classList.remove("hidden"); render();
-  }
-  function amountFrom(id) {
-    const amount = Number($(id).value);
-    if (!Number.isSafeInteger(amount) || amount <= 0 || amount > 1000000) { notify("Введите целое число от 1 до 1 000 000."); return null; }
-    return amount;
-  }
-  function deposit() {
-    const account = currentAccount(), amount = amountFrom("amount"); if (!account || amount === null) return;
-    if (!Number.isSafeInteger(account.balance + amount)) { notify("Баланс превышает допустимое значение."); return; }
-    account.balance += amount; persistHistory(account, "add", amount, "Пополнение"); $("amount").value = ""; saveState(); render(); notify(`Зачислено ${money(amount)}.`);
-  }
-  function withdraw() {
-    const account = currentAccount(), amount = amountFrom("amount"); if (!account || amount === null) return;
-    if (account.balance < amount) { notify("Недостаточно средств."); return; }
-    account.balance -= amount; persistHistory(account, "sub", amount, "Снятие"); $("amount").value = ""; saveState(); render(); notify(`Списано ${money(amount)}.`);
-  }
-  function transfer() {
-    const sender = currentAccount(), amount = amountFrom("transfer-amount"); if (!sender || amount === null) return;
-    const receiver = state.accounts.find(account => Number(account.id) === Number($("target-id").value));
-    if (!receiver) { notify("Выберите счёт получателя."); return; }
-    if (sender.balance < amount) { notify("Недостаточно средств."); return; }
-    if (!Number.isSafeInteger(receiver.balance + amount)) { notify("Баланс получателя превышает допустимое значение."); return; }
-    sender.balance -= amount; receiver.balance += amount;
-    persistHistory(sender, "sub", amount, `Перевод на ID ${receiver.id}`); persistHistory(receiver, "add", amount, `Перевод от ID ${sender.id}`);
-    $("transfer-amount").value = ""; saveState(); render(); notify(`Переведено ${money(amount)}.`);
-  }
-  function buyItem(id) {
-    const account = currentAccount(), item = state.items.find(entry => Number(entry.id) === Number(id));
-    if (!account || !item || item.sold) { notify("Этот товар больше недоступен."); return; }
-    const cost = Number(item.cost);
-    if (!Number.isSafeInteger(cost) || cost < 0) { notify("У товара указана некорректная цена."); return; }
-    if (account.balance < cost) { notify("Недостаточно средств."); return; }
-    account.balance -= cost; item.sold = true; item.buyer = state.user.username;
-    persistHistory(account, "sub", cost, `Покупка: ${item.name || "Антикасание"}`); saveState(); render(); notify("Покупка выполнена.");
-  }
-  async function resetData() {
-    if (!confirm("Сбросить локальные данные и вернуть исходные значения?")) return;
-    localStorage.removeItem(STORAGE_KEY); state.user = null; await loadData(true);
-    $("bank-screen").classList.add("hidden"); $("choose-screen").classList.remove("hidden"); notify("Данные сброшены.");
-  }
-  async function loadData(forceDefaults = false) {
-    const [users, accounts, items] = await Promise.all([fetchJson("users.json"), fetchJson("data.json"), fetchJson("anti-touch.json")]);
-    if (![users, accounts, items].every(Array.isArray)) throw new Error("Формат файлов данных некорректен.");
+  function login(event) { event.preventDefault(); const username = $("username").value; const user = state.users.find(item => item.username === username); if (!user || !state.accounts.some(account => Number(account.id) === Number(user.accountId))) { toast("Аккаунт или счёт не найден."); return; } state.user = user; sessionStorage.setItem("linuxi_user", user.username); $("auth-screen").classList.add("hidden"); $("bank-screen").classList.remove("hidden"); render(); }
+  function logout() { state.user = null; sessionStorage.removeItem("linuxi_user"); $("bank-screen").classList.add("hidden"); $("shop-panel").classList.add("hidden"); $("player-panel").classList.remove("hidden"); $("auth-screen").classList.remove("hidden"); $("username").focus(); }
+  function readAmount(id) { const amount = Number($(id).value); if (!Number.isSafeInteger(amount) || amount <= 0 || amount > 1000000) { toast("Введите целое число от 1 до 1 000 000."); return null; } return amount; }
+  function deposit() { const account = currentAccount(), amount = readAmount("amount"); if (!account || amount === null) return; if (!Number.isSafeInteger(account.balance + amount)) { toast("Сумма слишком велика."); return; } account.balance += amount; addHistory(account, "add", amount, "Пополнение"); $("amount").value = ""; saveState(); render(); toast(`Зачислено ${money(amount)}.`); }
+  function withdraw() { const account = currentAccount(), amount = readAmount("amount"); if (!account || amount === null) return; if (account.balance < amount) { toast("Недостаточно средств."); return; } account.balance -= amount; addHistory(account, "sub", amount, "Снятие"); $("amount").value = ""; saveState(); render(); toast(`Списано ${money(amount)}.`); }
+  function transfer() { const sender = currentAccount(), amount = readAmount("transfer-amount"); if (!sender || amount === null) return; const receiver = state.accounts.find(item => Number(item.id) === Number($("target-id").value)); if (!receiver) { toast("Выберите получателя."); return; } if (sender.balance < amount) { toast("Недостаточно средств."); return; } if (!Number.isSafeInteger(receiver.balance + amount)) { toast("Баланс получателя слишком велик."); return; } sender.balance -= amount; receiver.balance += amount; addHistory(sender, "sub", amount, `Перевод на ID ${receiver.id}`); addHistory(receiver, "add", amount, `Перевод от ID ${sender.id}`); $("transfer-amount").value = ""; saveState(); render(); toast(`Переведено ${money(amount)}.`); }
+  function buyItem(id) { const account = currentAccount(), item = state.antiTouch.find(entry => Number(entry.id) === Number(id)); if (!account || !item || item.sold) { toast("Товар больше недоступен."); return; } const cost = Number(item.cost); if (!Number.isSafeInteger(cost) || cost < 0) { toast("Некорректная цена товара."); return; } if (account.balance < cost) { toast("Недостаточно средств."); return; } account.balance -= cost; item.sold = true; item.buyer = state.user.username; addHistory(account, "sub", cost, `Покупка: ${item.name || "Антикасание"}`); saveState(); render(); toast("Покупка выполнена."); }
+  function adjustAccount(id, mode) { const account = state.accounts.find(item => Number(item.id) === Number(id)); if (!account) return; const amount = 100; if (mode === "sub" && account.balance < amount) { toast("Недостаточно средств на счёте."); return; } account.balance += mode === "add" ? amount : -amount; addHistory(account, mode, amount, mode === "add" ? "Пополнение администратором" : "Списание администратором"); saveState(); render(); toast("Счёт обновлён."); }
+  async function loadData() {
+    const [users, accounts, catalog] = await Promise.all([fetchJson("users.json"), fetchJson("data.json"), fetchJson("anti-touch.json")]);
+    if (![users, accounts, catalog].every(Array.isArray)) throw new Error("Формат файлов данных некорректен.");
     state.users = users.filter(user => user && typeof user.username === "string" && Number.isInteger(Number(user.accountId)));
-    if (forceDefaults || !readSavedState()) {
-      state.accounts = accounts.map(account => ({ ...account, id: Number(account.id), balance: Number(account.balance), history: Array.isArray(account.history) ? account.history : [] }));
-      state.items = items.map(item => ({ ...item }));
-    }
-    const select = $("account-select"); select.replaceChildren();
-    for (const user of state.users) {
-      if (!accountFor(user)) continue;
-      const option = element("option", "", `${user.username} · счёт #${user.accountId}`); option.value = user.username; select.append(option);
-    }
-    if (!select.options.length) throw new Error("Нет доступных профилей.");
+    const saved = loadSaved(); if (!saved) { state.accounts = accounts.map(account => ({ ...account, id: Number(account.id), balance: Number(account.balance) || 0, history: Array.isArray(account.history) ? account.history : [] })); state.antiTouch = catalog.map(item => ({ ...item })); }
+    const select = $("username"); select.replaceChildren(); for (const user of state.users) { if (!state.accounts.some(account => Number(account.id) === Number(user.accountId))) continue; const option = el("option", "", user.username); option.value = user.username; select.append(option); }
+    if (!select.options.length) throw new Error("Нет доступных аккаунтов.");
+    const savedUser = sessionStorage.getItem("linuxi_user"), user = state.users.find(item => item.username === savedUser); if (user && state.accounts.some(account => Number(account.id) === Number(user.accountId))) { state.user = user; $("auth-screen").classList.add("hidden"); $("bank-screen").classList.remove("hidden"); render(); }
   }
-  $("open-button").addEventListener("click", openAccount);
-  $("switch-button").addEventListener("click", () => { state.user = null; $("bank-screen").classList.add("hidden"); $("choose-screen").classList.remove("hidden"); });
-  $("reset-button").addEventListener("click", () => void resetData().catch(error => notify(error.message)));
+  $("auth-form").addEventListener("submit", login); $("logout-button").addEventListener("click", logout);
   $("deposit-button").addEventListener("click", deposit); $("withdraw-button").addEventListener("click", withdraw); $("transfer-button").addEventListener("click", transfer);
-  window.addEventListener("DOMContentLoaded", () => void loadData().catch(error => notify(error.message || "Ошибка загрузки данных.")));
+  $("open-shop-button").addEventListener("click", () => { $("player-panel").classList.add("hidden"); $("admin-panel").classList.add("hidden"); $("shop-panel").classList.remove("hidden"); renderShop(); });
+  $("close-shop-button").addEventListener("click", () => { $("shop-panel").classList.add("hidden"); $("player-panel").classList.remove("hidden"); if (String(state.user?.role || "").toLowerCase() === "admin") $("admin-panel").classList.remove("hidden"); });
+  window.addEventListener("DOMContentLoaded", () => void loadData().catch(error => toast(error.message || "Ошибка загрузки данных.")));
 </script>
 </body>
 </html>
