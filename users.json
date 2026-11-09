@@ -1,22 +1,16 @@
 [
   {
     "username": "Platonchu",
-    "password": "Platon102938",
-    "salt": "linuxi-admin",
     "role": "admin",
     "accountId": 1
   },
   {
     "username": "Roma",
-    "password": "RomaSyhoiNos67",
-    "salt": "linuxi-admin",
     "role": "admin",
     "accountId": 2
   },
   {
     "username": "Mia",
-    "password": "MiaPrincessa67",
-    "salt": "linuxi-user",
     "role": "user",
     "accountId": 3
   }
