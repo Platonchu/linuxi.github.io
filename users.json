@@ -20,11 +20,4 @@
     "role": "user",
     "accountId": 3
   },
-  {
-    "username": "Test",
-    "password": "Test",
-    "salt": "linuxi-user",
-    "role": "user",
-    "accountId": 4
-  }
-]
+  ]
