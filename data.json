@@ -3,7 +3,7 @@
     "id": 1,
     "owner": "Платон Чукович",
     "type": "Nextendo",
-    "balance": 98800,
+    "balance": 98400,
     "history": [
       {
         "time": "11:45",
@@ -100,6 +100,18 @@
         "type": "add",
         "amount": 500,
         "note": "Пополнение"
+      },
+      {
+        "time": "14:31",
+        "type": "sub",
+        "amount": 150,
+        "note": "Покупка anti-touch: Антикасание: Золотой тап"
+      },
+      {
+        "time": "14:31",
+        "type": "sub",
+        "amount": 250,
+        "note": "Покупка anti-touch: Антикасание: Скрытый свайп"
       }
     ]
   },
