@@ -3,7 +3,7 @@
     "id": 1,
     "owner": "Платон Чукович",
     "type": "Nextendo",
-    "balance": 100100,
+    "balance": 99600,
     "history": [
       {
         "time": "11:45",
@@ -70,7 +70,16 @@
         "type": "add",
         "amount": 50,
         "note": "Пополнение администратором"
+      },
+      {
+        "time": "19:24",
+        "type": "sub",
+        "amount": 500,
+        "note": "Покупка: Arch linux"
       }
+    ],
+    "purchases": [
+      1
     ]
   },
   {
@@ -103,13 +112,15 @@
         "amount": 900000,
         "note": "Списание"
       }
-    ]
+    ],
+    "purchases": []
   },
   {
     "id": 3,
     "owner": "Мия Чукович",
     "type": "Standard",
     "balance": 100,
-    "history": []
+    "history": [],
+    "purchases": []
   }
-  ]
+]
