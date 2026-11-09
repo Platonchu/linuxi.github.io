@@ -4,8 +4,8 @@
     "name": "Антикасание: Золотой тап",
     "author": "Linuxi",
     "cost": 150,
-    "sold": false,
-    "buyer": ""
+    "sold": true,
+    "buyer": "Platonchu"
   },
   {
     "id": 2,
