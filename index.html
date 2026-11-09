@@ -1,90 +1,830 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10151d">
-  <title>Linuxi Bank — игровой банк</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linuxi Bank</title>
   <style>
-    :root{color-scheme:dark;--bg:#10151d;--panel:#1a222d;--line:#344153;--text:#eef4fb;--muted:#a2afbf;--green:#42df91;--red:#ff6b73;--blue:#77b7ff}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 10% 0%,#15372e 0,transparent 36%),linear-gradient(145deg,#0d1219,#121b27);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}.hidden{display:none!important}main{width:min(1120px,calc(100% - 28px));margin:28px auto}.auth{min-height:calc(100vh - 56px);display:grid;place-items:center}.card,.panel,header{background:rgba(26,34,45,.94);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 55px #0005}.auth-card{width:min(460px,100%);padding:30px}.brand{display:flex;align-items:center;gap:12px;margin:0}.logo{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:#174331;font-size:27px}.brand h1{font-size:1.35rem;margin:0}.brand small{color:var(--muted)}h2,h3{letter-spacing:-.03em}h2{margin:0 0 8px}p{color:var(--muted);margin:0 0 18px}.field{margin:14px 0}.field label{display:block;color:#d9e3ed;font-weight:650;font-size:.92rem;margin-bottom:7px}.input{display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#111923;color:var(--text);font:inherit;outline:none}.input:focus{border-color:var(--green);box-shadow:0 0 0 3px #42df9125}.buttons,.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:11px 16px;cursor:pointer;background:#293647;color:var(--text)}button:hover{filter:brightness(1.12)}button:disabled{opacity:.55;cursor:wait}.primary{background:var(--green);color:#082416}.danger{background:#a8323c;color:white}.auth .primary{min-width:120px}.topbar{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}.top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.welcome{color:var(--muted)}.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px}.sidebar,.maincol{display:grid;align-content:start;gap:16px}.stat,.panel{padding:20px}.label{display:block;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.07em}.stat strong{display:block;font-size:1.7rem;letter-spacing:-.04em;margin-top:5px}.panel h2{margin-bottom:14px}.panel h3{margin:18px 0 10px}.status{color:var(--muted);font-size:.9rem;min-height:1.3em}.history,.account-list{display:grid;gap:9px}.history-item,.account-card{padding:13px;border:1px solid var(--line);border-radius:14px;background:#111923}.history-item{display:flex;justify-content:space-between;gap:12px;align-items:center}.history-item small,.account-meta{color:var(--muted)}.admin-metrics{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:12px;margin-bottom:16px}.admin-metrics .stat{padding:15px}.admin-metrics strong{font-size:1.35rem}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0 12px}.section-heading h2,.section-heading h3{margin:0}.account-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.account-head strong{font-size:1.05rem}.account-balance{font-weight:800;color:var(--green);white-space:nowrap}.account-meta{font-size:.88rem;margin-top:3px}.account-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.account-actions button{padding:8px 11px;font-size:.82rem}.terminal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:14px 0}.terminal-box{border:1px solid var(--line);border-radius:15px;padding:16px;background:#111923}.terminal-box h3{margin:0 0 10px}.terminal-box .field{margin:10px 0}.empty{color:var(--muted);padding:18px;text-align:center;border:1px dashed var(--line);border-radius:14px}.tip{padding:13px 15px;border:1px solid #34516e;background:#142337;border-radius:14px;color:#c6ddf7;font-size:.9rem}.toast{position:fixed;right:18px;bottom:18px;max-width:min(420px,calc(100vw - 36px));padding:13px 16px;border:1px solid var(--line);background:#202b38;border-radius:12px;box-shadow:0 10px 30px #0006;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;z-index:5}.toast.show{opacity:1;transform:none}@media(max-width:760px){main{margin:14px auto}.auth{min-height:calc(100vh - 28px)}.auth-card{padding:22px}.layout{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.stat,.panel{padding:16px}.terminal-grid,.admin-metrics{grid-template-columns:1fr}.account-head{flex-direction:column}}
+    :root {
+      color-scheme: dark;
+      --bg: #10151d;
+      --panel: #1a222d;
+      --line: #344153;
+      --text: #eef4fb;
+      --muted: #a2afbf;
+      --green: #42df91;
+      --red: #ff6b73;
+      --blue: #77b7ff;
+      --yellow: #f0c76d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 10% 0%, #15372e 0%, transparent 36%),
+                  linear-gradient(145deg, #0d1219, #121b27);
+      color: var(--text);
+      font: 16px/1.5 system-ui, sans-serif;
+    }
+    a { color: inherit; }
+    .hidden { display: none !important; }
+    main { width: min(1180px, calc(100% - 32px)); margin: 28px auto; }
+    .card, .panel {
+      background: rgba(26, 34, 45, 0.96);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.3);
+    }
+    .auth { min-height: calc(100vh - 56px); display: grid; place-items: center; }
+    .auth-card {
+      width: min(460px, 100%);
+      padding: 28px 24px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 48px; height: 48px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: #174331;
+      font-size: 27px;
+    }
+    h1, h2, h3, p { margin: 0; }
+    .brand h1 { font-size: 1.35rem; }
+    .brand small { color: var(--muted); }
+    .field { margin-top: 14px; }
+    .field label { display: block; color: #d9e3ed; font-weight: 650; font-size: .92rem; margin-bottom: 7px; }
+    .input, select {
+      display: block; width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: #111923;
+      color: var(--text);
+      font: inherit;
+    }
+    .input:focus, select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(66,223,145,.25);
+      outline: none;
+    }
+    .buttons, .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    button {
+      appearance: none;
+      border: 0;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 11px 16px;
+      background: #293647;
+      color: var(--text);
+      transition: filter .12s ease;
+    }
+    button:hover { filter: brightness(1.12); }
+    button:disabled { opacity: .55; cursor: wait; }
+    .primary { background: var(--green); color: #082416; }
+    .danger { background: var(--red); color: white; }
+    .secondary { background: #1d2a39; }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 18px;
+    }
+    .sidebar, .maincol { display: grid; align-content: start; gap: 16px; }
+    .stat {
+      padding: 20px;
+    }
+    .label { display: block; color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .07em; }
+    .stat strong { display: block; font-size: 1.7rem; margin-top: 5px; }
+    .tip {
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--muted);
+      background: rgba(17, 25, 35, 0.6);
+    }
+    .panel {
+      padding: 20px;
+    }
+    .section-heading {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin: 0 0 12px;
+    }
+    .status { color: var(--muted); font-size: .9rem; }
+    .terminal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .terminal-box {
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 16px;
+      background: #111923;
+    }
+    .history {
+      display: grid;
+      gap: 9px;
+      margin-top: 12px;
+    }
+    .history-item {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: #111923;
+    }
+    .history-item small { color: var(--muted); }
+    .history-item .type-add { color: var(--green); }
+    .history-item .type-sub { color: var(--red); }
+    .account-list { display: grid; gap: 10px; }
+    .account-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      background: #111923;
+    }
+    .account-head {
+      display: flex; justify-content: space-between; gap: 10px; align-items: center;
+    }
+    .account-balance { font-weight: 800; color: var(--green); }
+    .account-meta { margin-top: 3px; color: var(--muted); font-size: .88rem; }
+    .account-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .btn-mini {
+      padding: 8px 11px; font-size: .82rem;
+    }
+    .toast {
+      position: fixed; right: 18px; bottom: 18px; max-width: min(420px, calc(100vw - 36px));
+      padding: 13px 16px; border: 1px solid var(--line); border-radius: 12px;
+      background: rgba(32, 43, 56, 0.96); box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      opacity: 0; transform: translateY(8px); transition: .2s ease; pointer-events: none; z-index: 10;
+    }
+    .toast.show { opacity: 1; transform: none; }
+    .antitouch-page {
+      max-width: 1200px;
+      margin: 24px auto 40px;
+      padding: 0 4px;
+    }
+    .antitouch-header {
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      margin-bottom: 20px;
+    }
+    .antitouch-header h2 { margin: 0; }
+    .antitouch-header small { color: var(--muted); }
+    .antitouch-list {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px;
+    }
+    .antitouch-card {
+      background: rgba(26, 34, 45, 0.9); border: 1px solid var(--line); border-radius: 18px; padding: 18px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .antitouch-card.sold { opacity: .72; }
+    .antitouch-top {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    }
+    .antitouch-name { font-weight: 700; font-size: 1.05rem; }
+    .antitouch-cost { color: var(--green); font-weight: 700; }
+    .antitouch-author { margin: 0; color: var(--muted); }
+    .antitouch-status {
+      width: max-content; padding: 6px 10px; border-radius: 999px; background: rgba(66,223,145,.12); color: var(--green);
+      font-size: .8rem; font-weight: 700;
+    }
+    .antitouch-card.sold .antitouch-status { background: rgba(255,107,115,.12); color: var(--red); }
+    .empty { color: var(--muted); border: 1px dashed var(--line); border-radius: 14px; padding: 22px; text-align: center; }
+    @media (max-width: 760px) {
+      .layout { grid-template-columns: 1fr; }
+      .terminal-grid { grid-template-columns: 1fr; }
+      .topbar, .antitouch-header { flex-direction: column; align-items: flex-start; }
+    }
   </style>
 </head>
 <body>
-<main>
-  <section id="auth-screen" class="auth"><form id="auth-form" class="card auth-card">
-    <div class="brand" style="margin-bottom:20px"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small>Игровой банк</small></div></div>
-    <h2>Вход в аккаунт</h2><p>Добро пожаловать! Войди, чтобы открыть личный счет.</p>
-    <div class="field"><label for="username">Логин</label><input id="username" class="input" autocomplete="username" required></div>
-    <div class="field"><label for="password">Пароль</label><input id="password" class="input" type="password" autocomplete="current-password" required></div>
-    <div class="field"><label for="github-token">GitHub token</label><input id="github-token" class="input" type="password" autocomplete="off" placeholder="Токен для записи в data.json"><div class="buttons" style="margin-top:8px"><button id="save-token-button" type="button">Сохранить токен в браузере</button><button id="forget-token-button" type="button">Удалить сохранённый токен</button></div><small class="welcome">Токен хранится в localStorage этого браузера. Любой скрипт на этом сайте может его прочитать.</small></div>
-    <button id="login-button" class="primary" type="submit">Войти</button>
-  </form></section>
-  <section id="bank-screen" class="hidden">
-    <header class="topbar card"><div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small class="welcome" id="welcome">Игровой банк</small></div></div><div class="top-actions"><span class="welcome" id="today-label"></span><button id="logout-button" type="button">Выйти</button></div></header>
-    <div class="layout">
-      <aside class="sidebar">
-        <div class="card stat"><span class="label">Баланс счета</span><strong id="balance">0 ЛК</strong></div>
-        <div class="card stat"><span class="label">Тип счета</span><strong id="account-type">—</strong></div>
-        <div class="card stat"><span class="label">Номер счета</span><strong id="account-id">—</strong></div>
-        <div class="tip">💡 Используй ID счета для переводов друзьям. Проверяй сумму и получателя перед отправкой.</div>
-      </aside>
-      <div class="maincol">
-        <section id="player-panel" class="panel hidden">
-          <div class="section-heading" style="margin-top:0"><h2>Мой счет</h2><span id="status" class="welcome" role="status" aria-live="polite"></span></div>
-          <div class="terminal-grid">
-            <div class="terminal-box"><h3>Операции</h3><div class="field"><label for="amount">Сумма</label><input id="amount" class="input" type="number" min="1" step="1" placeholder="Например: 50"></div><div class="buttons"><button id="deposit-button" class="primary" type="button">Пополнить</button><button id="withdraw-button" class="danger" type="button">Списать</button></div></div>
-            <div class="terminal-box"><h3>Перевод другу</h3><div class="field"><label for="target-id">ID счета получателя</label><input id="target-id" class="input" inputmode="numeric" placeholder="ID получателя"></div><div class="field"><label for="transfer-amount">Сумма перевода</label><input id="transfer-amount" class="input" type="number" min="1" step="1" placeholder="Сумма"></div><button id="transfer-button" class="primary" type="button">Отправить п��ревод</button></div>
+  <main>
+    <section id="auth-screen" class="auth">
+      <form id="auth-form" class="card auth-card">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">🐧</div>
+          <div>
+            <h1>Linuxi Bank</h1>
+            <small>Игровой банк</small>
           </div>
-          <div class="section-heading"><h3>Последние операции</h3></div><div id="player-history" class="history"></div>
-        </section>
-        <section id="admin-panel" class="panel hidden">
-          <div class="section-heading" style="margin-top:0"><div><h2>Панель банка</h2><span class="welcome">Обзор счетов и операций</span></div><button id="admin-terminal-toggle" type="button" aria-expanded="false">Открыть терминал</button></div>
-          <div class="admin-metrics"><div class="card stat"><span class="label">Всего счетов</span><strong id="admin-count">0</strong></div><div class="card stat"><span class="label">Общий баланс</span><strong id="admin-balance">0 ЛК</strong></div><div class="card stat"><span class="label">Операций</span><strong id="admin-operations">0</strong></div></div>
-          <div class="section-heading"><h3>Список счетов</h3><input id="account-search" class="input" type="search" placeholder="Поиск по ID, владельцу или типу" aria-label="Поиск счетов"></div>
-          <div id="admin-accounts" class="account-list"></div>
-          <div id="admin-terminal" class="hidden">
-            <div class="section-heading"><h3>Банковский терминал</h3></div>
-            <div class="terminal-grid">
-              <div class="terminal-box"><h3>Создать счет</h3><div class="field"><label for="new-owner">Владелец</label><input id="new-owner" class="input" maxlength="40" placeholder="Имя владельца"></div><div class="field"><label for="new-type">Тип счета</label><select id="new-type" class="input"><option>Standard</option><option>VIP</option><option>Linux</option><option>Nextendo</option></select></div><button id="create-account-button" class="primary" type="button">Открыть счет</button></div>
-              <div class="terminal-box"><h3>Пополнить или списать</h3><div class="field"><label for="admin-account-id">ID счета</label><input id="admin-account-id" class="input" inputmode="numeric" placeholder="ID счета"></div><div class="field"><label for="admin-amount">Сумма</label><input id="admin-amount" class="input" type="number" min="1" step="1" placeholder="Например: 100"></div><div class="buttons"><button id="admin-add-button" class="primary" type="button">Пополнить</button><button id="admin-sub-button" class="danger" type="button">Списать</button></div></div>
-              <div class="terminal-box"><h3>Перевод между счетами</h3><div class="field"><label for="admin-sender-id">Со счета (ID)</label><input id="admin-sender-id" class="input" inputmode="numeric" placeholder="ID отправителя"></div><div class="field"><label for="admin-target-id">На счет (ID)</label><input id="admin-target-id" class="input" inputmode="numeric" placeholder="ID получателя"></div><div class="field"><label for="admin-transfer-amount">Сумма</label><input id="admin-transfer-amount" class="input" type="number" min="1" step="1" placeholder="Сумма"></div><button id="admin-transfer-button" class="primary" type="button">Выполнить перевод</button></div>
-              <div class="terminal-box"><h3>Подсказка</h3><p style="margin:0">Выбери счет из списка выше и нажми «Операция», чтобы быстро подставить его ID.</p></div>
+        </div>
+        <h2>Вход в аккаунт</h2>
+        <p style="margin-top:8px; color:var(--muted);">Добро пожаловать! Войди, чтобы открыть личный счет.</p>
+
+        <div class="field">
+          <label for="username">Логин</label>
+          <input id="username" class="input" autocomplete="username" required />
+        </div>
+
+        <div class="field">
+          <label for="password">Пароль</label>
+          <input id="password" class="input" type="password" autocomplete="current-password" required />
+        </div>
+
+        <div class="field">
+          <label for="github-token">GitHub token</label>
+          <input id="github-token" class="input" type="password" autocomplete="off" placeholder="Токен для записи в data.json" />
+          <div class="buttons" style="margin-top:10px;">
+            <button id="save-token-button" type="button" class="secondary">Сохранить токен</button>
+            <button id="forget-token-button" type="button" class="secondary">Удалить</button>
+          </div>
+        </div>
+
+        <button id="login-button" class="primary" type="submit" style="margin-top:18px; width:100%;">Войти</button>
+      </form>
+    </section>
+
+    <section id="bank-screen" class="hidden">
+      <header class="topbar card">
+        <div class="brand" style="margin:0; justify-content:flex-start;">
+          <div class="logo" aria-hidden="true">🐧</div>
+          <div>
+            <h1>Linuxi Bank</h1>
+            <small id="welcome">Игровой банк</small>
+          </div>
+        </div>
+        <div class="buttons">
+          <span id="today-label" class="status"></span>
+          <button id="open-antitouch-button" type="button" class="primary">Антикасания</button>
+          <button id="logout-button" type="button" class="secondary">Выйти</button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="sidebar">
+          <div class="card stat">
+            <span class="label">Баланс счета</span>
+            <strong id="balance">0 ЛК</strong>
+          </div>
+          <div class="card stat">
+            <span class="label">Тип счета</span>
+            <strong id="account-type">—</strong>
+          </div>
+          <div class="card stat">
+            <span class="label">Номер счета</span>
+            <strong id="account-id">—</strong>
+          </div>
+          <div class="tip">💡 Используй счёт для переводов и покупок в магазине антикасаний.</div>
+        </aside>
+
+        <div class="maincol">
+          <section id="player-panel" class="panel">
+            <div class="section-heading">
+              <h2>Мой счет</h2>
+              <span id="status" class="status" role="status" aria-live="polite"></span>
             </div>
-          </div>
-        </section>
+
+            <div class="terminal-grid">
+              <div class="terminal-box">
+                <h3>Операции</h3>
+                <div class="field">
+                  <label for="amount">Сумма</label>
+                  <input id="amount" class="input" type="number" min="1" step="1" placeholder="50" />
+                </div>
+                <div class="buttons" style="margin-top:10px;">
+                  <button id="deposit-button" class="primary" type="button">Пополнить</button>
+                  <button id="withdraw-button" class="danger" type="button">Снять</button>
+                </div>
+              </div>
+
+              <div class="terminal-box">
+                <h3>Перевод другу</h3>
+                <div class="field">
+                  <label for="target-id">ID счета получателя</label>
+                  <input id="target-id" class="input" inputmode="numeric" placeholder="ID получателя" />
+                </div>
+                <div class="field">
+                  <label for="transfer-amount">Сумма</label>
+                  <input id="transfer-amount" class="input" type="number" min="1" step="1" placeholder="100" />
+                </div>
+                <button id="transfer-button" class="primary" type="button" style="margin-top:10px;">Перевести</button>
+              </div>
+            </div>
+
+            <div class="section-heading" style="margin-top:24px;">
+              <h3>Последние операции</h3>
+            </div>
+            <div id="player-history" class="history"></div>
+          </section>
+        </div>
       </div>
-    </div>
-  </section>
-</main>
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-<script>
-"use strict";
-const CONFIG={owner:"Platonchu",repo:"linuxi.github.io",branch:"main"};
-const state={users:[],accounts:[],user:null};
-const TOKEN_STORAGE_KEY="linuxi_github_token";
-const $=id=>document.getElementById(id);
-function toast(message){const node=$("toast");node.textContent=message;node.classList.add("show");clearTimeout(toast.timer);toast.timer=setTimeout(()=>node.classList.remove("show"),3500)}
-function normalizeUser(user){return{...user,username:String(user.username??user.login??"").trim(),role:String(user.role??"user").toLowerCase(),accountId:Number(user.accountId??0),password:String(user.password??""),passwordHash:String(user.passwordHash??""),salt:String(user.salt??"linuxi")}}
-async function loadFiles(){const root=`https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}`;const [ur,ar]=await Promise.all([fetch(`${root}/users.json?ts=${Date.now()}`,{cache:"no-store"}),fetch(`${root}/data.json?ts=${Date.now()}`,{cache:"no-store"})]);if(!ur.ok||!ar.ok)throw new Error("Не удалось загрузить users.json или data.json.");const [users,accounts]=await Promise.all([ur.json(),ar.json()]);if(!Array.isArray(users)||!Array.isArray(accounts))throw new Error("Неверный формат файла пользователей или счетов.");state.users=users.map(normalizeUser);const local=localStorage.getItem("linuxi_bank_accounts");let localAccounts=null;if(local){try{localAccounts=JSON.parse(local)}catch{localStorage.removeItem("linuxi_bank_accounts")}}const source=Array.isArray(localAccounts)?localAccounts:accounts;state.accounts=source.map((account,index)=>({...account,id:Number(account.id??index+1),balance:Number(account.balance??0),history:Array.isArray(account.history)?account.history:[]}))}
-async function sha256(password,salt){const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(`${salt}:${password}`));return Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,"0")).join("")}
-async function checkPassword(user,password){if(user.password!=="")return user.password===password;if(user.passwordHash)return await sha256(password,user.salt||"linuxi")===user.passwordHash;return false}
-function getGithubToken(){return localStorage.getItem(TOKEN_STORAGE_KEY)||""}
-function saveGithubToken(){const token=$("github-token").value.trim();if(!token){toast("Сначала введи GitHub token.");return}try{localStorage.setItem(TOKEN_STORAGE_KEY,token);toast("Токен сохранён в этом браузере.")}catch(error){toast("Не удалось сохранить токен в браузере.")}}
-function forgetGithubToken(){localStorage.removeItem(TOKEN_STORAGE_KEY);$("github-token").value="";toast("Сохранённый токен удалён.")}
-function setSession(user){state.user=user;sessionStorage.setItem("linuxi_user",user.username);const admin=user.role==="admin";$("auth-screen").classList.add("hidden");$("bank-screen").classList.remove("hidden");$("player-panel").classList.toggle("hidden",admin);$("admin-panel").classList.toggle("hidden",!admin);$("welcome").textContent=`${admin?"Администратор":"Игрок"} · ${user.username}`;$("today-label").textContent=new Date().toLocaleDateString("ru-RU",{weekday:"long",day:"numeric",month:"long"});$("admin-terminal").classList.add("hidden");$("admin-terminal-toggle").textContent="Открыть терминал";$("admin-terminal-toggle").setAttribute("aria-expanded","false");render()}
-function logout(){state.user=null;sessionStorage.removeItem("linuxi_user");$("bank-screen").classList.add("hidden");$("auth-screen").classList.remove("hidden");$("password").value="";$("username").focus()}
-function currentAccount(){return state.user&&state.user.role!=="admin"?state.accounts.find(account=>account.id===state.user.accountId):null}
-function money(value){return `${Number(value||0).toLocaleString("ru-RU")} ЛК`}
-function render(){const account=currentAccount();if(account){$("balance").textContent=money(account.balance);$("account-type").textContent=account.type||"Standard";$("account-id").textContent=`#${account.id}`;$("status").textContent=`Счет владельца ${account.owner||state.user.username}`;const history=$("player-history");history.replaceChildren();[...account.history].reverse().slice(0,8).forEach(entry=>{const row=document.createElement("div");row.className="history-item";const note=document.createElement("span");note.textContent=entry.note||"Операция";const detail=document.createElement("small");detail.textContent=`${entry.time||""} · ${entry.type==="add"?"+":"−"}${Number(entry.amount||0).toLocaleString("ru-RU")}`;row.append(note,detail);history.append(row)});if(!account.history.length)history.innerHTML='<div class="empty">Операций пока нет. Здесь появятся история пополнений, списаний и переводов.</div>'}if(state.user?.role==="admin"){const list=$("admin-accounts");list.replaceChildren();const query=$("account-search").value.trim().toLocaleLowerCase("ru");const accounts=state.accounts.filter(item=>`${item.id} ${item.owner} ${item.type}`.toLocaleLowerCase("ru").includes(query));$("admin-count").textContent=String(state.accounts.length);$("admin-balance").textContent=money(state.accounts.reduce((sum,item)=>sum+(Number(item.balance)||0),0));$("admin-operations").textContent=String(state.accounts.reduce((sum,item)=>sum+(Array.isArray(item.history)?item.history.length:0),0));if(!accounts.length){list.innerHTML='<div class="empty">Счета не найдены. Очисти поиск или создай новый счет в терминале.</div>';return}accounts.forEach(item=>{const card=document.createElement("article");card.className="account-card";const head=document.createElement("div");head.className="account-head";const info=document.createElement("div");const title=document.createElement("strong");title.textContent=`Счет #${item.id} · ${item.owner||"Без имени"}`;const meta=document.createElement("div");meta.className="account-meta";meta.textContent=`${item.type||"Standard"} · ${Array.isArray(item.history)?item.history.length:0} операций`;info.append(title,meta);const balance=document.createElement("div");balance.className="account-balance";balance.textContent=money(item.balance);head.append(info,balance);const actions=document.createElement("div");actions.className="account-actions";const operation=document.createElement("button");operation.type="button";operation.textContent="Операция";operation.addEventListener("click",()=>{$("admin-account-id").value=String(item.id);$("admin-terminal").classList.remove("hidden");$("admin-terminal-toggle").textContent="Скрыть терминал";$("admin-terminal-toggle").setAttribute("aria-expanded","true");$("admin-amount").focus()});const historyButton=document.createElement("button");historyButton.type="button";historyButton.textContent="Последняя операция";historyButton.addEventListener("click",()=>{const last=item.history?.[item.history.length-1];toast(last?`${last.time||""} · ${last.note||"Операция"} · ${money(last.amount)}`:"У этого счета пока нет операций.")});const remove=document.createElement("button");remove.type="button";remove.className="danger";remove.textContent="Удалить";remove.addEventListener("click",()=>deleteAccount(item.id));actions.append(operation,historyButton,remove);card.append(head,actions);list.append(card)})}}
-function addHistory(account,type,amount,note){account.history.push({time:new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}),type,amount,note});account.history=account.history.slice(-30)}
-async function saveToGitHub(token){const trimmed=String(token||"").trim();if(!trimmed){toast("Токен GitHub не введён.");return false}const payload=JSON.stringify(state.accounts,null,2);const content=window.btoa(unescape(encodeURIComponent(payload)));const headers={"Authorization":`Bearer ${trimmed}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28","Content-Type":"application/json"};try{const metaRes=await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/data.json`,{headers});const meta=await metaRes.json();if(!metaRes.ok)throw new Error(meta.message||"Не удалось получить информацию о data.json.");const putRes=await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/data.json`,{method:"PUT",headers,body:JSON.stringify({message:`Update bank data via browser token (${new Date().toISOString()})`,content,sha:meta.sha})});const json=await putRes.json();if(!putRes.ok)throw new Error(json.message||"Не удалось сохранить в GitHub.");toast("Изменения сохранены в GitHub.");return true}catch(error){toast(error.message||"Не удалось сохранить в GitHub.");return false}}
-function saveLocal(){localStorage.setItem("linuxi_bank_accounts",JSON.stringify(state.accounts));const token=getGithubToken();if(token){void saveToGitHub(token);return}toast("Изменения сохранены в этом браузере.")}
-async function login(event){event.preventDefault();const button=$("login-button");button.disabled=true;try{await loadFiles();const name=$("username").value.trim().toLocaleLowerCase("ru");const password=$("password").value;const user=state.users.find(item=>item.username.toLocaleLowerCase("ru")===name);if(!user)throw new Error("Пользователь не найден в users.json.");if(!(await checkPassword(user,password)))throw new Error("Неверный пароль.");if(user.role!=="admin"&&!state.accounts.some(account=>account.id===user.accountId))throw new Error("Счет пользователя не найден.");setSession(user)}catch(error){toast(error.message||"Не удалось войти.")}finally{button.disabled=false}}
-function adminTransaction(kind){const account=state.accounts.find(item=>item.id===Number($("admin-account-id").value));const amount=Number($("admin-amount").value);if(!account){toast("Счет не найден.");return}if(!Number.isSafeInteger(amount)||amount<=0){toast("Введи корректную сумму.");return}if(kind==="sub"&&account.balance<amount){toast("На счете недостаточно средств.");return}account.balance+=kind==="add"?amount:-amount;addHistory(account,kind,amount,kind==="add"?"Пополнение администратором":"Списание администратором");saveLocal();render()}
-function playerTransaction(kind){const account=currentAccount();const amount=Number($("amount").value);if(!account){toast("Счет не найден.");return}if(!Number.isSafeInteger(amount)||amount<=0){toast("Введи корректную сумму.");return}if(kind==="sub"&&account.balance<amount){toast("Недостаточно средств.");return}account.balance+=kind==="add"?amount:-amount;addHistory(account,kind,amount,kind==="add"?"Пополнение":"Списание");$("amount").value="";saveLocal();render()}
-function moveMoney(senderId,targetId,amount){const sender=state.accounts.find(item=>item.id===senderId);const receiver=state.accounts.find(item=>item.id===targetId);if(!sender||!receiver){toast("Проверь ID счетов отправителя и получателя.");return}if(sender.id===receiver.id){toast("Нельзя переводить на тот же счет.");return}if(!Number.isSafeInteger(amount)||amount<=0){toast("Введи корректную сумму.");return}if(sender.balance<amount){toast("Недостаточно средств у отправителя.");return}sender.balance-=amount;receiver.balance+=amount;addHistory(sender,"sub",amount,`Перевод на ID ${receiver.id}`);addHistory(receiver,"add",amount,`Перевод от ID ${sender.id}`);$("amount").value="";$("transfer-amount").value="";$("target-id").value="";$("admin-transfer-amount").value="";saveLocal();render()}
-function createAccount(){const owner=$("new-owner").value.trim();const type=$("new-type").value;if(!owner){toast("Введи имя владельца.");return}const id=state.accounts.reduce((max,item)=>Math.max(max,Number(item.id)||0),0)+1;state.accounts.push({id,owner,type,balance:0,history:[]});$("new-owner").value="";saveLocal();render();toast(`Счет #${id} создан.`)}
-function deleteAccount(id){const account=state.accounts.find(item=>item.id===id);if(!account||!confirm(`Удалить счет #${id} (${account.owner})?`))return;state.accounts=state.accounts.filter(item=>item.id!==id);saveLocal();render()}
-$("auth-form").addEventListener("submit",event=>void login(event));$("save-token-button").addEventListener("click",saveGithubToken);$("forget-token-button").addEventListener("click",forgetGithubToken);$("logout-button").addEventListener("click",logout);$("deposit-button").addEventListener("click",()=>playerTransaction("add"));$("withdraw-button").addEventListener("click",()=>playerTransaction("sub"));$("transfer-button").addEventListener("click",()=>moveMoney(currentAccount()?.id,Number($("target-id").value),Number($("transfer-amount").value)));$("admin-add-button").addEventListener("click",()=>adminTransaction("add"));$("admin-sub-button").addEventListener("click",()=>adminTransaction("sub"));$("admin-transfer-button").addEventListener("click",()=>moveMoney(Number($("admin-sender-id").value),Number($("admin-target-id").value),Number($("admin-transfer-amount").value)));$("create-account-button").addEventListener("click",createAccount);$("admin-terminal-toggle").addEventListener("click",()=>{const isOpen=$("admin-terminal").classList.toggle("hidden");$("admin-terminal-toggle").textContent=isOpen?"Открыть терминал":"Скрыть терминал";$("admin-terminal-toggle").setAttribute("aria-expanded",String(!isOpen));});$("account-search").addEventListener("input",render);
-window.addEventListener("load",async()=>{try{$("github-token").value=getGithubToken();await loadFiles();const saved=sessionStorage.getItem("linuxi_user");if(saved){const user=state.users.find(item=>item.username===saved);if(user)setSession(user)}}catch(error){toast(error.message||"Не удалось загрузить данные.")}});
-</script>
+    </section>
+
+    <section id="antitouch-page" class="antitouch-page hidden">
+      <div class="antitouch-header">
+        <div>
+          <h2>Антикасания</h2>
+          <small>Список доступных антикасаний</small>
+        </div>
+        <button id="close-antitouch-button" class="secondary" type="button">Назад</button>
+      </div>
+      <div id="antitouch-list" class="antitouch-list"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    "use strict";
+    const CONFIG = { owner: "Platonchu", repo: "linuxi.github.io", branch: "main" };
+    const state = { users: [], accounts: [], user: null, antiTouch: [] };
+    const TOKEN_STORAGE_KEY = "linuxi_github_token";
+    const ANTI_TOUCH_STORAGE_KEY = "linuxi_antitouch_items";
+    const $ = id => document.getElementById(id);
+
+    function toast(message) {
+      const node = $("toast");
+      node.textContent = message;
+      node.classList.add("show");
+      clearTimeout(toast.timer);
+      toast.timer = setTimeout(() => node.classList.remove("show"), 3500);
+    }
+
+    function normalizeUser(user) {
+      return {
+        ...user,
+        username: String(user.username ?? user.login ?? "").trim(),
+        role: String(user.role ?? "user").toLowerCase(),
+        accountId: Number(user.accountId ?? 0),
+        password: String(user.password ?? ""),
+        passwordHash: String(user.passwordHash ?? ""),
+        salt: String(user.salt ?? "linuxi")
+      };
+    }
+
+    async function loadFiles() {
+      const root = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}`;
+      const [usersRes, accountsRes] = await Promise.all([
+        fetch(`${root}/users.json?ts=${Date.now()}`, { cache: "no-store" }),
+        fetch(`${root}/data.json?ts=${Date.now()}`, { cache: "no-store" })
+      ]);
+
+      if (!usersRes.ok || !accountsRes.ok) {
+        throw new Error("Не удалось загрузить users.json или data.json.");
+      }
+
+      const [users, accounts] = await Promise.all([usersRes.json(), accountsRes.json()]);
+      if (!Array.isArray(users) || !Array.isArray(accounts)) {
+        throw new Error("Неверный формат файла пользователей или счетов.");
+      }
+
+      state.users = users.map(normalizeUser);
+
+      const local = localStorage.getItem("linuxi_bank_accounts");
+      let localAccounts = null;
+      if (local) {
+        try { localAccounts = JSON.parse(local); } catch { localStorage.removeItem("linuxi_bank_accounts"); }
+      }
+
+      const source = Array.isArray(localAccounts) ? localAccounts : accounts;
+      state.accounts = source.map((account, index) => ({
+        ...account,
+        id: Number(account.id ?? index + 1),
+        balance: Number(account.balance ?? 0),
+        history: Array.isArray(account.history) ? account.history : []
+      }));
+    }
+
+    async function loadAntiTouchItems() {
+      const root = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}`;
+      try {
+        const res = await fetch(`${root}/anti-touch.json?ts=${Date.now()}`, { cache: "no-store" });
+        if (!res.ok) {
+          const saved = JSON.parse(localStorage.getItem(ANTI_TOUCH_STORAGE_KEY) || "[]");
+          state.antiTouch = Array.isArray(saved) ? saved : [];
+          return;
+        }
+        const data = await res.json();
+        state.antiTouch = Array.isArray(data) ? data : [];
+        localStorage.setItem(ANTI_TOUCH_STORAGE_KEY, JSON.stringify(state.antiTouch));
+      } catch (error) {
+        const saved = JSON.parse(localStorage.getItem(ANTI_TOUCH_STORAGE_KEY) || "[]");
+        state.antiTouch = Array.isArray(saved) ? saved : [];
+      }
+    }
+
+    async function sha256(password, salt) {
+      const digest = await crypto.subtle.digest(
+        "SHA-256",
+        new TextEncoder().encode(`${salt}:${password}`)
+      );
+      return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
+    }
+
+    async function checkPassword(user, password) {
+      if (user.password !== "") return user.password === password;
+      if (user.passwordHash) return (await sha256(password, user.salt || "linuxi")) === user.passwordHash;
+      return false;
+    }
+
+    function getGithubToken() {
+      return localStorage.getItem(TOKEN_STORAGE_KEY) || "";
+    }
+
+    function saveGithubToken() {
+      const token = $("github-token").value.trim();
+      if (!token) {
+        toast("Сначала введи GitHub token.");
+        return;
+      }
+      try {
+        localStorage.setItem(TOKEN_STORAGE_KEY, token);
+        toast("Токен сохранён в этом браузере.");
+      } catch {
+        toast("Не удалось сохранить токен в браузере.");
+      }
+    }
+
+    function forgetGithubToken() {
+      localStorage.removeItem(TOKEN_STORAGE_KEY);
+      $("github-token").value = "";
+      toast("Сохранённый токен удалён.");
+    }
+
+    function setSession(user) {
+      state.user = user;
+      sessionStorage.setItem("linuxi_user", user.username);
+      $("auth-screen").classList.add("hidden");
+      $("bank-screen").classList.remove("hidden");
+      $("welcome").textContent = `Игрок · ${user.username}`;
+      $("today-label").textContent = new Date().toLocaleDateString("ru-RU", { weekday: "long", day: "numeric", month: "long" });
+      render();
+    }
+
+    function logout() {
+      state.user = null;
+      sessionStorage.removeItem("linuxi_user");
+      $("bank-screen").classList.add("hidden");
+      $("auth-screen").classList.remove("hidden");
+      $("password").value = "";
+      $("username").focus();
+    }
+
+    function currentAccount() {
+      if (!state.user) return null;
+      return state.accounts.find(account => account.id === state.user.accountId) ?? null;
+    }
+
+    function money(value) {
+      return `${Number(value || 0).toLocaleString("ru-RU")} ЛК`;
+    }
+
+    function addHistory(account, type, amount, note) {
+      account.history.push({
+        time: new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }),
+        type,
+        amount,
+        note
+      });
+      account.history = account.history.slice(-30);
+    }
+
+    async function saveToGitHub(token) {
+      const trimmed = String(token || "").trim();
+      if (!trimmed) return false;
+      const payload = JSON.stringify(state.accounts, null, 2);
+      const content = window.btoa(unescape(encodeURIComponent(payload)));
+      const headers = {
+        Authorization: `Bearer ${trimmed}`,
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "Content-Type": "application/json"
+      };
+      try {
+        const metaRes = await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/data.json`, { headers });
+        const meta = await metaRes.json();
+        if (!metaRes.ok) throw new Error(meta.message || "Не удалось получить информацию о data.json.");
+        const putRes = await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/data.json`, {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({
+            message: `Update bank data via browser token (${new Date().toISOString()})`,
+            content,
+            sha: meta.sha
+          })
+        });
+        const json = await putRes.json();
+        if (!putRes.ok) throw new Error(json.message || "Не удалось сохранить в GitHub.");
+        return true;
+      } catch (error) {
+        toast(error.message || "Не удалось сохранить в GitHub.");
+        return false;
+      }
+    }
+
+    async function saveAntiTouchToGitHub(token) {
+      const trimmed = String(token || "").trim();
+      if (!trimmed) {
+        localStorage.setItem(ANTI_TOUCH_STORAGE_KEY, JSON.stringify(state.antiTouch));
+        return false;
+      }
+      const payload = JSON.stringify(state.antiTouch, null, 2);
+      const content = window.btoa(unescape(encodeURIComponent(payload)));
+      const headers = {
+        Authorization: `Bearer ${trimmed}`,
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "Content-Type": "application/json"
+      };
+      try {
+        const metaRes = await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/anti-touch.json`, { headers });
+        const meta = await metaRes.json();
+        if (!metaRes.ok) throw new Error(meta.message || "Не удалось получить информацию о anti-touch.json.");
+        const putRes = await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/anti-touch.json`, {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({
+            message: `Update anti-touch catalog (${new Date().toISOString()})`,
+            content,
+            sha: meta.sha
+          })
+        });
+        const json = await putRes.json();
+        if (!putRes.ok) throw new Error(json.message || "Не удалось сохранить anti-touch.json.");
+        localStorage.setItem(ANTI_TOUCH_STORAGE_KEY, JSON.stringify(state.antiTouch));
+        return true;
+      } catch (error) {
+        localStorage.setItem(ANTI_TOUCH_STORAGE_KEY, JSON.stringify(state.antiTouch));
+        toast(error.message || "Не удалось сохранить anti-touch.json в GitHub.");
+        return false;
+      }
+    }
+
+    function saveLocal() {
+      localStorage.setItem("linuxi_bank_accounts", JSON.stringify(state.accounts));
+      const token = getGithubToken();
+      if (token) {
+        void saveToGitHub(token);
+        return;
+      }
+      toast("Изменения сохранены в этом браузере.");
+    }
+
+    function saveAntiTouchLocal() {
+      localStorage.setItem(ANTI_TOUCH_STORAGE_KEY, JSON.stringify(state.antiTouch));
+      const token = getGithubToken();
+      if (token) {
+        void saveAntiTouchToGitHub(token);
+        return;
+      }
+      toast("Антикасания сохранены локально.");
+    }
+
+    function render() {
+      const account = currentAccount();
+      if (account) {
+        $("balance").textContent = money(account.balance);
+        $("account-type").textContent = account.type || "Standard";
+        $("account-id").textContent = `#${account.id}`;
+        $("status").textContent = `${account.owner || state.user.username}`;
+      } else {
+        $("balance").textContent = "0 ЛК";
+        $("account-type").textContent = "—";
+        $("account-id").textContent = "—";
+        $("status").textContent = "Нет активного счета";
+      }
+
+      const history = $("player-history");
+      if (!account) {
+        history.innerHTML = '<div class="empty">Нет операций</div>';
+        return;
+      }
+
+      history.innerHTML = "";
+      if (!account.history.length) {
+        history.innerHTML = '<div class="empty">Нет операций</div>';
+        return;
+      }
+
+      [...account.history].reverse().slice(0, 8).forEach(entry => {
+        const row = document.createElement("div");
+        row.className = "history-item";
+        const kindClass = entry.type === "add" ? "type-add" : "type-sub";
+        row.innerHTML = `
+          <div>
+            <strong class="${kindClass}">${entry.type === "add" ? "+" : "-"}${money(entry.amount)}</strong>
+            <div><small>${entry.note || "Операция"}</small></div>
+          </div>
+          <small>${entry.time || "—"}</small>
+        `;
+        history.appendChild(row);
+      });
+    }
+
+    function renderAntiTouchPage() {
+      const list = $("antitouch-list");
+      if (!list) return;
+      list.innerHTML = "";
+      if (!state.antiTouch.length) {
+        list.innerHTML = '<div class="empty">Список антикасаний пуст.</div>';
+        return;
+      }
+
+      state.antiTouch.forEach(item => {
+        const card = document.createElement("article");
+        const sold = Boolean(item.sold);
+        card.className = `antitouch-card${sold ? " sold" : ""}`;
+        card.innerHTML = `
+          <div class="antitouch-top">
+            <span class="antitouch-name">${item.name || "Антикасание"}</span>
+            <span class="antitouch-cost">${Number(item.cost || 0).toLocaleString("ru-RU")} ЛК</span>
+          </div>
+          <p class="antitouch-author">Автор: ${item.author || "Неизвестно"}</p>
+          <div class="antitouch-status">${sold ? "Куплено" : "Доступно"}</div>
+          <button type="button" class="primary" ${sold ? "disabled" : ""}>${sold ? "Куплено" : "Купить"}</button>
+        `;
+        const btn = card.querySelector("button");
+        btn.addEventListener("click", () => buyAntiTouchItem(item.id));
+        list.appendChild(card);
+      });
+    }
+
+    function buyAntiTouchItem(id) {
+      if (!state.user) {
+        toast("Сначала войди в аккаунт.");
+        return;
+      }
+
+      const account = currentAccount();
+      if (!account) {
+        toast("Счет не найден.");
+        return;
+      }
+
+      const item = state.antiTouch.find(entry => Number(entry.id) === Number(id));
+      if (!item) {
+        toast("Антикасание не найдено.");
+        return;
+      }
+
+      if (item.sold) {
+        toast("Это антикасание уже куплено.");
+        return;
+      }
+
+      const cost = Number(item.cost || 0);
+      if (account.balance < cost) {
+        toast("Недостаточно ЛК на счете.");
+        return;
+      }
+
+      account.balance -= cost;
+      item.sold = true;
+      item.buyer = state.user.username;
+      addHistory(account, "sub", cost, `Покупка антикасания: ${item.name}`);
+
+      saveLocal();
+      saveAntiTouchLocal();
+      render();
+      renderAntiTouchPage();
+      toast(`Вы купили "${item.name}" за ${cost.toLocaleString("ru-RU")} ЛК.`);
+    }
+
+    async function login(event) {
+      event.preventDefault();
+      const button = $("login-button");
+      button.disabled = true;
+      try {
+        await loadFiles();
+        const name = $("username").value.trim().toLowerCase();
+        const password = $("password").value;
+        const user = state.users.find(item => item.username.toLowerCase() === name);
+        if (!user) throw new Error("Пользователь не найден в users.json.");
+        if (!(await checkPassword(user, password))) throw new Error("Неверный пароль.");
+        if (!state.accounts.some(account => account.id === user.accountId)) throw new Error("Счет пользователя не найден.");
+        setSession(user);
+      } catch (error) {
+        toast(error.message || "Не удалось войти.");
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    function deposit() {
+      const account = currentAccount();
+      if (!account) return;
+      const amount = Number($("amount").value);
+      if (!Number.isFinite(amount) || amount <= 0) {
+        toast("Введите корректную сумму.");
+        return;
+      }
+      account.balance += amount;
+      addHistory(account, "add", amount, "Пополнение");
+      $("amount").value = "";
+      saveLocal();
+      render();
+      toast(`На счет зачислено ${amount.toLocaleString("ru-RU")} ЛК.`);
+    }
+
+    function withdraw() {
+      const account = currentAccount();
+      if (!account) return;
+      const amount = Number($("amount").value);
+      if (!Number.isFinite(amount) || amount <= 0) {
+        toast("Введите корректную сумму.");
+        return;
+      }
+      if (account.balance < amount) {
+        toast("Недостаточно средств на счету.");
+        return;
+      }
+      account.balance -= amount;
+      addHistory(account, "sub", amount, "Снятие");
+      $("amount").value = "";
+      saveLocal();
+      render();
+      toast(`Со счета списано ${amount.toLocaleString("ru-RU")} ЛК.`);
+    }
+
+    function transferMoney() {
+      const account = currentAccount();
+      if (!account) return;
+      const targetId = Number($("target-id").value);
+      const amount = Number($("transfer-amount").value);
+      if (!Number.isInteger(targetId) || targetId <= 0) {
+        toast("Введите корректный ID получателя.");
+        return;
+      }
+      if (!Number.isFinite(amount) || amount <= 0) {
+        toast("Введите корректную сумму перевода.");
+        return;
+      }
+      const receiver = state.accounts.find(item => item.id === targetId);
+      if (!receiver) {
+        toast("Получатель не найден.");
+        return;
+      }
+      if (account.id === receiver.id) {
+        toast("Нельзя переводить деньги самому себе.");
+        return;
+      }
+      if (account.balance < amount) {
+        toast("Недостаточно средств для перевода.");
+        return;
+      }
+
+      account.balance -= amount;
+      receiver.balance += amount;
+      addHistory(account, "sub", amount, `Перевод на ID ${receiver.id}`);
+      addHistory(receiver, "add", amount, `Перевод от ID ${account.id}`);
+
+      $("target-id").value = "";
+      $("transfer-amount").value = "";
+      saveLocal();
+      render();
+      toast(`Переведено ${amount.toLocaleString("ru-RU")} ЛК на ID ${receiver.id}.`);
+    }
+
+    window.addEventListener("load", async () => {
+      try {
+        $("github-token").value = getGithubToken();
+        await loadFiles();
+        await loadAntiTouchItems();
+        renderAntiTouchPage();
+
+        const saved = sessionStorage.getItem("linuxi_user");
+        if (saved) {
+          const user = state.users.find(item => item.username === saved);
+          if (user) setSession(user);
+        }
+      } catch (error) {
+        toast(error.message || "Ошибка загрузки данных.");
+      }
+    });
+
+    $("auth-form").addEventListener("submit", event => void login(event));
+    $("save-token-button").addEventListener("click", saveGithubToken);
+    $("forget-token-button").addEventListener("click", forgetGithubToken);
+    $("logout-button").addEventListener("click", logout);
+    $("deposit-button").addEventListener("click", deposit);
+    $("withdraw-button").addEventListener("click", withdraw);
+    $("transfer-button").addEventListener("click", transferMoney);
+    $("open-antitouch-button").addEventListener("click", () => {
+      $("bank-screen").classList.add("hidden");
+      $("antitouch-page").classList.remove("hidden");
+      renderAntiTouchPage();
+    });
+    $("close-antitouch-button").addEventListener("click", () => {
+      $("antitouch-page").classList.add("hidden");
+      $("bank-screen").classList.remove("hidden");
+    });
+  </script>
 </body>
 </html>
