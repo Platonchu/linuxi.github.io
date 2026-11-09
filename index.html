@@ -4,23 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10151d">
-  <meta name="description" content="Linuxi Bank — демонстрационный игровой банк. Все данные хранятся только в этом браузере.">
-  <title>Linuxi Bank — демо</title>
+  <meta name="description" content="Linuxi Bank — игровой личный кабинет.">
+  <title>Linuxi Bank</title>
   <style>
-    :root{color-scheme:dark;--bg:#10151d;--panel:#1a222d;--line:#344153;--text:#eef4fb;--muted:#a2afbf;--green:#42df91;--red:#ff6b73;--blue:#77b7ff}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 10% 0%,#15372e 0%,transparent 36%),linear-gradient(145deg,#0d1219,#121b27);color:var(--text);font:16px/1.5 system-ui,sans-serif}button,input,select{font:inherit}button{border:0;border-radius:12px;padding:10px 15px;background:#293647;color:var(--text);font-weight:700;cursor:pointer}button:hover{filter:brightness(1.12)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--green);outline-offset:2px}button:disabled{opacity:.55;cursor:not-allowed}.primary{background:var(--green);color:#082416}.danger{background:var(--red);color:white}.hidden{display:none!important}main{width:min(1120px,calc(100% - 32px));margin:28px auto}.card,.panel{background:rgba(26,34,45,.96);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 55px #0004}.notice{padding:14px 16px;margin-bottom:18px;border:1px solid #826e36;border-radius:14px;background:#332b18;color:#f5dfa0}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 20px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#174331;font-size:26px}h1,h2,h3,p{margin:0}.brand h1{font-size:1.3rem}.muted,.status{color:var(--muted)}.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px}.sidebar,.maincol{display:grid;align-content:start;gap:16px}.stat,.panel{padding:20px}.label{display:block;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.07em}.stat strong{display:block;font-size:1.6rem;margin-top:5px;overflow-wrap:anywhere}.field{margin-top:14px}.field label{display:block;font-weight:650;margin-bottom:7px}.input,select{display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 13px;background:#111923;color:var(--text)}.buttons,.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}.terminal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.terminal-box,.history-item,.product{border:1px solid var(--line);border-radius:14px;padding:15px;background:#111923}.history{display:grid;gap:9px;margin-top:12px}.history-item{display:flex;justify-content:space-between;align-items:center;gap:12px}.history-item small{color:var(--muted)}.add{color:var(--green)}.sub{color:var(--red)}.empty{color:var(--muted);border:1px dashed var(--line);border-radius:14px;padding:20px;text-align:center}.market{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}.product{display:grid;gap:10px}.product h3{font-size:1rem}.product .price{color:var(--green);font-weight:750}.toast{position:fixed;right:18px;bottom:18px;max-width:min(420px,calc(100vw - 36px));padding:13px 16px;border:1px solid var(--line);border-radius:12px;background:#202b38;box-shadow:0 10px 30px #0004;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;z-index:5}.toast.show{opacity:1;transform:none}.footer{margin-top:18px;color:var(--muted);font-size:.88rem;text-align:center}@media(max-width:760px){.layout{grid-template-columns:1fr}.terminal-grid{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.topbar .buttons{width:100%}.topbar button{flex:1}}
+    :root{color-scheme:dark;--panel:#1a222d;--line:#344153;--text:#eef4fb;--muted:#a2afbf;--green:#42df91;--red:#ff6b73}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 10% 0%,#15372e 0%,transparent 36%),linear-gradient(145deg,#0d1219,#121b27);color:var(--text);font:16px/1.5 system-ui,sans-serif}button,input,select{font:inherit}button{border:0;border-radius:12px;padding:10px 15px;background:#293647;color:var(--text);font-weight:700;cursor:pointer}button:hover{filter:brightness(1.12)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--green);outline-offset:2px}button:disabled{opacity:.55;cursor:not-allowed}.primary{background:var(--green);color:#082416}.danger{background:var(--red);color:white}.hidden{display:none!important}main{width:min(1120px,calc(100% - 32px));margin:28px auto}.card,.panel{background:rgba(26,34,45,.96);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 55px #0004}.notice{padding:12px 15px;margin-bottom:16px;border:1px solid #826e36;border-radius:12px;background:#332b18;color:#f5dfa0}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 20px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#174331;font-size:26px}h1,h2,h3,p{margin:0}.brand h1{font-size:1.3rem}.muted,.status{color:var(--muted)}.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px}.sidebar,.maincol{display:grid;align-content:start;gap:16px}.stat,.panel{padding:20px}.label{display:block;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.07em}.stat strong{display:block;font-size:1.6rem;margin-top:5px;overflow-wrap:anywhere}.field{margin-top:14px}.field label{display:block;font-weight:650;margin-bottom:7px}.input,select{display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 13px;background:#111923;color:var(--text)}.buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}.terminal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.terminal-box,.history-item,.product{border:1px solid var(--line);border-radius:14px;padding:15px;background:#111923}.history{display:grid;gap:9px;margin-top:12px}.history-item{display:flex;justify-content:space-between;align-items:center;gap:12px}.history-item small{color:var(--muted)}.add{color:var(--green)}.sub{color:var(--red)}.empty{color:var(--muted);border:1px dashed var(--line);border-radius:14px;padding:20px;text-align:center}.market{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}.product{display:grid;gap:10px}.product h3{font-size:1rem}.product .price{color:var(--green);font-weight:750}.toast{position:fixed;right:18px;bottom:18px;max-width:min(420px,calc(100vw - 36px));padding:13px 16px;border:1px solid var(--line);border-radius:12px;background:#202b38;box-shadow:0 10px 30px #0004;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;z-index:5}.toast.show{opacity:1;transform:none}.footer{margin-top:18px;color:var(--muted);font-size:.88rem;text-align:center}@media(max-width:760px){.layout{grid-template-columns:1fr}.terminal-grid{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.topbar .buttons{width:100%}.topbar button{flex:1}}
   </style>
 </head>
 <body>
   <main>
-    <div class="notice" role="note"><strong>Демо-режим.</strong> Это не настоящий банк: вход не защищён, изменения сохраняются только в этом браузере и не синхронизируются между устройствами.</div>
+    <aside class="notice" role="note">Важно: профиль не защищён паролем, операции хранятся только в этом браузере и не синхронизируются. Не используйте сайт для реальных денег или личных данных.</aside>
     <header class="topbar card">
-      <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><span id="welcome" class="muted">Выберите демо-счёт</span></div></div>
-      <div class="buttons"><button id="switch-button" type="button">Сменить счёт</button><button id="reset-button" type="button">Сбросить демо</button></div>
+      <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><span id="welcome" class="muted">Личный кабинет</span></div></div>
+      <div class="buttons"><button id="switch-button" type="button">Сменить профиль</button><button id="reset-button" type="button">Сбросить данные</button></div>
     </header>
     <section id="choose-screen" class="panel">
-      <h2>Открыть демо-счёт</h2><p class="muted" style="margin-top:6px">Учётные записи открыты и предназначены только для демонстрации.</p>
-      <div class="field"><label for="account-select">Игрок</label><select id="account-select" class="input"></select></div>
+      <h2>Вход в личный кабинет</h2><p class="muted" style="margin-top:6px">Выберите профиль, чтобы открыть соответствующий счёт.</p>
+      <div class="field"><label for="account-select">Профиль</label><select id="account-select" class="input"></select></div>
       <button id="open-button" class="primary" type="button" style="margin-top:14px">Продолжить</button>
     </section>
     <section id="bank-screen" class="hidden">
@@ -29,22 +29,22 @@
           <div class="card stat"><span class="label">Баланс счёта</span><strong id="balance">0 ЛК</strong></div>
           <div class="card stat"><span class="label">Тип счёта</span><strong id="account-type">—</strong></div>
           <div class="card stat"><span class="label">Номер счёта</span><strong id="account-id">—</strong></div>
-          <div class="card stat"><span class="label">Игрок</span><strong id="account-owner">—</strong></div>
+          <div class="card stat"><span class="label">Владелец</span><strong id="account-owner">—</strong></div>
         </aside>
         <div class="maincol">
           <section class="panel">
             <div class="section-heading"><h2>Операции</h2><span id="status" class="status" role="status" aria-live="polite"></span></div>
             <div class="terminal-grid">
               <div class="terminal-box"><h3>Пополнение и снятие</h3><div class="field"><label for="amount">Сумма, ЛК</label><input id="amount" class="input" type="number" min="1" max="1000000" step="1" inputmode="numeric" placeholder="Например, 50"></div><div class="buttons" style="margin-top:10px"><button id="deposit-button" class="primary" type="button">Пополнить</button><button id="withdraw-button" class="danger" type="button">Снять</button></div></div>
-              <div class="terminal-box"><h3>Перевод игроку</h3><div class="field"><label for="target-id">Счёт получателя</label><select id="target-id" class="input"></select></div><div class="field"><label for="transfer-amount">Сумма, ЛК</label><input id="transfer-amount" class="input" type="number" min="1" max="1000000" step="1" inputmode="numeric" placeholder="Например, 100"></div><button id="transfer-button" class="primary" type="button" style="margin-top:10px">Перевести</button></div>
+              <div class="terminal-box"><h3>Перевод</h3><div class="field"><label for="target-id">Счёт получателя</label><select id="target-id" class="input"></select></div><div class="field"><label for="transfer-amount">Сумма, ЛК</label><input id="transfer-amount" class="input" type="number" min="1" max="1000000" step="1" inputmode="numeric" placeholder="Например, 100"></div><button id="transfer-button" class="primary" type="button" style="margin-top:10px">Перевести</button></div>
             </div>
             <div class="section-heading" style="margin-top:24px"><h3>Последние операции</h3></div><div id="history" class="history"></div>
           </section>
-          <section class="panel"><div class="section-heading"><div><h2>Магазин антикасаний</h2><span class="muted">Демо-покупки списывают игровые ЛК</span></div></div><div id="market" class="market"></div></section>
+          <section class="panel"><div class="section-heading"><div><h2>Антикасания</h2><span class="muted">Каталог товаров</span></div></div><div id="market" class="market"></div></section>
         </div>
       </div>
     </section>
-    <p class="footer">Linuxi Bank · учебный игровой проект · данные не являются финансовыми</p>
+    <p class="footer">Linuxi Bank · игровой личный кабинет</p>
   </main>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script>
@@ -91,9 +91,8 @@
     for (const entry of entries) {
       const row = element("div", "history-item");
       const details = document.createElement("div");
-      const amount = element("strong", entry.type === "add" ? "add" : "sub", `${entry.type === "add" ? "+" : "−"}${money(entry.amount)}`);
-      const note = element("div", "muted", entry.note || "Операция");
-      details.append(amount, note); row.append(details, element("small", "", entry.time || "—")); list.append(row);
+      details.append(element("strong", entry.type === "add" ? "add" : "sub", `${entry.type === "add" ? "+" : "−"}${money(entry.amount)}`), element("div", "muted", entry.note || "Операция"));
+      row.append(details, element("small", "", entry.time || "—")); list.append(row);
     }
   }
   function renderMarket() {
@@ -101,31 +100,26 @@
     if (!state.items.length) { market.append(element("div", "empty", "Каталог пока пуст.")); return; }
     for (const item of state.items) {
       const card = element("article", "product");
-      card.append(element("h3", "", item.name || "Антикасание"));
-      card.append(element("span", "muted", `Автор: ${item.author || "Неизвестно"}`));
-      card.append(element("span", "price", money(item.cost)));
+      card.append(element("h3", "", item.name || "Антикасание"), element("span", "muted", `Автор: ${item.author || "Неизвестно"}`), element("span", "price", money(item.cost)));
       const button = element("button", item.sold ? "" : "primary", item.sold ? "Уже куплено" : "Купить");
-      button.type = "button"; button.disabled = Boolean(item.sold);
-      button.addEventListener("click", () => buyItem(item.id)); card.append(button); market.append(card);
+      button.type = "button"; button.disabled = Boolean(item.sold); button.addEventListener("click", () => buyItem(item.id)); card.append(button); market.append(card);
     }
   }
   function render() {
     const account = currentAccount(); if (!account) return;
-    $("welcome").textContent = `Демо-счёт · ${state.user.username}`;
+    $("welcome").textContent = `Личный кабинет · ${state.user.username}`;
     $("balance").textContent = money(account.balance); $("account-type").textContent = account.type || "Standard";
     $("account-id").textContent = `#${account.id}`; $("account-owner").textContent = account.owner || state.user.username;
-    $("status").textContent = "Сохранено в этом браузере";
-    renderHistory(account); renderMarket();
-    const target = $("target-id"); const previous = target.value; target.replaceChildren();
+    $("status").textContent = "Сохранено в этом браузере"; renderHistory(account); renderMarket();
+    const target = $("target-id"), previous = target.value; target.replaceChildren();
     for (const other of state.accounts.filter(entry => Number(entry.id) !== Number(account.id))) {
       const option = element("option", "", `#${other.id} · ${other.owner || "Игрок"}`); option.value = String(other.id); target.append(option);
     }
     if ([...target.options].some(option => option.value === previous)) target.value = previous;
   }
   function openAccount() {
-    const username = $("account-select").value;
-    state.user = state.users.find(user => user.username === username) || null;
-    if (!state.user || !currentAccount()) { notify("Не удалось найти демо-счёт."); return; }
+    const username = $("account-select").value; state.user = state.users.find(user => user.username === username) || null;
+    if (!state.user || !currentAccount()) { notify("Не удалось найти профиль."); return; }
     $("choose-screen").classList.add("hidden"); $("bank-screen").classList.remove("hidden"); render();
   }
   function amountFrom(id) {
@@ -136,12 +130,12 @@
   function deposit() {
     const account = currentAccount(), amount = amountFrom("amount"); if (!account || amount === null) return;
     if (!Number.isSafeInteger(account.balance + amount)) { notify("Баланс превышает допустимое значение."); return; }
-    account.balance += amount; persistHistory(account, "add", amount, "Демо-пополнение"); $("amount").value = ""; saveState(); render(); notify(`Зачислено ${money(amount)}.`);
+    account.balance += amount; persistHistory(account, "add", amount, "Пополнение"); $("amount").value = ""; saveState(); render(); notify(`Зачислено ${money(amount)}.`);
   }
   function withdraw() {
     const account = currentAccount(), amount = amountFrom("amount"); if (!account || amount === null) return;
     if (account.balance < amount) { notify("Недостаточно средств."); return; }
-    account.balance -= amount; persistHistory(account, "sub", amount, "Демо-снятие"); $("amount").value = ""; saveState(); render(); notify(`Списано ${money(amount)}.`);
+    account.balance -= amount; persistHistory(account, "sub", amount, "Снятие"); $("amount").value = ""; saveState(); render(); notify(`Списано ${money(amount)}.`);
   }
   function transfer() {
     const sender = currentAccount(), amount = amountFrom("transfer-amount"); if (!sender || amount === null) return;
@@ -150,8 +144,7 @@
     if (sender.balance < amount) { notify("Недостаточно средств для перевода."); return; }
     if (!Number.isSafeInteger(receiver.balance + amount)) { notify("Баланс получателя превышает допустимое значение."); return; }
     sender.balance -= amount; receiver.balance += amount;
-    persistHistory(sender, "sub", amount, `Демо-перевод на ID ${receiver.id}`);
-    persistHistory(receiver, "add", amount, `Демо-перевод от ID ${sender.id}`);
+    persistHistory(sender, "sub", amount, `Перевод на ID ${receiver.id}`); persistHistory(receiver, "add", amount, `Перевод от ID ${sender.id}`);
     $("transfer-amount").value = ""; saveState(); render(); notify(`Переведено ${money(amount)}.`);
   }
   function buyItem(id) {
@@ -161,13 +154,12 @@
     if (!Number.isSafeInteger(cost) || cost < 0) { notify("У товара указана некорректная цена."); return; }
     if (account.balance < cost) { notify("Недостаточно средств."); return; }
     account.balance -= cost; item.sold = true; item.buyer = state.user.username;
-    persistHistory(account, "sub", cost, `Демо-покупка: ${item.name || "Антикасание"}`);
-    saveState(); render(); notify("Покупка выполнена в демо-режиме.");
+    persistHistory(account, "sub", cost, `Покупка: ${item.name || "Антикасание"}`); saveState(); render(); notify("Покупка выполнена.");
   }
-  async function resetDemo() {
-    if (!confirm("Сбросить все демо-балансы, операции и покупки в этом браузере?")) return;
-    localStorage.removeItem(STORAGE_KEY); state.user = null;
-    await loadData(true); $("bank-screen").classList.add("hidden"); $("choose-screen").classList.remove("hidden"); notify("Демо-данные сброшены.");
+  async function resetData() {
+    if (!confirm("Сбросить локальные данные и вернуть исходные значения?")) return;
+    localStorage.removeItem(STORAGE_KEY); state.user = null; await loadData(true);
+    $("bank-screen").classList.add("hidden"); $("choose-screen").classList.remove("hidden"); notify("Данные сброшены.");
   }
   async function loadData(forceDefaults = false) {
     const [users, accounts, items] = await Promise.all([fetchJson("users.json"), fetchJson("data.json"), fetchJson("anti-touch.json")]);
@@ -182,11 +174,11 @@
       if (!accountFor(user)) continue;
       const option = element("option", "", `${user.username} · счёт #${user.accountId}`); option.value = user.username; select.append(option);
     }
-    if (!select.options.length) throw new Error("Нет доступных демо-счетов.");
+    if (!select.options.length) throw new Error("Нет доступных профилей.");
   }
   $("open-button").addEventListener("click", openAccount);
   $("switch-button").addEventListener("click", () => { state.user = null; $("bank-screen").classList.add("hidden"); $("choose-screen").classList.remove("hidden"); });
-  $("reset-button").addEventListener("click", () => void resetDemo().catch(error => notify(error.message)));
+  $("reset-button").addEventListener("click", () => void resetData().catch(error => notify(error.message)));
   $("deposit-button").addEventListener("click", deposit); $("withdraw-button").addEventListener("click", withdraw); $("transfer-button").addEventListener("click", transfer);
   window.addEventListener("DOMContentLoaded", () => void loadData().catch(error => notify(error.message || "Ошибка загрузки данных.")));
 </script>
