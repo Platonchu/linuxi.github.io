@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Антикасание: Золотой тап",
+    "author": "Linuxi",
+    "cost": 150,
+    "sold": false,
+    "buyer": ""
+  },
+  {
+    "id": 2,
+    "name": "Антикасание: Скрытый свайп",
+    "author": "Mia",
+    "cost": 250,
+    "sold": false,
+    "buyer": ""
+  },
+  {
+    "id": 3,
+    "name": "Антикасание: Невидимый тап",
+    "author": "Roma",
+    "cost": 400,
+    "sold": false,
+    "buyer": ""
+  },
+  {
+    "id": 4,
+    "name": "Антикасание: Платиновый отпечаток",
+    "author": "Platonchu",
+    "cost": 600,
+    "sold": false,
+    "buyer": ""
+  }
+]
