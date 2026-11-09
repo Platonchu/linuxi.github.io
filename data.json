@@ -111,12 +111,5 @@
     "type": "Standard",
     "balance": 100,
     "history": []
-  },
-  {
-    "id": 4,
-    "owner": "Test",
-    "type": "Standard",
-    "balance": 0,
-    "history": []
   }
-]
+  ]
