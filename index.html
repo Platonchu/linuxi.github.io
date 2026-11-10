@@ -14,53 +14,493 @@
   <section id="auth-screen" class="auth card">
     <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small class="muted">Игровой банк · твой баланс, твои правила</small></div></div>
     <h2>С возвращением!</h2><p class="muted">Войди в игровой аккаунт.</p>
-    <form id="auth-form"><label class="field">Логин<input id="username" class="input" autocomplete="username" required></label><label class="field">Пароль<input id="password" class="input" type="password" autocomplete="current-password" required></label><button type="submit">Войти</button></form>
-    <details style="margin-top:20px"><summary>Настройка сохранения в GitHub</summary><p class="note">Токен хранится только в localStorage этого браузера и используется для записи данных в репозиторий. Не добавляй токен в аккаунт, JSON или код сайта: посетители могут его получить. Для записи нужен GitHub token с доступом к содержимому репозитория.</p><label class="field">GitHub token<input id="github-token" class="input" type="password" autocomplete="off"></label><div class="buttons"><button id="save-token-button" type="button">Сохранить токен в этом браузере</button><button id="forget-token-button" class="secondary" type="button">Удалить токен</button></div></details>
+    <form id="auth-form">
+      <label class="field">Логин<input id="username" class="input" autocomplete="username" required></label>
+      <label class="field">Пароль<input id="password" class="input" type="password" autocomplete="current-password" required></label>
+      <button type="submit">Войти</button>
+    </form>
+    <details style="margin-top:20px">
+      <summary>Настройка сохранения в GitHub</summary>
+      <p class="note">Токен хранится только в localStorage этого браузера и используется для записи данных в репозиторий. Не добавляй токен в аккаунт, JSON или код сайта: посетители могут его получить. Для записи нужен GitHub token с доступом к содержимому репозитория.</p>
+      <label class="field">GitHub token<input id="github-token" class="input" type="password" autocomplete="off"></label>
+      <div class="buttons">
+        <button id="save-token-button" type="button">Сохранить токен</button>
+        <button id="forget-token-button" class="secondary" type="button">Удалить токен</button>
+      </div>
+    </details>
   </section>
+
   <section id="bank-screen" class="hidden">
-    <header class="topbar card"><div class="brand" style="margin:0"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small id="welcome" class="muted">Игровой банк</small></div></div><div class="buttons"><button id="shop-button" type="button">🛍️ Антикасания</button><button id="logout-button" class="secondary" type="button">Выйти</button></div></header>
-    <div class="layout"><aside><div class="card stat"><span class="label">Баланс счёта</span><strong id="balance">0 ЛК</strong></div><div class="card stat"><span class="label">Тип счёта</span><strong id="account-type">—</strong></div><div class="card stat"><span class="label">ID счёта</span><strong id="account-id">—</strong></div><div id="save-status" class="card status note" role="status">Данные загружаются…</div></aside>
-      <div><section class="panel"><h2>Операции</h2><div class="grid"><div class="box"><label class="field">Сумма<input id="amount" class="input" type="number" min="1" max="1000000" step="1" placeholder="Например, 50"></label><div class="buttons"><button id="deposit-button" type="button">＋ Пополнить</button><button id="withdraw-button" class="secondary" type="button">− Снять</button></div><p id="deposit-hint" class="note hidden">Пополнять счёт могут только администраторы.</p></div><div class="box"><label class="field">ID получателя<input id="target-id" class="input" type="number" min="1" step="1"></label><label class="field">Сумма перевода<input id="transfer-amount" class="input" type="number" min="1" max="1000000" step="1"></label><button id="transfer-button" type="button">Перевести</button></div></div><h3 style="margin-top:22px">История операций</h3><div id="history"></div></section>
-        <section id="shop" class="panel"><h2>🛍️ Каталог антикасаний</h2><p class="muted">Каждый товар можно купить один раз для этого счёта. Другие антикасания остаются доступны.</p><div id="items-list" class="grid"><p class="note">Загружаем каталог…</p></div></section>
-        <section id="admin-panel" class="panel admin hidden"><h2>✦ Панель администратора</h2><div class="grid"><div class="box"><h3>Создать счёт</h3><label class="field">Владелец<input id="new-owner" class="input" maxlength="80"></label><label class="field">Тип счёта<input id="new-type" class="input" maxlength="40" value="Standard"></label><label class="field">Начальный баланс<input id="new-balance" class="input" type="number" min="0" max="1000000" value="0"></label><button id="create-account-button" type="button">Создать счёт</button></div><div class="box"><h3>Счета</h3><div id="accounts-list"></div></div></div></section>
+    <header class="topbar card">
+      <div class="brand" style="margin:0"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small id="welcome" class="muted">Игровой банк</small></div></div>
+      <div class="buttons"><button id="shop-button" type="button">🛍️ Антикасания</button><button id="logout-button" class="secondary" type="button">Выйти</button></div>
+    </header>
+    <div class="layout">
+      <aside>
+        <div class="card stat"><span class="label">Баланс счёта</span><strong id="balance">0 ЛК</strong></div>
+        <div class="card stat"><span class="label">Тип счёта</span><strong id="account-type">—</strong></div>
+        <div class="card stat"><span class="label">ID счёта</span><strong id="account-id">—</strong></div>
+        <div id="save-status" class="card status note" role="status">Данные загружаются…</div>
+      </aside>
+      <div>
+        <section class="panel">
+          <h2>Операции</h2>
+          <div class="grid">
+            <div class="box">
+              <label class="field">Сумма<input id="amount" class="input" type="number" min="1" max="1000000" step="1" placeholder="Например, 50"></label>
+              <div class="buttons">
+                <button id="deposit-button" type="button">＋ Пополнить</button>
+                <button id="withdraw-button" class="secondary" type="button">− Снять</button>
+              </div>
+              <p id="deposit-hint" class="note hidden">Пополнять счёт могут только администраторы.</p>
+            </div>
+            <div class="box">
+              <label class="field">ID получателя<input id="target-id" class="input" type="number" min="1" step="1"></label>
+              <label class="field">Сумма перевода<input id="transfer-amount" class="input" type="number" min="1" max="1000000" step="1"></label>
+              <button id="transfer-button" type="button">Перевести</button>
+            </div>
+          </div>
+          <h3 style="margin-top:22px">История операций</h3>
+          <div id="history"></div>
+        </section>
+        <section id="shop" class="panel">
+          <h2>🛍️ Каталог антикасаний</h2>
+          <p class="muted">Каждый товар можно купить один раз для этого счёта. Другие антикасания остаются доступны.</p>
+          <div id="items-list" class="grid"><p class="note">Загружаем каталог…</p></div>
+        </section>
+        <section id="admin-panel" class="panel admin hidden">
+          <h2>✦ Панель администратора</h2>
+          <div class="grid">
+            <div class="box">
+              <h3>Создать счёт</h3>
+              <label class="field">Владелец<input id="new-owner" class="input" maxlength="80"></label>
+              <label class="field">Тип счёта<input id="new-type" class="input" maxlength="40" value="Standard"></label>
+              <label class="field">Начальный баланс<input id="new-balance" class="input" type="number" min="0" max="1000000" value="0"></label>
+              <div class="buttons">
+                <button id="create-account-button" type="button">Создать счёт</button>
+              </div>
+            </div>
+            <div class="box">
+              <h3>Счета</h3>
+              <div id="accounts-list"></div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </section>
-</main><div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+</main>
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
 <script>
 'use strict';
-const CONFIG={owner:'Platonchu',repo:'linuxi.github.io',branch:'main'};
-const TOKEN_KEY='linuxi_github_token',ACCOUNTS_KEY='linuxi_bank_accounts',ITEMS_KEY='linuxi_antitouch_items';
-const state={users:[],accounts:[],items:[],user:null};
-const $=id=>document.getElementById(id);
-function toast(message){const node=$('toast');node.textContent=message;node.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>node.classList.add('hidden'),4000)}
-function money(value){return `${Number(value||0).toLocaleString('ru-RU')} ЛК`}
-function normalizeUser(user){return{username:String(user.username??user.login??'').trim(),password:String(user.password??''),admin:user.admin===true||(user.admin==null&&String(user.role||'').toLowerCase()==='admin'),accountId:Number(user.accountId??0)}}
-function currentAccount(){return state.user?state.accounts.find(account=>Number(account.id)===Number(state.user.accountId))||null:null}
-function addHistory(account,type,amount,note){account.history=Array.isArray(account.history)?account.history:[];account.history.push({time:new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}),type,amount,note});account.history=account.history.slice(-30)}
-function getToken(){try{return localStorage.getItem(TOKEN_KEY)||''}catch{return ''}}
-function setSaveStatus(text,kind='note'){$('save-status').textContent=text;$('save-status').className=`card status ${kind}`}
-function saveToken(){const token=$('github-token').value.trim();if(!token){toast('Введи GitHub token.');return}try{localStorage.setItem(TOKEN_KEY,token);toast('Токен сохранён только в этом браузере.')}catch{toast('Не удалось сохранить токен в браузере.')}}
-function forgetToken(){try{localStorage.removeItem(TOKEN_KEY)}catch{}$('github-token').value='';toast('Токен удалён.')}
-function encodeBase64(text){const bytes=new TextEncoder().encode(text);let binary='';for(const byte of bytes)binary+=String.fromCharCode(byte);return btoa(binary)}
-let saveQueue=Promise.resolve();
-async function saveJsonToGitHub(fileName,payload){const token=getToken();if(!token)return false;const url=`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${fileName}`,headers={Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'};const metaRes=await fetch(url,{headers});const meta=await metaRes.json().catch(()=>({}));if(!metaRes.ok)throw new Error(meta.message||`GitHub HTTP ${metaRes.status} (${fileName})`);const putRes=await fetch(url,{method:'PUT',headers,body:JSON.stringify({message:`Update ${fileName}`,content:encodeBase64(JSON.stringify(payload,null,2)),sha:meta.sha})});const result=await putRes.json().catch(()=>({}));if(!putRes.ok)throw new Error(result.message||`GitHub HTTP ${putRes.status} (${fileName})`);return true}
-function saveState(){try{localStorage.setItem(ACCOUNTS_KEY,JSON.stringify(state.accounts));localStorage.setItem(ITEMS_KEY,JSON.stringify(state.items))}catch(error){setSaveStatus(`Локальное сохранение не удалось: ${error.message}`,'error')}if(!getToken()){setSaveStatus('Сохранено только в этом браузере: GitHub token не настроен.');return}setSaveStatus('Сохранени�� в GitHub…');saveQueue=saveQueue.then(async()=>{await saveJsonToGitHub('data.json',state.accounts);await saveJsonToGitHub('anti-touch.json',state.items);setSaveStatus('Сохранено в GitHub.','success')}).catch(error=>{setSaveStatus(`Ошибка GitHub: ${error.message}`,'error');toast(`Изменения сохранены локально, но GitHub не обновлён: ${error.message}`)})}
-async function loadFiles(){const root=`https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}`;const localAccounts=(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNTS_KEY)||'null')}catch{return null}})(),localItems=(()=>{try{return JSON.parse(localStorage.getItem(ITEMS_KEY)||'null')}catch{return null}})();try{const results=await Promise.all(['users.json','data.json','anti-touch.json'].map(async file=>{const response=await fetch(`${root}/${file}?v=${Date.now()}`,{cache:'no-store'});if(!response.ok)throw new Error(`${file}: HTTP ${response.status}`);return response.json()}));state.users=Array.isArray(results[0])?results[0].map(normalizeUser):[];state.accounts=Array.isArray(results[1])?results[1]:[];state.items=Array.isArray(results[2])?results[2]:[]}catch(error){if(Array.isArray(localAccounts))state.accounts=localAccounts;if(Array.isArray(localItems))state.items=localItems;if(!Array.isArray(localAccounts)&&!Array.isArray(localItems))throw error;toast(`Не удалось загрузить часть данных сайта (${error.message}); показана локальная копия.`)}state.accounts=state.accounts.filter(a=>a&&Number.isInteger(Number(a.id))&&Number(a.id)>0).map(a=>({...a,id:Number(a.id),balance:Number(a.balance)||0,history:Array.isArray(a.history)?a.history:[],purchases:Array.isArray(a.purchases)?a.purchases.map(Number):[]}));state.items=state.items.filter(i=>i&&Number.isInteger(Number(i.id))&&Number(i.id)>0&&Number.isFinite(Number(i.cost))&&Number(i.cost)>=0).map(i=>({...i,id:Number(i.id),cost:Number(i.cost)}))}
-function render(){const account=currentAccount();$('balance').textContent=money(account?.balance);$('account-type').textContent=account?.type||'—';$('account-id').textContent=account?.id??'—';$('welcome').textContent=`Игрок · ${state.user.username}`;$('admin-panel').classList.toggle('hidden',!state.user.admin);$('deposit-hint').classList.toggle('hidden',state.user.admin);const history=$('history');history.replaceChildren();if(!account)history.textContent='У текущего профиля нет счёта.';else if(!account.history.length)history.textContent='Операций пока нет.';else for(const entry of [...account.history].reverse()){const row=document.createElement('div');row.className='history-row';const note=document.createElement('span');note.textContent=entry.note||'Операция';const amount=document.createElement('strong');amount.className=entry.type==='add'?'positive':'negative';amount.textContent=`${entry.type==='add'?'+':'−'}${money(entry.amount)}`;row.append(note,amount);history.append(row)}renderAccounts();renderAntiTouches()}
-function renderAccounts(){const list=$('accounts-list');list.replaceChildren();if(!state.user?.admin)return;for(const account of state.accounts){const row=document.createElement('div');row.className='account-row';const desc=document.createElement('span');desc.textContent=`ID ${account.id} · ${account.owner||'Без имени'} (${account.type||'Standard'})`;const balance=document.createElement('strong');balance.textContent=money(account.balance);row.append(desc,balance);list.append(row)}}
-function renderAntiTouches(){const list=$('items-list'),account=currentAccount();list.replaceChildren();if(!state.items.length){list.textContent='В каталоге пока нет антикасаний.';return}for(const item of state.items){const bought=!!account&&account.purchases.includes(item.id),card=document.createElement('article');card.className='item-card';const title=document.createElement('h3');title.textContent=item.name||`Антикасание ${item.id}`;const author=document.createElement('p');author.className='muted';author.textContent=`Автор: ${item.author||'не указан'}`;const price=document.createElement('p');price.textContent=`Цена: ${money(item.cost)}`;const buttons=document.createElement('div');buttons.className='buttons';const button=document.createElement('button');button.type='button';button.textContent=bought?'Уже куплено':'Купить';button.disabled=bought||!account;button.addEventListener('click',()=>buyItem(item.id));buttons.append(button);card.append(title,author,price,buttons);list.append(card)}}
-function buyItem(itemId){const account=currentAccount(),item=state.items.find(i=>i.id===Number(itemId));if(!account||!item){toast('Не удалось найти счёт или товар.');return}account.purchases??=[];if(account.purchases.includes(item.id)){toast('Ты уже покупал это антикасание.');return}if(account.balance<item.cost){toast('Недостаточно средств.');return}account.balance-=item.cost;account.purchases.push(item.id);addHistory(account,'sub',item.cost,`Покупка: ${item.name}`);saveState();render();toast(`Куплено: ${item.name}.`)}
-function setSession(user){state.user=user;sessionStorage.setItem('linuxi_user',user.username);$('auth-screen').classList.add('hidden');$('bank-screen').classList.remove('hidden');render()}
-function logout(){$('bank-screen').classList.add('hidden');$('auth-screen').classList.remove('hidden');state.user=null;sessionStorage.removeItem('linuxi_user');$('password').value='';$('username').focus()}
-function login(event){event.preventDefault();const name=$('username').value.trim(),password=$('password').value,user=state.users.find(u=>u.username.toLowerCase()===name.toLowerCase());if(!user||user.password!==password){toast('Неверный логин или пароль.');return}if(!state.accounts.some(a=>a.id===user.accountId)){toast('Для пользователя не найден счёт.');return}setSession(user)}
-function readAmount(id,allowZero=false){const amount=Number($(id).value);if(!Number.isInteger(amount)||amount<(allowZero?0:1)||amount>1000000){toast(allowZero?'Введите целый баланс от 0 до 1 000 000 ЛК.':'Введите целую сумму от 1 до 1 000 000 ЛК.');return null}return amount}
-function deposit(){if(!state.user?.admin){toast('Пополнять счёт могут только администраторы.');return}const account=currentAccount(),amount=readAmount('amount');if(!account||amount===null)return;account.balance+=amount;addHistory(account,'add',amount,'Пополнение администратором');$('amount').value='';saveState();render();toast(`Зачислено ${money(amount)}.`)}
-function withdraw(){const account=currentAccount(),amount=readAmount('amount');if(!account||amount===null)return;if(account.balance<amount){toast('Недостаточно средств.');return}account.balance-=amount;addHistory(account,'sub',amount,'Снятие');$('amount').value='';saveState();render();toast(`Списано ${money(amount)}.`)}
-function transfer(){const account=currentAccount(),targetId=Number($('target-id').value),amount=readAmount('transfer-amount');if(!account||amount===null)return;const receiver=state.accounts.find(a=>a.id===targetId);if(!Number.isInteger(targetId)||!receiver||receiver.id===account.id){toast('Проверь ID счёта получателя.');return}if(account.balance<amount){toast('Недостаточно средств.');return}account.balance-=amount;receiver.balance+=amount;addHistory(account,'sub',amount,`Перевод на ID ${receiver.id}`);addHistory(receiver,'add',amount,`Перевод от ID ${account.id}`);$('target-id').value='';$('transfer-amount').value='';saveState();render();toast(`Переведено ${money(amount)}.`)}
-function createAccount(){if(!state.user?.admin){toast('Создавать счета могут только администраторы.');return}const owner=$('new-owner').value.trim(),type=$('new-type').value.trim()||'Standard',balance=readAmount('new-balance',true);if(!owner||balance===null)return;const id=state.accounts.reduce((max,a)=>Math.max(max,a.id),0)+1;state.accounts.push({id,owner,type,balance,history:[],purchases:[]});saveState();render();$('new-owner').value='';$('new-type').value='Standard';$('new-balance').value='0';toast(`Счёт создан. ID: ${id}.`)}
-window.addEventListener('load',async()=>{try{$('github-token').value=getToken();await loadFiles();const name=sessionStorage.getItem('linuxi_user'),user=state.users.find(u=>u.username===name);if(user&&state.accounts.some(a=>a.id===user.accountId))setSession(user);else setSaveStatus('Данные загружены. Войди в аккаунт.')}catch(error){setSaveStatus(`Не удалось загрузить данные: ${error.message}`,'error');toast(`Ошибка загрузки: ${error.message}`)}});
-$('auth-form').addEventListener('submit',login);$('save-token-button').addEventListener('click',saveToken);$('forget-token-button').addEventListener('click',forgetToken);$('logout-button').addEventListener('click',logout);$('deposit-button').addEventListener('click',deposit);$('withdraw-button').addEventListener('click',withdraw);$('transfer-button').addEventListener('click',transfer);$('create-account-button').addEventListener('click',createAccount);$('shop-button').addEventListener('click',()=>$('shop').scrollIntoView({behavior:'smooth'}));
+const CONFIG = { owner: 'Platonchu', repo: 'linuxi.github.io', branch: 'main' };
+const TOKEN_KEY = 'linuxi_github_token', ACCOUNTS_KEY = 'linuxi_bank_accounts', ITEMS_KEY = 'linuxi_antitouch_items';
+const state = { users: [], accounts: [], items: [], user: null };
+const $ = id => document.getElementById(id);
+
+function toast(message) {
+  const node = $('toast');
+  node.textContent = message;
+  node.classList.remove('hidden');
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => node.classList.add('hidden'), 4000);
+}
+
+function money(value) {
+  return `${Number(value || 0).toLocaleString('ru-RU')} ЛК`;
+}
+
+function normalizeUser(user) {
+  return {
+    username: String(user.username ?? user.login ?? '').trim(),
+    password: String(user.password ?? ''),
+    admin: user.admin === true || (user.admin == null && String(user.role || '').toLowerCase() === 'admin'),
+    accountId: Number(user.accountId ?? 0)
+  };
+}
+
+function currentAccount() {
+  return state.user ? state.accounts.find(account => Number(account.id) === Number(state.user.accountId)) || null : null;
+}
+
+function addHistory(account, type, amount, note) {
+  account.history = Array.isArray(account.history) ? account.history : [];
+  account.history.push({
+    time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }),
+    type,
+    amount,
+    note
+  });
+  account.history = account.history.slice(-30);
+}
+
+function getToken() {
+  try { return localStorage.getItem(TOKEN_KEY) || ''; } catch { return ''; }
+}
+
+function setSaveStatus(text, kind = 'note') {
+  const statusNode = $('save-status');
+  if (statusNode) {
+    statusNode.textContent = text;
+    statusNode.className = `card status ${kind}`;
+  }
+}
+
+function saveToken() {
+  const token = $('github-token').value.trim();
+  if (!token) { toast('Введи GitHub token.'); return; }
+  try {
+    localStorage.setItem(TOKEN_KEY, token);
+    toast('Токен сохранён только в этом браузере.');
+    setSaveStatus('Токен сохранен. Готово к синхронизации.');
+  } catch {
+    toast('Не удалось сохранить токен в браузере.');
+  }
+}
+
+function forgetToken() {
+  try { localStorage.removeItem(TOKEN_KEY); } catch {}
+  $('github-token').value = '';
+  toast('Токен удалён.');
+  setSaveStatus('GitHub token не настроен.');
+}
+
+function encodeBase64(text) {
+  const bytes = new TextEncoder().encode(text);
+  let binary = '';
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary);
+}
+
+let saveQueue = Promise.resolve();
+
+async function saveJsonToGitHub(fileName, payload) {
+  const token = getToken();
+  if (!token) return false;
+  const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${fileName}`;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'Content-Type': 'application/json'
+  };
+  
+  const metaRes = await fetch(url, { headers });
+  const meta = await metaRes.json().catch(() => ({}));
+  if (!metaRes.ok) throw new Error(meta.message || `GitHub HTTP ${metaRes.status} (${fileName})`);
+  
+  const putRes = await fetch(url, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({
+      message: `Update ${fileName}`,
+      content: encodeBase64(JSON.stringify(payload, null, 2)),
+      sha: meta.sha
+    })
+  });
+  
+  const result = await putRes.json().catch(() => ({}));
+  if (!putRes.ok) throw new Error(result.message || `GitHub HTTP ${putRes.status} (${fileName})`);
+  return true;
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(state.accounts));
+    localStorage.setItem(ITEMS_KEY, JSON.stringify(state.items));
+  } catch (error) {
+    setSaveStatus(`Локальное сохранение не удалось: ${error.message}`, 'error');
+  }
+
+  if (!getToken()) {
+    setSaveStatus('Сохранено только в этом браузере: GitHub token не настроен.');
+    return;
+  }
+
+  setSaveStatus('Сохранение в GitHub…');
+  saveQueue = saveQueue.then(async () => {
+    await saveJsonToGitHub('data.json', state.accounts);
+    await saveJsonToGitHub('anti-touch.json', state.items);
+    setSaveStatus('Сохранено в GitHub.', 'success');
+  }).catch(error => {
+    setSaveStatus(`Ошибка GitHub: ${error.message}`, 'error');
+    toast(`Изменения сохранены локально, но GitHub не обновлен: ${error.message}`);
+  });
+}
+
+async function loadFiles() {
+  const root = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}`;
+  const localAccounts = (() => { try { return JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || 'null'); } catch { return null; } })();
+  const localItems = (() => { try { return JSON.parse(localStorage.getItem(ITEMS_KEY) || 'null'); } catch { return null; } })();
+
+  try {
+    const results = await Promise.all(['users.json', 'data.json', 'anti-touch.json'].map(async file => {
+      const response = await fetch(`${root}/${file}?v=${Date.now()}`, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
+      return response.json();
+    }));
+    state.users = Array.isArray(results[0]) ? results[0].map(normalizeUser) : [];
+    state.accounts = Array.isArray(results[1]) ? results[1] : [];
+    state.items = Array.isArray(results[2]) ? results[2] : [];
+  } catch (error) {
+    if (Array.isArray(localAccounts)) state.accounts = localAccounts;
+    if (Array.isArray(localItems)) state.items = localItems;
+    if (!Array.isArray(localAccounts) && !Array.isArray(localItems)) throw error;
+    toast(`Не удалось загрузить часть данных сайта (${error.message}); показана локальная копия.`);
+  }
+
+  state.accounts = state.accounts
+    .filter(a => a && Number.isInteger(Number(a.id)) && Number(a.id) > 0)
+    .map(a => ({
+      ...a,
+      id: Number(a.id),
+      balance: Number(a.balance) || 0,
+      history: Array.isArray(a.history) ? a.history : [],
+      purchases: Array.isArray(a.purchases) ? a.purchases.map(Number) : []
+    }));
+
+  state.items = state.items
+    .filter(i => i && Number.isInteger(Number(i.id)) && Number(i.id) > 0 && Number.isFinite(Number(i.cost)) && Number(i.cost) >= 0)
+    .map(i => ({ ...i, id: Number(i.id), cost: Number(i.cost) }));
+}
+
+function render() {
+  const account = currentAccount();
+  $('balance').textContent = money(account?.balance);
+  $('account-type').textContent = account?.type || '—';
+  $('account-id').textContent = account?.id ?? '—';
+  $('welcome').textContent = `Игрок · ${state.user.username}`;
+  $('admin-panel').classList.toggle('hidden', !state.user.admin);
+  $('deposit-hint').classList.toggle('hidden', state.user.admin);
+
+  const history = $('history');
+  history.replaceChildren();
+  
+  if (!account) {
+    history.textContent = 'У текущего профиля нет счёта.';
+  } else if (!account.history.length) {
+    history.textContent = 'Операций пока нет.';
+  } else {
+    const fragment = document.createDocumentFragment();
+    for (const entry of [...account.history].reverse()) {
+      const row = document.createElement('div');
+      row.className = 'history-row';
+      const note = document.createElement('span');
+      note.textContent = entry.note || 'Операция';
+      const amount = document.createElement('strong');
+      amount.className = entry.type === 'add' ? 'positive' : 'negative';
+      amount.textContent = `${entry.type === 'add' ? '+' : '−'}${money(entry.amount)}`;
+      row.append(note, amount);
+      fragment.append(row);
+    }
+    history.append(fragment);
+  }
+
+  renderAccounts();
+  renderAntiTouches();
+}
+
+function renderAccounts() {
+  const list = $('accounts-list');
+  list.replaceChildren();
+  if (!state.user?.admin) return;
+
+  const fragment = document.createDocumentFragment();
+  for (const account of state.accounts) {
+    const row = document.createElement('div');
+    row.className = 'account-row';
+    const desc = document.createElement('span');
+    desc.textContent = `ID ${account.id} · ${account.owner || 'Без имени'} (${account.type || 'Standard'})`;
+    const balance = document.createElement('strong');
+    balance.textContent = money(account.balance);
+    row.append(desc, balance);
+    fragment.append(row);
+  }
+  list.append(fragment);
+}
+
+function renderAntiTouches() {
+  const list = $('items-list'), account = currentAccount();
+  list.replaceChildren();
+  
+  if (!state.items.length) {
+    list.textContent = 'В каталоге пока нет антикасаний.';
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  for (const item of state.items) {
+    const bought = !!account && account.purchases.includes(item.id);
+    const card = document.createElement('article');
+    card.className = 'item-card';
+    
+    const title = document.createElement('h3');
+    title.textContent = item.name || `Антикасание ${item.id}`;
+    
+    const author = document.createElement('p');
+    author.className = 'muted';
+    author.textContent = `Автор: ${item.author || 'не указан'}`;
+    
+    const price = document.createElement('p');
+    price.textContent = `Цена: ${money(item.cost)}`;
+    
+    const buttons = document.createElement('div');
+    buttons.className = 'buttons';
+    
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = bought ? 'Уже куплено' : 'Купить';
+    button.disabled = bought || !account;
+    button.addEventListener('click', () => buyItem(item.id));
+    
+    buttons.append(button);
+    card.append(title, author, price, buttons);
+    fragment.append(card);
+  }
+  list.append(fragment);
+}
+
+function buyItem(itemId) {
+  const account = currentAccount(), item = state.items.find(i => i.id === Number(itemId));
+  if (!account || !item) { toast('Не удалось найти счёт или товар.'); return; }
+  
+  account.purchases ??= [];
+  if (account.purchases.includes(item.id)) { toast('Ты уже покупал это антикасание.'); return; }
+  if (account.balance < item.cost) { toast('Недостаточно средств.'); return; }
+
+  account.balance -= item.cost;
+  account.purchases.push(item.id);
+  addHistory(account, 'sub', item.cost, `Покупка: ${item.name}`);
+  saveState();
+  render();
+  toast(`Куплено: ${item.name}.`);
+}
+
+function setSession(user) {
+  state.user = user;
+  sessionStorage.setItem('linuxi_user', user.username);
+  $('auth-screen').classList.add('hidden');
+  $('bank-screen').classList.remove('hidden');
+  render();
+}
+
+function logout() {
+  $('bank-screen').classList.add('hidden');
+  $('auth-screen').classList.remove('hidden');
+  state.user = null;
+  sessionStorage.removeItem('linuxi_user');
+  $('password').value = '';
+  $('username').focus();
+}
+
+function login(event) {
+  event.preventDefault();
+  const name = $('username').value.trim(), password = $('password').value;
+  const user = state.users.find(u => u.username.toLowerCase() === name.toLowerCase());
+  
+  if (!user || user.password !== password) { toast('Неверный логин или пароль.'); return; }
+  if (!state.accounts.some(a => a.id === user.accountId)) { toast('Для пользователя не найден счёт.'); return; }
+  
+  setSession(user);
+}
+
+function readAmount(id, allowZero = false) {
+  const amount = Number($(id).value);
+  if (!Number.isInteger(amount) || amount < (allowZero ? 0 : 1) || amount > 1000000) {
+    toast(allowZero ? 'Введите целый баланс от 0 до 1 000 000 ЛК.' : 'Введите целую сумму от 1 до 1 000 000 ЛК.');
+    return null;
+  }
+  return amount;
+}
+
+function deposit() {
+  if (!state.user?.admin) { toast('Пополнять счёт могут только администраторы.'); return; }
+  const account = currentAccount(), amount = readAmount('amount');
+  if (!account || amount === null) return;
+  
+  account.balance += amount;
+  addHistory(account, 'add', amount, 'Пополнение администратором');
+  $('amount').value = '';
+  saveState();
+  render();
+  toast(`Зачислено ${money(amount)}.`);
+}
+
+function withdraw() {
+  const account = currentAccount(), amount = readAmount('amount');
+  if (!account || amount === null) return;
+  if (account.balance < amount) { toast('Недостаточно средств.'); return; }
+  
+  account.balance -= amount;
+  addHistory(account, 'sub', amount, 'Снятие');
+  $('amount').value = '';
+  saveState();
+  render();
+  toast(`Списано ${money(amount)}.`);
+}
+
+function transfer() {
+  const account = currentAccount(), targetId = Number($('target-id').value), amount = readAmount('transfer-amount');
+  if (!account || amount === null) return;
+  
+  const receiver = state.accounts.find(a => a.id === targetId);
+  if (!Number.isInteger(targetId) || !receiver || receiver.id === account.id) { toast('Проверь ID счёта получателя.'); return; }
+  if (account.balance < amount) { toast('Недостаточно средств.'); return; }
+
+  account.balance -= amount;
+  receiver.balance += amount;
+  addHistory(account, 'sub', amount, `Перевод на ID ${receiver.id}`);
+  addHistory(receiver, 'add', amount, `Перевод от ID ${account.id}`);
+  
+  $('target-id').value = '';
+  $('transfer-amount').value = '';
+  saveState();
+  render();
+  toast(`Переведено ${money(amount)}.`);
+}
+
+function createAccount() {
+  if (!state.user?.admin) { toast('Создавать счета могут только администраторы.'); return; }
+  const owner = $('new-owner').value.trim(), type = $('new-type').value.trim() || 'Standard', balance = readAmount('new-balance', true);
+  if (!owner || balance === null) return;
+
+  const id = state.accounts.reduce((max, a) => Math.max(max, a.id), 0) + 1;
+  state.accounts.push({ id, owner, type, balance, history: [], purchases: [] });
+  saveState();
+  render();
+  
+  $('new-owner').value = '';
+  $('new-type').value = 'Standard';
+  $('new-balance').value = '0';
+  toast(`Счёт создан. ID: ${id}.`);
+}
+
+window.addEventListener('load', async () => {
+  try {
+    $('github-token').value = getToken();
+    await loadFiles();
+    const name = sessionStorage.getItem('linuxi_user'), user = state.users.find(u => u.username === name);
+    if (user && state.accounts.some(a => a.id === user.accountId)) {
+      setSession(user);
+    } else {
+      setSaveStatus('Данные загружены. Войди в аккаунт.');
+    }
+  } catch (error) {
+    setSaveStatus(`Не удалось загрузить данные: ${error.message}`, 'error');
+    toast(`Ошибка загрузки: ${error.message}`);
+  }
+});
+
+$('auth-form').addEventListener('submit', login);
+$('save-token-button').addEventListener('click', saveToken);
+$('forget-token-button').addEventListener('click', forgetToken);
+$('logout-button').addEventListener('click', logout);
+$('deposit-button').addEventListener('click', deposit);
+$('withdraw-button').addEventListener('click', withdraw);
+$('transfer-button').addEventListener('click', transfer);
+$('create-account-button').addEventListener('click', createAccount);
+$('shop-button').addEventListener('click', () => $('shop').scrollIntoView({ behavior: 'smooth' }));
 </script>
 </body>
 </html>
