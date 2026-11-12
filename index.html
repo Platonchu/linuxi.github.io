@@ -6,19 +6,40 @@
   <meta name="theme-color" content="#10151d">
   <title>Linuxi Bank</title>
   <style>
-    :root{color-scheme:dark;--bg:#10151d;--panel:#172133;--line:#34435b;--text:#f2f6ff;--muted:#a2b0c7;--green:#73f0b0;--red:#ff7f8a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#24334b,var(--bg) 65%);color:var(--text);font:16px/1.5 system-ui,sans-serif;min-height:100vh}main{width:min(1000px,94%);margin:35px auto}.card,.panel{background:rgba(23,33,51,.94);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:16px}.hidden{display:none!important}.muted,.note{color:var(--muted)}h1,h2,h3,p{margin-top:0}.brand,.topbar,.buttons,.item-row,.history-row,.account-row{display:flex;align-items:center;gap:12px}.brand{margin-bottom:20px}.brand h1{margin:0}.logo{font-size:32px}.auth{max-width:470px;margin:10vh auto}.field{display:grid;gap:6px;margin:12px 0}.input{width:100%;padding:11px 12px;border-radius:9px;border:1px solid var(--line);background:#0d1522;color:var(--text);font:inherit}.buttons{flex-wrap:wrap;margin:12px 0}button,.button{border:0;border-radius:9px;padding:10px 14px;background:var(--green);color:#082116;font:inherit;font-weight:650;cursor:pointer}button.secondary{background:#304058;color:var(--text)}button:disabled{opacity:.55;cursor:not-allowed}.topbar{justify-content:space-between;flex-wrap:wrap}.layout{display:grid;grid-template-columns:260px 1fr;gap:16px}.stat{margin-bottom:12px}.stat strong{display:block;font-size:23px}.label{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}.box{border:1px solid var(--line);padding:16px;border-radius:12px}.history-row,.account-row,.item-row{justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}.positive{color:var(--green)}.negative{color:var(--red)}.item-card{border:1px solid var(--line);padding:16px;border-radius:12px}.item-card h3{margin-bottom:4px}.item-card .buttons{margin-bottom:0}.status{padding:10px;border-radius:9px;background:#0d1522}.error{color:#ffabb2}.success{color:var(--green)}.admin{border-color:#9c7d39}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#26364b;border:1px solid var(--line);border-radius:10px;padding:12px 18px;max-width:90%;z-index:5}@media(max-width:700px){main{margin:16px auto}.layout{grid-template-columns:1fr}.card,.panel{padding:16px}}
+    :root{color-scheme:dark;--bg:#10151d;--panel:#172133;--line:#34435b;--text:#f2f6ff;--muted:#a2b0c7;--green:#73f0b0;--red:#ff7f8a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#24334b,var(--bg) 65%);color:var(--text);font:16px/1.5 system-ui,sans-serif;min-height:100vh}main{width:min(1000px,94%);margin:35px auto}.card,.panel{background:rgba(23,33,51,.94);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:16px}.hidden{display:none!important}.muted,.note{color:var(--muted)}h1,h2,h3,p{margin-top:0}.brand,.topbar,.buttons,.item-row,.history-row,.account-row{display:flex;align-items:center;gap:12px}.brand{margin-bottom:20px}.brand h1{margin:0}.logo{font-size:32px}.auth{max-width:470px;margin:5vh auto}.field{display:grid;gap:6px;margin:12px 0}.input{width:100%;padding:11px 12px;border-radius:9px;border:1px solid var(--line);background:#0d1522;color:var(--text);font:inherit}.buttons{flex-wrap:wrap;margin:12px 0}button,.button{border:0;border-radius:9px;padding:10px 14px;background:var(--green);color:#082116;font:inherit;font-weight:650;cursor:pointer}button.secondary{background:#304058;color:var(--text)}button:disabled{opacity:.55;cursor:not-allowed}.topbar{justify-content:space-between;flex-wrap:wrap}.layout{display:grid;grid-template-columns:260px 1fr;gap:16px}.stat{margin-bottom:12px}.stat strong{display:block;font-size:23px}.label{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}.box{border:1px solid var(--line);padding:16px;border-radius:12px}.history-row,.account-row,.item-row{justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}.positive{color:var(--green)}.negative{color:var(--red)}.item-card{border:1px solid var(--line);padding:16px;border-radius:12px}.item-card h3{margin-bottom:4px}.item-card .buttons{margin-bottom:0}.status{padding:10px;border-radius:9px;background:#0d1522}.error{color:#ffabb2}.success{color:var(--green)}.admin{border-color:#9c7d39}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#26364b;border:1px solid var(--line);border-radius:10px;padding:12px 18px;max-width:90%;z-index:5}@media(max-width:700px){main{margin:16px auto}.layout{grid-template-columns:1fr}.card,.panel{padding:16px}}
   </style>
 </head>
 <body>
 <main>
   <section id="auth-screen" class="auth card">
     <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small class="muted">Игровой банк · твой баланс, твои правила</small></div></div>
-    <h2>С возвращением!</h2><p class="muted">Войди в игровой аккаунт.</p>
-    <form id="auth-form">
-      <label class="field">Логин<input id="username" class="input" autocomplete="username" required></label>
-      <label class="field">Пароль<input id="password" class="input" type="password" autocomplete="current-password" required></label>
-      <button type="submit">Войти</button>
-    </form>
+    
+    <div id="login-view">
+      <h2>С возвращением!</h2><p class="muted">Войди в игровой аккаунт.</p>
+      <form id="auth-form">
+        <label class="field">Логин<input id="username" class="input" autocomplete="username" required></label>
+        <label class="field">Пароль<input id="password" class="input" type="password" autocomplete="current-password" required></label>
+        <button type="submit">Войти</button>
+      </form>
+      <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+        <span class="muted">Нет аккаунта?</span>
+        <button id="show-register-button" class="secondary" type="button">Создать аккаунт</button>
+      </div>
+    </div>
+
+    <div id="register-view" class="hidden">
+      <h2>Регистрация</h2><p class="muted">Создай новый профиль и счёт в банке.</p>
+      <form id="register-form">
+        <label class="field">Логин<input id="reg-username" class="input" autocomplete="username" required></label>
+        <label class="field">Пароль<input id="reg-password" class="input" type="password" autocomplete="new-password" required></label>
+        <label class="field">Имя владельца счёта<input id="reg-owner" class="input" maxlength="80" required></label>
+        <div class="buttons">
+          <button type="submit">Зарегистрироваться</button>
+          <button id="show-login-button" class="secondary" type="button">Назад ко входу</button>
+        </div>
+      </form>
+    </div>
+
     <details style="margin-top:20px">
       <summary>Настройка сохранения в GitHub</summary>
       <p class="note">Токен хранится только в localStorage этого браузера и используется для записи данных в репозиторий. Не добавляй токен в аккаунт, JSON или код сайта: посетители могут его получить. Для записи нужен GitHub token с доступом к содержимому репозитория.</p>
@@ -95,7 +116,7 @@
 <script>
 'use strict';
 const CONFIG = { owner: 'Platonchu', repo: 'linuxi.github.io', branch: 'main' };
-const TOKEN_KEY = 'linuxi_github_token', ACCOUNTS_KEY = 'linuxi_bank_accounts', ITEMS_KEY = 'linuxi_antitouch_items';
+const TOKEN_KEY = 'linuxi_github_token', ACCOUNTS_KEY = 'linuxi_bank_accounts', ITEMS_KEY = 'linuxi_antitouch_items', USERS_KEY = 'linuxi_bank_users';
 const state = { users: [], accounts: [], items: [], user: null };
 const $ = id => document.getElementById(id);
 
@@ -209,6 +230,7 @@ function saveState() {
   try {
     localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(state.accounts));
     localStorage.setItem(ITEMS_KEY, JSON.stringify(state.items));
+    localStorage.setItem(USERS_KEY, JSON.stringify(state.users));
   } catch (error) {
     setSaveStatus(`Локальное сохранение не удалось: ${error.message}`, 'error');
   }
@@ -222,6 +244,7 @@ function saveState() {
   saveQueue = saveQueue.then(async () => {
     await saveJsonToGitHub('data.json', state.accounts);
     await saveJsonToGitHub('anti-touch.json', state.items);
+    await saveJsonToGitHub('users.json', state.users);
     setSaveStatus('Сохранено в GitHub.', 'success');
   }).catch(error => {
     setSaveStatus(`Ошибка GitHub: ${error.message}`, 'error');
@@ -233,6 +256,7 @@ async function loadFiles() {
   const root = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}`;
   const localAccounts = (() => { try { return JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || 'null'); } catch { return null; } })();
   const localItems = (() => { try { return JSON.parse(localStorage.getItem(ITEMS_KEY) || 'null'); } catch { return null; } })();
+  const localUsers = (() => { try { return JSON.parse(localStorage.getItem(USERS_KEY) || 'null'); } catch { return null; } })();
 
   try {
     const results = await Promise.all(['users.json', 'data.json', 'anti-touch.json'].map(async file => {
@@ -244,9 +268,10 @@ async function loadFiles() {
     state.accounts = Array.isArray(results[1]) ? results[1] : [];
     state.items = Array.isArray(results[2]) ? results[2] : [];
   } catch (error) {
+    if (Array.isArray(localUsers)) state.users = localUsers;
     if (Array.isArray(localAccounts)) state.accounts = localAccounts;
     if (Array.isArray(localItems)) state.items = localItems;
-    if (!Array.isArray(localAccounts) && !Array.isArray(localItems)) throw error;
+    if (!Array.isArray(localUsers) && !Array.isArray(localAccounts) && !Array.isArray(localItems)) throw error;
     toast(`Не удалось загрузить часть данных сайта (${error.message}); показана локальная копия.`);
   }
 
@@ -405,6 +430,69 @@ function login(event) {
   setSession(user);
 }
 
+async function register(event) {
+  event.preventDefault();
+  const username = $('reg-username').value.trim();
+  const password = $('reg-password').value;
+  const owner = $('reg-owner').value.trim();
+
+  if (!username || !password || !owner) {
+    toast('Заполни все поля регистрации.');
+    return;
+  }
+
+  // Подгружаем актуальные данные с сервера, чтобы ID и списки не конфликтовали
+  try {
+    const root = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}`;
+    const [usersRes, accountsRes] = await Promise.all([
+      fetch(`${root}/users.json?v=${Date.now()}`).then(r => r.json()),
+      fetch(`${root}/data.json?v=${Date.now()}`).then(r => r.json())
+    ]);
+    if (Array.isArray(usersRes)) state.users = usersRes.map(normalizeUser);
+    if (Array.isArray(accountsRes)) state.accounts = accountsRes;
+  } catch (e) {
+    // Если не получилось подгрузить с сети, работаем с тем, что есть в памяти
+  }
+
+  if (state.users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
+    toast('Такой логин уже занят.');
+    return;
+  }
+
+  const newAccountId = state.accounts.reduce((max, a) => Math.max(max, Number(a.id) || 0), 0) + 1;
+
+  // Создаем счёт
+  const newAccount = {
+    id: newAccountId,
+    owner: owner,
+    type: 'Standard',
+    balance: 0,
+    history: [],
+    purchases: []
+  };
+  state.accounts.push(newAccount);
+
+  // Создаем пользователя
+  const newUser = {
+    username: username,
+    password: password,
+    admin: false,
+    accountId: newAccountId
+  };
+  state.users.push(newUser);
+
+  saveState();
+  toast('Аккаунт успешно создан!');
+  
+  // Очищаем форму регистрации и переходим к входу
+  $('reg-username').value = '';
+  $('reg-password').value = '';
+  $('reg-owner').value = '';
+  showLoginView();
+  $('username').value = username;
+  $('password').focus();
+}
+
 function readAmount(id, allowZero = false) {
   const amount = Number($(id).value);
   if (!Number.isInteger(amount) || amount < (allowZero ? 0 : 1) || amount > 1000000) {
@@ -476,6 +564,16 @@ function createAccount() {
   toast(`Счёт создан. ID: ${id}.`);
 }
 
+function showRegisterView() {
+  $('login-view').classList.add('hidden');
+  $('register-view').classList.remove('hidden');
+}
+
+function showLoginView() {
+  $('register-view').classList.add('hidden');
+  $('login-view').classList.remove('hidden');
+}
+
 window.addEventListener('load', async () => {
   try {
     $('github-token').value = getToken();
@@ -493,6 +591,9 @@ window.addEventListener('load', async () => {
 });
 
 $('auth-form').addEventListener('submit', login);
+$('register-form').addEventListener('submit', register);
+$('show-register-button').addEventListener('click', showRegisterView);
+$('show-login-button').addEventListener('click', showLoginView);
 $('save-token-button').addEventListener('click', saveToken);
 $('forget-token-button').addEventListener('click', forgetToken);
 $('logout-button').addEventListener('click', logout);
