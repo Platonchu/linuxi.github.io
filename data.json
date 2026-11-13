@@ -3,7 +3,7 @@
     "id": 1,
     "owner": "Платон Чукович",
     "type": "Nextendo",
-    "balance": 100000,
+    "balance": 99500,
     "history": [
       {
         "time": "11:45",
@@ -82,6 +82,12 @@
         "type": "add",
         "amount": 400,
         "note": "Пополнение администратором"
+      },
+      {
+        "time": "00:07",
+        "type": "sub",
+        "amount": 500,
+        "note": "Снятие"
       }
     ],
     "purchases": [
