@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Arch linux",
     "author": "Platon",
-    "cost": 500,
+    "cost": 4000,
     "sold": false,
     "buyer": ""
   },
@@ -11,7 +11,7 @@
     "id": 2,
     "name": "ИИ",
     "author": "Roma",
-    "cost": 50000,
+    "cost": 5000,
     "sold": false,
     "buyer": ""
   }
