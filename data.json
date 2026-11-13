@@ -92,7 +92,7 @@
     "id": 2,
     "owner": "Рома Сухоносов",
     "type": "VIP",
-    "balance": 100000,
+    "balance": 96000,
     "history": [
       {
         "time": "11:45",
@@ -119,33 +119,14 @@
         "note": "Списание"
       },
       {
-        "time": "00:08",
-        "type": "sub",
-        "amount": 1000,
-        "note": "Перевод на ID 4"
-      },
-      {
-        "time": "00:09",
+        "time": "00:13",
         "type": "sub",
         "amount": 4000,
         "note": "Покупка: Arch linux"
-      },
-      {
-        "time": "00:09",
-        "type": "sub",
-        "amount": 5000,
-        "note": "Покупка: ИИ"
-      },
-      {
-        "time": "00:10",
-        "type": "add",
-        "amount": 10000,
-        "note": "Пополнение администратором"
       }
     ],
     "purchases": [
-      1,
-      2
+      1
     ]
   },
   {
@@ -160,15 +141,8 @@
     "id": 4,
     "owner": "Егор Макаревич",
     "type": "Standard",
-    "balance": 6000,
-    "history": [
-      {
-        "time": "00:08",
-        "type": "add",
-        "amount": 1000,
-        "note": "Перевод от ID 2"
-      }
-    ],
+    "balance": 5000,
+    "history": [],
     "purchases": []
   }
 ]
