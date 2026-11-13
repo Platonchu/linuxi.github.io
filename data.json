@@ -92,7 +92,7 @@
     "id": 2,
     "owner": "Рома Сухоносов",
     "type": "VIP",
-    "balance": 99000,
+    "balance": 95000,
     "history": [
       {
         "time": "11:45",
@@ -123,9 +123,17 @@
         "type": "sub",
         "amount": 1000,
         "note": "Перевод на ID 4"
+      },
+      {
+        "time": "00:09",
+        "type": "sub",
+        "amount": 4000,
+        "note": "Покупка: Arch linux"
       }
     ],
-    "purchases": []
+    "purchases": [
+      1
+    ]
   },
   {
     "id": 3,
