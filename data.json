@@ -130,3 +130,12 @@
     "purchases": []
   }
 ]
+  {
+    "id": 4,
+    "owner": "Егор Макаревич",
+    "type": "Standard",
+    "balance": 5000,
+    "history": [],
+    "purchases": []
+  }
+]
