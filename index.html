@@ -12,7 +12,7 @@
 <body>
 <main>
   <section id="auth-screen" class="auth card">
-    <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small class="muted">Игровой банк · твой баланс, твои правила</small></div></div>
+    <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small class="muted">Игровой банк · сетевой режим</small></div></div>
     
     <div id="login-view">
       <h2>С возвращением!</h2><p class="muted">Войди в игровой аккаунт.</p>
@@ -40,13 +40,12 @@
       </form>
     </div>
 
-    <details style="margin-top:20px">
-      <summary>Настройка связи с сервером</summary>
-      <p class="note">Введи полный адрес из туннеля (например, https://xxxx.serveousercontent.com). Если играешь локально, оставь поле пустым.</p>
+    <details style="margin-top:20px" open>
+      <summary>Настройка сетевого туннеля</summary>
+      <p class="note">Введи полный адрес из туннеля (например, https://xxxx.serveousercontent.com). Без него сеть работать не будет.</p>
       <label class="field">URL сервера<input id="server-url" class="input" type="text" placeholder="https://...serveousercontent.com" autocomplete="off"></label>
       <div class="buttons">
         <button id="save-server-button" type="button">Сохранить адрес</button>
-        <button id="reset-server-button" class="secondary" type="button">Сбросить (localhost)</button>
       </div>
     </details>
   </section>
@@ -121,32 +120,23 @@ const state = { users: [], accounts: [], items: [], user: null };
 const $ = id => document.getElementById(id);
 
 function getApiUrl() {
-  try {
-    const val = localStorage.getItem(SERVER_URL_KEY) || '';
-    if (val.startsWith('http')) return val;
-    return val ? `http://bore.pub:${val}` : 'http://localhost:8080';
-  } catch {
-    return 'http://localhost:8080';
+  const val = localStorage.getItem(SERVER_URL_KEY);
+  if (!val || !val.startsWith('http')) {
+    throw new Error('Сетевой URL не задан. Введи ссылку туннеля в настройках!');
   }
+  return val.trim();
 }
 
 function saveServerUrl() {
   const url = $('server-url').value.trim();
-  if (!url) { toast('Введи адрес сервера.'); return; }
+  if (!url || !url.startsWith('http')) { toast('Введи корректный URL из туннеля (начинающийся с https://).'); return; }
   try {
     localStorage.setItem(SERVER_URL_KEY, url);
-    toast('Адрес сохранен.');
+    toast('Адрес сети сохранен.');
     setSaveStatus(`Подключено к ${url}`, 'success');
   } catch {
     toast('Не удалось сохранить адрес в браузере.');
   }
-}
-
-function resetServerUrl() {
-  try { localStorage.removeItem(SERVER_URL_KEY); } catch {}
-  $('server-url').value = '';
-  toast('Сброшено на localhost:8080.');
-  setSaveStatus('Используется локальный сервер.');
 }
 
 function toast(message) {
@@ -214,15 +204,15 @@ function saveState() {
     setSaveStatus(`Локальное сохранение не удалось: ${error.message}`, 'error');
   }
 
-  setSaveStatus('Сохранение на компьютер…');
+  setSaveStatus('Сохранение по сети…');
   saveQueue = saveQueue.then(async () => {
     await saveJsonToLocal('data.json', state.accounts);
     await saveJsonToLocal('anti-touch.json', state.items);
     await saveJsonToLocal('users.json', state.users);
-    setSaveStatus('Сохранено на ПК через туннель.', 'success');
+    setSaveStatus('Сохранено через сетевой туннель.', 'success');
   }).catch(error => {
     setSaveStatus(`Ошибка связи: ${error.message}`, 'error');
-    toast(`Не удалось записать файл на комп: ${error.message}`);
+    toast(`Не удалось записать файл через сеть: ${error.message}`);
   });
 }
 
@@ -246,7 +236,7 @@ async function loadFiles() {
     if (Array.isArray(localAccounts)) state.accounts = localAccounts;
     if (Array.isArray(localItems)) state.items = localItems;
     if (!Array.isArray(localUsers) && !Array.isArray(localAccounts) && !Array.isArray(localItems)) throw error;
-    toast(`Комп недоступен (${error.message}); показана копия из браузера.`);
+    toast(`Сеть недоступна (${error.message}); показана копия из браузера.`);
   }
 
   state.accounts = state.accounts
@@ -552,11 +542,11 @@ window.addEventListener('load', async () => {
     if (user && state.accounts.some(a => a.id === user.accountId)) {
       setSession(user);
     } else {
-      setSaveStatus('Данные загружены. Войди в аккаунт.');
+      setSaveStatus('Данные загружены по сети. Войди в аккаунт.');
     }
   } catch (error) {
-    setSaveStatus(`Не удалось загрузить данные: ${error.message}`, 'error');
-    toast(`Ошибка загрузки: ${error.message}`);
+    setSaveStatus(`Сетевой адрес не настроен: ${error.message}`, 'error');
+    toast('Введи URL туннеля в настройках снизу!');
   }
 });
 
@@ -565,7 +555,6 @@ $('register-form').addEventListener('submit', register);
 $('show-register-button').addEventListener('click', showRegisterView);
 $('show-login-button').addEventListener('click', showLoginView);
 $('save-server-button').addEventListener('click', saveServerUrl);
-$('reset-server-button').addEventListener('click', resetServerUrl);
 $('logout-button').addEventListener('click', logout);
 $('deposit-button').addEventListener('click', deposit);
 $('withdraw-button').addEventListener('click', withdraw);
