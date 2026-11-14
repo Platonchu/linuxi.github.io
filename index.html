@@ -41,12 +41,12 @@
     </div>
 
     <details style="margin-top:20px">
-      <summary>Настройка сохранения в GitHub</summary>
-      <p class="note">Токен хранится только в localStorage этого браузера и используется для записи данных в репозиторий. Не добавляй токен в аккаунт, JSON или код сайта: посетители могут его получить. Для записи нужен GitHub token с доступом к содержимому репозитория.</p>
-      <label class="field">GitHub token<input id="github-token" class="input" type="password" autocomplete="off"></label>
+      <summary>Настройка туннеля Bore</summary>
+      <p class="note">Введи только номер порта из терминала (например, 47144). Если играешь локально на компе, оставь поле пустым или сбрось.</p>
+      <label class="field">Порт (bore.pub)<input id="bore-port" class="input" type="number" placeholder="47144" autocomplete="off"></label>
       <div class="buttons">
-        <button id="save-token-button" type="button">Сохранить токен</button>
-        <button id="forget-token-button" class="secondary" type="button">Удалить токен</button>
+        <button id="save-port-button" type="button">Сохранить порт</button>
+        <button id="reset-port-button" class="secondary" type="button">Сбросить (localhost)</button>
       </div>
     </details>
   </section>
@@ -115,10 +115,38 @@
 
 <script>
 'use strict';
-const CONFIG = { owner: 'Platonchu', repo: 'linuxi.github.io', branch: 'main' };
-const TOKEN_KEY = 'linuxi_github_token', ACCOUNTS_KEY = 'linuxi_bank_accounts', ITEMS_KEY = 'linuxi_antitouch_items', USERS_KEY = 'linuxi_bank_users';
+const PORT_KEY = 'linuxi_bore_port';
+const ACCOUNTS_KEY = 'linuxi_bank_accounts', ITEMS_KEY = 'linuxi_antitouch_items', USERS_KEY = 'linuxi_bank_users';
 const state = { users: [], accounts: [], items: [], user: null };
 const $ = id => document.getElementById(id);
+
+function getApiUrl() {
+  try {
+    const port = localStorage.getItem(PORT_KEY);
+    return port ? `http://bore.pub:${port}` : 'http://localhost:8080';
+  } catch {
+    return 'http://localhost:8080';
+  }
+}
+
+function saveBorePort() {
+  const port = $('bore-port').value.trim();
+  if (!port) { toast('Введи номер порта.'); return; }
+  try {
+    localStorage.setItem(PORT_KEY, port);
+    toast(`Порт ${port} сохранен.`);
+    setSaveStatus(`Подключено к bore.pub:${port}`, 'success');
+  } catch {
+    toast('Не удалось сохранить порт в браузере.');
+  }
+}
+
+function resetBorePort() {
+  try { localStorage.removeItem(PORT_KEY); } catch {}
+  $('bore-port').value = '';
+  toast('Сброшено на localhost:8080.');
+  setSaveStatus('Используется локальный сервер.');
+}
 
 function toast(message) {
   const node = $('toast');
@@ -156,10 +184,6 @@ function addHistory(account, type, amount, note) {
   account.history = account.history.slice(-30);
 }
 
-function getToken() {
-  try { return localStorage.getItem(TOKEN_KEY) || ''; } catch { return ''; }
-}
-
 function setSaveStatus(text, kind = 'note') {
   const statusNode = $('save-status');
   if (statusNode) {
@@ -168,61 +192,15 @@ function setSaveStatus(text, kind = 'note') {
   }
 }
 
-function saveToken() {
-  const token = $('github-token').value.trim();
-  if (!token) { toast('Введи GitHub token.'); return; }
-  try {
-    localStorage.setItem(TOKEN_KEY, token);
-    toast('Токен сохранён только в этом браузере.');
-    setSaveStatus('Токен сохранен. Готово к синхронизации.');
-  } catch {
-    toast('Не удалось сохранить токен в браузере.');
-  }
-}
-
-function forgetToken() {
-  try { localStorage.removeItem(TOKEN_KEY); } catch {}
-  $('github-token').value = '';
-  toast('Токен удалён.');
-  setSaveStatus('GitHub token не настроен.');
-}
-
-function encodeBase64(text) {
-  const bytes = new TextEncoder().encode(text);
-  let binary = '';
-  for (const byte of bytes) binary += String.fromCharCode(byte);
-  return btoa(binary);
-}
-
 let saveQueue = Promise.resolve();
 
-async function saveJsonToGitHub(fileName, payload) {
-  const token = getToken();
-  if (!token) return false;
-  const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${fileName}`;
-  const headers = {
-    Authorization: `Bearer ${token}`,
-    Accept: 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-    'Content-Type': 'application/json'
-  };
-  
-  const metaRes = await fetch(url, { headers });
-  const meta = await metaRes.json().catch(() => ({}));
-  if (!metaRes.ok) throw new Error(meta.message || `GitHub HTTP ${metaRes.status} (${fileName})`);
-  
-  const putRes = await fetch(url, {
-    method: 'PUT',
-    headers,
-    body: JSON.stringify({
-      message: `Update ${fileName}`,
-      content: encodeBase64(JSON.stringify(payload, null, 2)),
-      sha: meta.sha
-    })
+async function saveJsonToLocal(fileName, payload) {
+  const res = await fetch(`${getApiUrl()}/${fileName}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload, null, 2)
   });
-  
-  const result = await putRes.json().catch(() => ({}));
-  if (!putRes.ok) throw new Error(result.message || `GitHub HTTP ${putRes.status} (${fileName})`);
+  if (!res.ok) throw new Error(`HTTP ${res.status} (${fileName})`);
   return true;
 }
 
@@ -235,32 +213,27 @@ function saveState() {
     setSaveStatus(`Локальное сохранение не удалось: ${error.message}`, 'error');
   }
 
-  if (!getToken()) {
-    setSaveStatus('Сохранено только в этом браузере: GitHub token не настроен.');
-    return;
-  }
-
-  setSaveStatus('Сохранение в GitHub…');
+  setSaveStatus('Сохранение на компьютер…');
   saveQueue = saveQueue.then(async () => {
-    await saveJsonToGitHub('data.json', state.accounts);
-    await saveJsonToGitHub('anti-touch.json', state.items);
-    await saveJsonToGitHub('users.json', state.users);
-    setSaveStatus('Сохранено в GitHub.', 'success');
+    await saveJsonToLocal('data.json', state.accounts);
+    await saveJsonToLocal('anti-touch.json', state.items);
+    await saveJsonToLocal('users.json', state.users);
+    setSaveStatus('Сохранено на ПК через туннель.', 'success');
   }).catch(error => {
-    setSaveStatus(`Ошибка GitHub: ${error.message}`, 'error');
-    toast(`Изменения сохранены локально, но GitHub не обновлен: ${error.message}`);
+    setSaveStatus(`Ошибка связи: ${error.message}`, 'error');
+    toast(`Не удалось записать файл на комп: ${error.message}`);
   });
 }
 
 async function loadFiles() {
-  const root = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}`;
+  const apiUrl = getApiUrl();
   const localAccounts = (() => { try { return JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || 'null'); } catch { return null; } })();
   const localItems = (() => { try { return JSON.parse(localStorage.getItem(ITEMS_KEY) || 'null'); } catch { return null; } })();
   const localUsers = (() => { try { return JSON.parse(localStorage.getItem(USERS_KEY) || 'null'); } catch { return null; } })();
 
   try {
     const results = await Promise.all(['users.json', 'data.json', 'anti-touch.json'].map(async file => {
-      const response = await fetch(`${root}/${file}?v=${Date.now()}`, { cache: 'no-store' });
+      const response = await fetch(`${apiUrl}/${file}?v=${Date.now()}`, { cache: 'no-store' });
       if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
       return response.json();
     }));
@@ -272,7 +245,7 @@ async function loadFiles() {
     if (Array.isArray(localAccounts)) state.accounts = localAccounts;
     if (Array.isArray(localItems)) state.items = localItems;
     if (!Array.isArray(localUsers) && !Array.isArray(localAccounts) && !Array.isArray(localItems)) throw error;
-    toast(`Не удалось загрузить часть данных сайта (${error.message}); показана локальная копия.`);
+    toast(`Комп недоступен (${error.message}); показана копия из браузера.`);
   }
 
   state.accounts = state.accounts
@@ -441,18 +414,15 @@ async function register(event) {
     return;
   }
 
-  // Подгружаем актуальные данные с сервера, чтобы ID и списки не конфликтовали
   try {
-    const root = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}`;
+    const apiUrl = getApiUrl();
     const [usersRes, accountsRes] = await Promise.all([
-      fetch(`${root}/users.json?v=${Date.now()}`).then(r => r.json()),
-      fetch(`${root}/data.json?v=${Date.now()}`).then(r => r.json())
+      fetch(`${apiUrl}/users.json?v=${Date.now()}`).then(r => r.json()),
+      fetch(`${apiUrl}/data.json?v=${Date.now()}`).then(r => r.json())
     ]);
     if (Array.isArray(usersRes)) state.users = usersRes.map(normalizeUser);
     if (Array.isArray(accountsRes)) state.accounts = accountsRes;
-  } catch (e) {
-    // Если не получилось подгрузить с сети, работаем с тем, что есть в памяти
-  }
+  } catch (e) {}
 
   if (state.users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
     toast('Такой логин уже занят.');
@@ -461,7 +431,6 @@ async function register(event) {
 
   const newAccountId = state.accounts.reduce((max, a) => Math.max(max, Number(a.id) || 0), 0) + 1;
 
-  // Создаем счёт
   const newAccount = {
     id: newAccountId,
     owner: owner,
@@ -472,7 +441,6 @@ async function register(event) {
   };
   state.accounts.push(newAccount);
 
-  // Создаем пользователя
   const newUser = {
     username: username,
     password: password,
@@ -484,7 +452,6 @@ async function register(event) {
   saveState();
   toast('Аккаунт успешно создан!');
   
-  // Очищаем форму регистрации и переходим к входу
   $('reg-username').value = '';
   $('reg-password').value = '';
   $('reg-owner').value = '';
@@ -576,7 +543,9 @@ function showLoginView() {
 
 window.addEventListener('load', async () => {
   try {
-    $('github-token').value = getToken();
+    const currentPort = localStorage.getItem(PORT_KEY);
+    if (currentPort) $('bore-port').value = currentPort;
+
     await loadFiles();
     const name = sessionStorage.getItem('linuxi_user'), user = state.users.find(u => u.username === name);
     if (user && state.accounts.some(a => a.id === user.accountId)) {
@@ -594,8 +563,8 @@ $('auth-form').addEventListener('submit', login);
 $('register-form').addEventListener('submit', register);
 $('show-register-button').addEventListener('click', showRegisterView);
 $('show-login-button').addEventListener('click', showLoginView);
-$('save-token-button').addEventListener('click', saveToken);
-$('forget-token-button').addEventListener('click', forgetToken);
+$('save-port-button').addEventListener('click', saveBorePort);
+$('reset-port-button').addEventListener('click', resetBorePort);
 $('logout-button').addEventListener('click', logout);
 $('deposit-button').addEventListener('click', deposit);
 $('withdraw-button').addEventListener('click', withdraw);
