@@ -41,12 +41,12 @@
     </div>
 
     <details style="margin-top:20px">
-      <summary>Настройка туннеля Bore</summary>
-      <p class="note">Введи только номер порта из терминала (например, 47144). Если играешь локально на компе, оставь поле пустым или сбрось.</p>
-      <label class="field">Порт (bore.pub)<input id="bore-port" class="input" type="number" placeholder="47144" autocomplete="off"></label>
+      <summary>Настройка связи с сервером</summary>
+      <p class="note">Введи полный адрес из туннеля (например, https://xxxx.serveousercontent.com). Если играешь локально, оставь поле пустым.</p>
+      <label class="field">URL сервера<input id="server-url" class="input" type="text" placeholder="https://...serveousercontent.com" autocomplete="off"></label>
       <div class="buttons">
-        <button id="save-port-button" type="button">Сохранить порт</button>
-        <button id="reset-port-button" class="secondary" type="button">Сбросить (localhost)</button>
+        <button id="save-server-button" type="button">Сохранить адрес</button>
+        <button id="reset-server-button" class="secondary" type="button">Сбросить (localhost)</button>
       </div>
     </details>
   </section>
@@ -115,35 +115,36 @@
 
 <script>
 'use strict';
-const PORT_KEY = 'linuxi_bore_port';
+const SERVER_URL_KEY = 'linuxi_server_url';
 const ACCOUNTS_KEY = 'linuxi_bank_accounts', ITEMS_KEY = 'linuxi_antitouch_items', USERS_KEY = 'linuxi_bank_users';
 const state = { users: [], accounts: [], items: [], user: null };
 const $ = id => document.getElementById(id);
 
 function getApiUrl() {
   try {
-    const port = localStorage.getItem(PORT_KEY);
-    return port ? `http://bore.pub:${port}` : 'http://localhost:8080';
+    const val = localStorage.getItem(SERVER_URL_KEY) || '';
+    if (val.startsWith('http')) return val;
+    return val ? `http://bore.pub:${val}` : 'http://localhost:8080';
   } catch {
     return 'http://localhost:8080';
   }
 }
 
-function saveBorePort() {
-  const port = $('bore-port').value.trim();
-  if (!port) { toast('Введи номер порта.'); return; }
+function saveServerUrl() {
+  const url = $('server-url').value.trim();
+  if (!url) { toast('Введи адрес сервера.'); return; }
   try {
-    localStorage.setItem(PORT_KEY, port);
-    toast(`Порт ${port} сохранен.`);
-    setSaveStatus(`Подключено к bore.pub:${port}`, 'success');
+    localStorage.setItem(SERVER_URL_KEY, url);
+    toast('Адрес сохранен.');
+    setSaveStatus(`Подключено к ${url}`, 'success');
   } catch {
-    toast('Не удалось сохранить порт в браузере.');
+    toast('Не удалось сохранить адрес в браузере.');
   }
 }
 
-function resetBorePort() {
-  try { localStorage.removeItem(PORT_KEY); } catch {}
-  $('bore-port').value = '';
+function resetServerUrl() {
+  try { localStorage.removeItem(SERVER_URL_KEY); } catch {}
+  $('server-url').value = '';
   toast('Сброшено на localhost:8080.');
   setSaveStatus('Используется локальный сервер.');
 }
@@ -543,8 +544,8 @@ function showLoginView() {
 
 window.addEventListener('load', async () => {
   try {
-    const currentPort = localStorage.getItem(PORT_KEY);
-    if (currentPort) $('bore-port').value = currentPort;
+    const currentUrl = localStorage.getItem(SERVER_URL_KEY);
+    if (currentUrl) $('server-url').value = currentUrl;
 
     await loadFiles();
     const name = sessionStorage.getItem('linuxi_user'), user = state.users.find(u => u.username === name);
@@ -563,8 +564,8 @@ $('auth-form').addEventListener('submit', login);
 $('register-form').addEventListener('submit', register);
 $('show-register-button').addEventListener('click', showRegisterView);
 $('show-login-button').addEventListener('click', showLoginView);
-$('save-port-button').addEventListener('click', saveBorePort);
-$('reset-port-button').addEventListener('click', resetBorePort);
+$('save-server-button').addEventListener('click', saveServerUrl);
+$('reset-server-button').addEventListener('click', resetServerUrl);
 $('logout-button').addEventListener('click', logout);
 $('deposit-button').addEventListener('click', deposit);
 $('withdraw-button').addEventListener('click', withdraw);
