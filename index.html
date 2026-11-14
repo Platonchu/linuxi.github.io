@@ -12,7 +12,7 @@
 <body>
 <main>
   <section id="auth-screen" class="auth card">
-    <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small class="muted">Игровой банк · режим Bore</small></div></div>
+    <div class="brand"><div class="logo" aria-hidden="true">🐧</div><div><h1>Linuxi Bank</h1><small class="muted">Игровой банк · режим SSH-туннеля</small></div></div>
     
     <div id="login-view">
       <h2>С возвращением!</h2><p class="muted">Войди в игровой аккаунт.</p>
@@ -41,9 +41,9 @@
     </div>
 
     <details style="margin-top:20px" open>
-      <summary>Настройка подключения Bore</summary>
-      <p class="note">Введи номер порта (например, 12345) или полный адрес вроде http://bore.pub:12345.</p>
-      <label class="field">Порт или URL<input id="server-url" class="input" type="text" placeholder="Например: 12345 или http://bore.pub:12345" autocomplete="off"></label>
+      <summary>Настройка SSH-туннеля</summary>
+      <p class="note">Введи полный URL туннеля (например, https://xxxx.serveousercontent.com).</p>
+      <label class="field">URL туннеля<input id="server-url" class="input" type="url" placeholder="https://..." autocomplete="off"></label>
       <div class="buttons">
         <button id="save-server-button" type="button">Сохранить адрес</button>
       </div>
@@ -100,7 +100,6 @@
                 <button id="create-account-button" type="button">Создать счёт</button>
               </div>
             </div>
-            /div>
             <div class="box">
               <h3>Счета</h3>
               <div id="accounts-list"></div>
@@ -123,22 +122,18 @@ const $ = id => document.getElementById(id);
 function getApiUrl() {
   const val = (localStorage.getItem(SERVER_URL_KEY) || '').trim();
   if (!val) {
-    throw new Error('Адрес Bore не задан. Введи порт или URL!');
+    throw new Error('Адрес туннеля не задан. Введи URL!');
   }
-  if (val.startsWith('http')) {
-    return val;
-  }
-  return `http://bore.pub:${val}`;
+  return val.replace(/\/+$/, '');
 }
 
 function saveServerUrl() {
   const val = $('server-url').value.trim();
-  if (!val) { toast('Введи порт или URL от bore.'); return; }
+  if (!val) { toast('Введи URL туннеля.'); return; }
   try {
     localStorage.setItem(SERVER_URL_KEY, val);
-    const resolvedUrl = val.startsWith('http') ? val : `http://bore.pub:${val}`;
-    toast('Адрес Bore сохранен.');
-    setSaveStatus(`Подключено к ${resolvedUrl}`, 'success');
+    toast('Адрес туннеля сохранен.');
+    setSaveStatus(`Подключено к ${val}`, 'success');
   } catch {
     toast('Не удалось сохранить адрес в браузере.');
   }
@@ -209,7 +204,7 @@ function saveState() {
     setSaveStatus(`Локальное сохранение не удалось: ${error.message}`, 'error');
   }
 
-  setSaveStatus('Сохранение через Bore…');
+  setSaveStatus('Сохранение через туннель…');
   saveQueue = saveQueue.then(async () => {
     await saveJsonToLocal('data.json', state.accounts);
     await saveJsonToLocal('anti-touch.json', state.items);
@@ -547,11 +542,11 @@ window.addEventListener('load', async () => {
     if (user && state.accounts.some(a => a.id === user.accountId)) {
       setSession(user);
     } else {
-      setSaveStatus('Данные загружены через Bore. Войди в аккаунт.');
+      setSaveStatus('Адрес туннеля настроен. Войди в аккаунт.');
     }
   } catch (error) {
-    setSaveStatus(`Адрес Bore не настроен: ${error.message}`, 'error');
-    toast('Введи порт или URL туннеля в настройках снизу!');
+    setSaveStatus(`Адрес не настроен: ${error.message}`, 'error');
+    toast('Введи URL туннеля в настройках снизу!');
   }
 });
 
