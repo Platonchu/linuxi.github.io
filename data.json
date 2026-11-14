@@ -92,7 +92,7 @@
     "id": 2,
     "owner": "Рома Сухоносов",
     "type": "VIP",
-    "balance": 91000,
+    "balance": 100000,
     "history": [
       {
         "time": "11:45",
@@ -129,6 +129,12 @@
         "type": "sub",
         "amount": 5000,
         "note": "Покупка: ИИ"
+      },
+      {
+        "time": "08:26",
+        "type": "add",
+        "amount": 9000,
+        "note": "Пополнение администратором"
       }
     ],
     "purchases": [
